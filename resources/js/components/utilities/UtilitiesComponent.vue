@@ -18,8 +18,7 @@
                     id="load-details-spinner"
                     class="spinner-border text-primary float-right"
                     role="status"
-                    style="height:20px; width: 20px"
-                >
+                    style="height:20px; width: 20px">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
@@ -33,13 +32,9 @@
                                 <p class="card-title ml-n1">Utilities</p>
                             </div>
                             <div class="col-2">
-                                <b-button v-b-modal.upload-utility-modal
-                                    >Create</b-button
-                                >
-
+                                <b-button v-b-modal.upload-utility-modal>Create</b-button>
                                 <upload-utility-component
-                                    @createdUtility="createdUtility"
-                                >
+                                    @createdUtility="createdUtility">
                                 </upload-utility-component>
                             </div>
                         </div>
@@ -47,10 +42,7 @@
 
                     <utilities-table-component
                         :utilities="utilities"
-                        @displayUtilityDetails="
-                            displayUtilitysDetails($event)
-                        "
-                    >
+                        @displayUtilityDetails="displayUtilitysDetails($event)">
                     </utilities-table-component>
                 </div>
             </div>
@@ -89,7 +81,7 @@ export default {
             let self = this;
 
             axios
-                .get("/utilities")
+                .get("/utility")
                 .then(function(response, status, request) {
                     if (response.data.status.code == 200) {
                         self.utilities = response.data.data.utilities;
