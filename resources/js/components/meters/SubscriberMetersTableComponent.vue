@@ -35,7 +35,7 @@
 </template>
 <script>
 export default {
-    name: "MetersTableComponent",
+    name: "SubscriberMetersTableComponent",
     props: [
         'meters',
     ],

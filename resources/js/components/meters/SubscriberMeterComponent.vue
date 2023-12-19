@@ -65,7 +65,7 @@ import EditMeterComponent from "./EditMeterComponent.vue";
 
 export default {
     components: { EditMeterComponent },
-    name: "MeterComponent",
+    name: "SubscriberMeterComponent",
     props: [
         'meter'
     ],

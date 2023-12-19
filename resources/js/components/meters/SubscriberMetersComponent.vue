@@ -63,11 +63,11 @@
 </template>
 <script>
 import UploadMeterComponent from "./UploadMeterComponent.vue";
-import MetersTableComponent from "./MetersTableComponent.vue";
+import MetersTableComponent from "./SubscriberMetersTableComponent.vue";
 
 export default {
     components: { UploadMeterComponent, MetersTableComponent },
-    name: "MetersComponent",
+    name: "SubscriberMetersComponent",
     data() {
         return {
             errors: [],

@@ -111,8 +111,6 @@ If you have any questions about this Privacy Policy, please contact us at <a hre
         </div>
       </div>
     </div>
-
-    <script src="{{ asset('js/app.js') }}"></script>
     
     @include('footer')
 

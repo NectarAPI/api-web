@@ -65,7 +65,7 @@
                         <label for="token_id">Token ID</label>
                     </div>
                     <div class="col-md-9">
-                        <datepicker class="vue-picker1" 
+                        <Datepicker class="vue-picker1" 
                             name="token_id" v-model="token_id" :config="datepicker_options">
                         </datepicker>
                     </div>
@@ -96,7 +96,7 @@
                         <label for="token_id">Token ID</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <datepicker class="vue-picker1" 
+                        <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
                             v-model="token_id" :config="datepicker_options">
                         </datepicker>
@@ -128,7 +128,7 @@
                         <label for="token_id">Token ID</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <datepicker class="vue-picker1" 
+                        <Datepicker class="vue-picker1" 
                             name="token_id"  :disabled="inputDisabled"
                             v-model="token_id" :config="datepicker_options">
                         </datepicker>                    </div>
@@ -174,7 +174,7 @@
                         <label for="token_id">Token ID</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <datepicker class="vue-picker1" 
+                        <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
                             v-model="token_id" :config="datepicker_options">
                         </datepicker>
@@ -206,7 +206,7 @@
                         <label for="token_id">Token ID</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <datepicker class="vue-picker1" 
+                        <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
                             v-model="token_id" :config="datepicker_options">
                         </datepicker>
@@ -324,7 +324,7 @@
                         <label for="token_id">Token ID</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <datepicker class="vue-picker1" 
+                        <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
                             v-model="token_id" :config="datepicker_options">
                         </datepicker>
@@ -356,7 +356,7 @@
                         <label for="token_id">Token ID</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <datepicker class="vue-picker1" 
+                        <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
                             v-model="token_id" :config="datepicker_options">
                         </datepicker>
@@ -388,7 +388,7 @@
                         <label for="token_id">Token ID</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <datepicker class="vue-picker1" 
+                        <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
                             v-model="token_id" :config="datepicker_options">
                         </datepicker>
@@ -428,13 +428,12 @@
 </template>
 <script>
 
-import Datepicker from 'vue-bootstrap-datetimepicker';
-import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+import Datepicker from 'vue3-datepicker';
 
 
 export default {
     components: { 
-        datepicker: Datepicker,
+        Datepicker,
     },
     name: 'GeneratorComponent',
     props: [

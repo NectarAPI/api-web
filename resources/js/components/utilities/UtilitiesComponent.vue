@@ -29,10 +29,10 @@
                     <div class="grid-body py-3">
                         <div class="row">
                             <div class="col-10">
-                                <p class="card-title ml-n1">Utilities</p>
+                                <p class="card-title ml-n1">Utilitiessssss</p>
                             </div>
                             <div class="col-2">
-                                <b-button v-b-modal.upload-utility-modal>Create</b-button>
+                                <b-button v-b-modal.upload-utility-modal>Creates</b-button>
                                 <upload-utility-component
                                     @createdUtility="createdUtility">
                                 </upload-utility-component>

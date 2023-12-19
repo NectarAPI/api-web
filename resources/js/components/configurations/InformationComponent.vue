@@ -57,8 +57,8 @@ echo -n -e 1234567812345678 > iv.txt
 echo -n -e "v8y/B?E(H+MbQeTh" > sym.txt
 
 <span class="comment">Convert the sym and IV to hex</span>
-xxd -p -l 16 <<< cat iv.txt # outputs 7638792f423f4528482b4d6251655468
-xxd -p -l 16 <<< cat sym.txt # outputs 7638792f423f4528482b4d6251655468
+xxd -p -l 16 &lt;&lt;&lt; cat iv.txt # outputs 7638792f423f4528482b4d6251655468
+xxd -p -l 16 &lt;&lt;&lt; cat sym.txt # outputs 7638792f423f4528482b4d6251655468
 
 <span class="comment">Encrypt your STS config using the IV and symmetric key</span> 
 openssl enc -aes-128-cbc -in sts_config.yml -out encrypted_sts_config_no_iv.bin -K  7638792f423f4528482b4d6251655468 -iv 31323334353637383132333435363738

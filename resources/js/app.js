@@ -1,92 +1,140 @@
-require('./bootstrap');
+import './bootstrap';
+import { createApp } from 'vue';
 
-import BootstrapVue from 'bootstrap-vue';
-import Vuex from 'vuex';
-import storeData from "./store/index";
+const app = createApp({});
 
-window.Vue = require('vue');  
+import LoginFormComponent from './components/auth/LoginFormComponent.vue';
+import RegisterFormComponent from './components/auth/RegisterFormComponent.vue';
+import ForgotPasswordFormComponent from './components/auth/ForgotPasswordFormComponent.vue'
+import ResetPasswordFormComponent from './components/auth/ResetPasswordFormComponent.vue'
+import UserProfileFormComponent from './components/profile/UserProfileFormComponent.vue'
+import PublicKeysComponent from './components/public-keys/PublicKeysComponent.vue'
+import PublicKeysTableComponent from './components/public-keys/PublicKeysTableComponent.vue'
+import PublicKeyComponent from './components/public-keys/PublicKeyComponent.vue'
+import EditPublicKeyComponent from './components/public-keys/EditPublicKeyComponent.vue'
+import UploadPublicKeyComponent from './components/public-keys/UploadPublicKeyComponent.vue'
 
-Vue.use(BootstrapVue);
-Vue.use(Vuex);
+import BaseConfigurationsComponent from './components/configurations/BaseConfigurationsComponent.vue'
+import STSConfigurationDetailsComponent from './components/configurations/STSConfigurationDetailsComponent.vue'
+import STSConfigurationsTableComponent from './components/configurations/STSConfigurationsTableComponent.vue'
+import UploadSTSConfigurationComponent from './components/configurations/UploadSTSConfigurationComponent.vue'
+import STSConfigurationFormComponent from './components/configurations/STSConfigurationFormComponent.vue'
+import EditConfigurationComponent from './components/configurations/EditConfigurationComponent.vue'
 
-const store = new Vuex.Store(
-    storeData 
- )
- 
+import CredentialsComponent from './components/credentials/CredentialsComponent.vue'
+import CredentialsTableComponent from './components/credentials/CredentialsTableComponent.vue'
+import CredentialComponent from './components/credentials/CredentialComponent.vue'
+import UploadCredentialComponent from './components/credentials/UploadCredentialComponent.vue'
+import EditCredentialsComponent from './components/credentials/EditCredentialsComponent.vue'
+import NotificationsComponent from './components/notifications/NotificationsComponent.vue'
+import NotificationComponent from './components/notifications/NotificationComponent.vue'
+import NotificationsTableComponent from './components/notifications/NotificationsTableComponent.vue'
+import EntriesSelectorComponent from './components/notifications/EntriesSelectorComponent.vue'
+import SearchComponent from './components/notifications/SearchComponent.vue'
+import ClearNotificationsComponent from './components/notifications/ClearNotificationsComponent.vue'
 
-Vue.component('login-component', require('./components/auth/LoginFormComponent.vue').default);
-Vue.component('register-component', require('./components/auth/RegisterFormComponent.vue').default);
-Vue.component('forgot-password-component', require('./components/auth/ForgotPasswordFormComponent.vue').default);
-Vue.component('reset-password-component', require('./components/auth/ResetPasswordFormComponent.vue').default);
-Vue.component('user-profile-form-component', require('./components/profile/UserProfileFormComponent.vue').default);
-Vue.component('public-keys-component', require('./components/public-keys/PublicKeysComponent.vue').default);
-Vue.component('public-keys-table-component', require('./components/public-keys/PublicKeysTableComponent.vue').default);
-Vue.component('public-key-component', require('./components/public-keys/PublicKeyComponent.vue').default);
-Vue.component('edit-public-key-component', require('./components/public-keys/EditPublicKeyComponent.vue').default);
-Vue.component('upload-public-key-component', require('./components/public-keys/UploadPublicKeyComponent.vue').default);
+import RequestsComponent from './components/requests/RequestsComponent.vue'
+import ApiRequestsComponent from './components/requests/ApiRequestsComponent.vue'
+import SummaryComponent from './components/requests/SummaryComponent.vue'
+import RequestsTableComponent from './components/requests/RequestsTableComponent.vue'
+import RequestDetailsComponent from './components/requests/RequestDetailsComponent.vue'
 
-Vue.component('base-configurations-component', require('./components/configurations/BaseConfigurationsComponent.vue').default);
-Vue.component('sts-configuration-details-component', require('./components/configurations/STSConfigurationDetailsComponent.vue').default);
-Vue.component('sts-configurations-table-component', require('./components/configurations/STSConfigurationsTableComponent.vue').default);
-Vue.component('upload-sts-configuration-component', require('./components/configurations/UploadSTSConfigurationComponent.vue').default);
-Vue.component('sts-configuration-form-component', require('./components/configurations/STSConfigurationFormComponent.vue').default);
-Vue.component('edit-configuration-component', require('./components/configurations/EditConfigurationComponent.vue').default);
+import ActivityLogComponent from './components/dashboard/ActivityLogComponent.vue'
+import ApiRequestsSummaryComponent from './components/dashboard/ApiRequestsSummaryComponent.vue'
+import CreditsUtilizationComponent from './components/dashboard/CreditsUtilizationComponent.vue'
+import DashboardComponent from './components/dashboard/DashboardComponent.vue'
+import MetricsComponent from './components/dashboard/MetricsComponent.vue'
+import PaymentsDistributionComponent from './components/dashboard/PaymentsDistributionComponent.vue'
+import TokenTypesDistributionComponent from './components/dashboard/TokenTypesDistributionComponent.vue'
+
+import UtilitiesComponent from './components/utilities/UtilitiesComponent.vue'
+import UtilityComponent from './components/utilities/UtilityComponent.vue'
+import UploadUtilityComponent from './components/utilities/UploadUtilityComponent.vue'
+import UtilitiesTableComponent from './components/utilities/UtilitiesTableComponent.vue'
+import EditUtilityComponent from './components/utilities/EditUtilityComponent.vue'
+
+import SubscriberMetersComponent from './components/meters/SubscriberMetersComponent.vue'
+import SubscriberMeterComponent from './components/meters/SubscriberMeterComponent.vue'
+import EditMeterComponent from './components/meters/EditMeterComponent.vue'
+import SubscriberMetersTableComponent from './components/meters/SubscriberMetersTableComponent.vue'
+import UploadMeterComponent from './components/meters/UploadMeterComponent.vue'
+
+import CreditsComponent from './components/credits/CreditsComponent.vue'
+import CreditsDetailsComponent from './components/credits/CreditsDetailsComponent.vue'
+import CreditsTableComponent from './components/credits/CreditsTableComponent.vue'
+
+import SimulatorComponent from './components/simulator/SimulatorComponent.vue'
+import GeneratorComponent from './components/simulator/GeneratorComponent.vue'
+import MeterComponent from './components/simulator/MeterComponent.vue'
+
+import BuyCreditsComponent from './components/sidebar/BuyCreditsComponent.vue'
 
 
-Vue.component('credentials-component', require('./components/credentials/CredentialsComponent.vue').default);
-Vue.component('credentials-table-component', require('./components/credentials/CredentialsTableComponent.vue').default);
-Vue.component('credential-component', require('./components/credentials/CredentialComponent.vue').default);
-Vue.component('upload-credential-component', require('./components/credentials/UploadCredentialComponent.vue').default);
-Vue.component('edit-credentials-component', require('./components/credentials/EditCredentialsComponent.vue').default);
-Vue.component('notifications-component', require('./components/notifications/NotificationsComponent.vue').default);
-Vue.component('notification-component', require('./components/notifications/NotificationComponent.vue').default);
-Vue.component('notifications-table-component', require('./components/notifications/NotificationsTableComponent.vue').default);
-Vue.component('entries-selector-component', require('./components/notifications/EntriesSelectorComponent.vue').default);
-Vue.component('search-component', require('./components/notifications/SearchComponent.vue').default);
-Vue.component('clear-notifications-component', require('./components/notifications/ClearNotificationsComponent.vue').default);
+app.component('login-component', LoginFormComponent);
+app.component('register-component', RegisterFormComponent);
+app.component('forgot-password-component', ForgotPasswordFormComponent);
+app.component('reset-password-component', ResetPasswordFormComponent);
+app.component('user-profile-form-component', UserProfileFormComponent);
+app.component('public-keys-component', PublicKeyComponent);
+app.component('public-keys-table-component', PublicKeysTableComponent);
+app.component('public-key-component', PublicKeyComponent);
+app.component('edit-public-key-component', EditPublicKeyComponent);
+app.component('upload-public-key-component', UploadPublicKeyComponent);
 
-Vue.component('requests-component', require('./components/requests/RequestsComponent.vue').default);
-Vue.component('api-requests-component', require('./components/requests/ApiRequestsComponent.vue').default);
-Vue.component('summary-component', require('./components/requests/SummaryComponent.vue').default);
-Vue.component('requests-table-component', require('./components/requests/RequestsTableComponent.vue').default);
-Vue.component('request-details-component', require('./components/requests/RequestDetailsComponent.vue').default);
+app.component('base-configurations-component', BaseConfigurationsComponent);
+app.component('sts-configuration-details-component', STSConfigurationDetailsComponent);
+app.component('sts-configurations-table-component', STSConfigurationsTableComponent);
+app.component('upload-sts-configuration-component', UploadSTSConfigurationComponent);
+app.component('sts-configuration-form-component', STSConfigurationFormComponent);
+app.component('edit-configuration-component', EditConfigurationComponent);
 
-Vue.component('activity-log-component', require('./components/dashboard/ActivityLogComponent.vue').default);
-Vue.component('api-requests-summary-component', require('./components/dashboard/ApiRequestsSummaryComponent.vue').default);
-Vue.component('credits-utilization-component', require('./components/dashboard/CreditsUtilizationComponent.vue').default);
-Vue.component('dashboard-component', require('./components/dashboard/DashboardComponent.vue').default);
-Vue.component('metrics-component', require('./components/dashboard/MetricsComponent.vue').default);
-Vue.component('payments-distribution-component', require('./components/dashboard/PaymentsDistributionComponent.vue').default);
-Vue.component('token-types-distribution-component', require('./components/dashboard/TokenTypesDistributionComponent.vue').default);
 
-Vue.component('utilities-component', require('./components/utilities/UtilitiesComponent.vue').default);
-Vue.component('utility-component', require('./components/utilities/UtilityComponent.vue').default);
-Vue.component('upload-utility-component', require('./components/utilities/UploadUtilityComponent.vue').default);
-Vue.component('utilities-table-component', require('./components/utilities/UtilitiesTableComponent.vue').default);
-Vue.component('edit-utility-table-component', require('./components/utilities/EditUtilityComponent.vue').default);
+app.component('credentials-component', CredentialsComponent);
+app.component('credentials-table-component', CredentialsTableComponent);
+app.component('credential-component', CredentialComponent);
+app.component('upload-credential-component', UploadCredentialComponent);
+app.component('edit-credentials-component', EditCredentialsComponent);
+app.component('notifications-component', NotificationsComponent);
+app.component('notification-component',NotificationComponent);
+app.component('notifications-table-component', NotificationsTableComponent);
+app.component('entries-selector-component', EntriesSelectorComponent);
+app.component('search-component', SearchComponent);
+app.component('clear-notifications-component', ClearNotificationsComponent);
 
-Vue.component('meters-component', require('./components/meters/MetersComponent.vue').default);
-Vue.component('meter-component', require('./components/meters/MeterComponent.vue').default);
-Vue.component('edit-meter-component', require('./components/meters/EditMeterComponent.vue').default);
-Vue.component('meters-table-component', require('./components/meters/MetersTableComponent.vue').default);
-Vue.component('upload-meter-component', require('./components/meters/UploadMeterComponent.vue').default);
+app.component('requests-component', RequestsComponent);
+app.component('api-requests-component', ApiRequestsComponent);
+app.component('summary-component', SummaryComponent);
+app.component('requests-table-component', RequestsTableComponent);
+app.component('request-details-component', RequestDetailsComponent);
 
-Vue.component('credits-component', require('./components/credits/CreditsComponent.vue').default);
-Vue.component('credits-details-component', require('./components/credits/CreditsDetailsComponent.vue').default);
-Vue.component('credits-table-component', require('./components/credits/CreditsTableComponent.vue').default);
+app.component('activity-log-component', ActivityLogComponent);
+app.component('api-requests-summary-component', ApiRequestsSummaryComponent);
+app.component('credits-utilization-component', CreditsUtilizationComponent);
+app.component('dashboard-component', DashboardComponent);
+app.component('metrics-component', MetricsComponent);
+app.component('payments-distribution-component', PaymentsDistributionComponent);
+app.component('token-types-distribution-component', TokenTypesDistributionComponent);
 
-Vue.component('simulator-component', require('./components/simulator/SimulatorComponent.vue').default);
-Vue.component('generator-component', require('./components/simulator/GeneratorComponent.vue').default);
-Vue.component('meter-component', require('./components/simulator/MeterComponent.vue').default);
+app.component('utilities-component', UtilitiesComponent);
+app.component('utility-component', UtilityComponent);
+app.component('upload-utility-component', UploadUtilityComponent);
+app.component('utilities-table-component', UtilitiesTableComponent);
+app.component('edit-utility-table-component', EditUtilityComponent);
 
-Vue.component('buy-credits-component', require('./components/sidebar/BuyCreditsComponent.vue').default);
+app.component('subscriber-meters-component', SubscriberMetersComponent);
+app.component('subscriber-meter-component', SubscriberMeterComponent);
+app.component('edit-meter-component', EditMeterComponent);
+app.component('subscriber-meters-table-component', SubscriberMetersTableComponent);
+app.component('upload-meter-component', UploadMeterComponent);
 
-new Vue({
-    el: '#app',
-    store,
-});
+app.component('credits-component', CreditsComponent);
+app.component('credits-details-component', CreditsDetailsComponent);
+app.component('credits-table-component', CreditsTableComponent);
 
-new Vue({
-    el: '#app-1',
-    store,
-});
+app.component('simulator-component', SimulatorComponent);
+app.component('generator-component', GeneratorComponent);
+app.component('meter-component', MeterComponent);
+
+app.component('buy-credits-component', BuyCreditsComponent);
+
+app.mount('#app');
