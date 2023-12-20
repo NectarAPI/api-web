@@ -75,6 +75,7 @@ app.component('register-component', RegisterFormComponent);
 app.component('forgot-password-component', ForgotPasswordFormComponent);
 app.component('reset-password-component', ResetPasswordFormComponent);
 app.component('user-profile-form-component', UserProfileFormComponent);
+app.component('public-key-component', PublicKeysComponent);
 app.component('public-keys-component', PublicKeyComponent);
 app.component('public-keys-table-component', PublicKeysTableComponent);
 app.component('public-key-component', PublicKeyComponent);
