@@ -33,13 +33,12 @@
                                 <p class="card-title ml-n1">Credentials</p>
                             </div>
                             <div class="col-2">
-                                <b-button v-b-modal.upload-credential-modal
-                                    >Create</b-button
-                                >
+                                <button class="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target="#upload-credential-modal"> Create</button>
 
                                 <upload-credential-component
-                                    @createdCredential="createdCredential"
-                                >
+                                    @createdCredential="createdCredential">
                                 </upload-credential-component>
                             </div>
                         </div>
@@ -47,10 +46,7 @@
 
                     <credentials-table-component
                         :credentials="credentials"
-                        @displayCredentialsDetails="
-                            displayCredentialsDetails($event)
-                        "
-                    >
+                        @displayCredentialsDetails=" displayCredentialsDetails($event)">
                     </credentials-table-component>
                 </div>
             </div>

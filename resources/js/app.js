@@ -1,4 +1,5 @@
 import './bootstrap';
+// import '../sass/app.scss'
 import { createApp } from 'vue';
 
 const app = createApp({});
@@ -75,10 +76,9 @@ app.component('register-component', RegisterFormComponent);
 app.component('forgot-password-component', ForgotPasswordFormComponent);
 app.component('reset-password-component', ResetPasswordFormComponent);
 app.component('user-profile-form-component', UserProfileFormComponent);
-app.component('public-key-component', PublicKeysComponent);
-app.component('public-keys-component', PublicKeyComponent);
-app.component('public-keys-table-component', PublicKeysTableComponent);
+app.component('public-keys-component', PublicKeysComponent);
 app.component('public-key-component', PublicKeyComponent);
+app.component('public-keys-table-component', PublicKeysTableComponent);
 app.component('edit-public-key-component', EditPublicKeyComponent);
 app.component('upload-public-key-component', UploadPublicKeyComponent);
 

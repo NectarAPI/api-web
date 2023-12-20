@@ -1,5 +1,5 @@
 <template>
-    <b-modal
+    <div class="modal"
         id="activate-deactivate-credential-modal"
         title="Confirm"
         @show="resetActivateDeactivateCredentialsModal"
@@ -13,7 +13,7 @@
                     </ul>
                 </p>
             </div>
-            <b-form ref="form" id="editCredentialForm" @submit="onSubmitEditCredential">
+            <form ref="form" id="editCredentialForm" @submit="onSubmitEditCredential">
                 
                 <input type="hidden" name="status" id="status" :value="credential.activated" />
 
@@ -29,10 +29,10 @@
                     credential {{ credential.ref }}?
                 </p>
 
-            </b-form>
+            </form>
             <div slot="modal-footer">
-                <b-btn variant="secondary">Cancel</b-btn>
-                <b-btn :disabled="buttonSubmitDisabled" variant="primary" @click="onSubmitEditCredential">
+                <button variant="secondary">Cancel</button>
+                <button :disabled="buttonSubmitDisabled" variant="primary" @click="onSubmitEditCredential">
                     Save &nbsp;&nbsp;   
                         <div v-if="saveSpinner" 
                         id="save-spinner" 
@@ -40,9 +40,9 @@
                         role="status">
                         <span class="sr-only">Loading...</span>
                     </div> 
-                </b-btn>
+                </button>
             </div>
-    </b-modal>
+        </div>
 </template>
 <script>
 export default {
