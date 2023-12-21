@@ -10,8 +10,7 @@
                                     type="checkbox"
                                     class="form-check-input"
                                     @click="selectAll"
-                                    v-model="allSelected"
-                                />
+                                    v-model="allSelected"/>
                                 <i class="input-frame"></i>
                             </label>
                         </div>
