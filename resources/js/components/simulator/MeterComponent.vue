@@ -155,4 +155,20 @@ export default {
     font-family: 'Jura', sans-serif;
     font-size: 1em;
 }
+input, select {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+    width: 100%;
+    letter-spacing: 0.03rem;
+    padding: 0.3em 0.2em;
+}
+input[name=token_id] {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+    width: 100%;
+    letter-spacing: 0.03rem;
+    padding: 0.3em 0.2em;
+    border: 1px solid #ccc;
+    font-size: 18px;
+}
 </style>
