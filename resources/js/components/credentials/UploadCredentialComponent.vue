@@ -1,11 +1,12 @@
 <template>
-    <div class="modal fade" tabindex="-1" 
+    <div class="modal fade" 
+        tabindex="-1" 
         id="upload-credential-modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Create new credentials</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" @click="resetNewCredentialModal" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="col-md-12 text-center mb-2">
@@ -18,7 +19,7 @@
                             </ul>
                         </p>
                     </div>
-                    <form ref="form" id="newCredentialForm" @submit="onSubmitNewCredential">
+                    <form ref="form" id="newCredentialForm">
                         <label for="permissions">Select permissions for credentials</label>
                         <select class="form-select" id="permissions" name="permissions[]" 
                                 v-model="permissions" multiple :select-size="4">
@@ -29,7 +30,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" 
+                        @click="resetNewCredentialModal" data-dismiss="modal">Cancel</button>
                     <button type="button" :disabled="buttonSubmitDisabled" 
                         @click="onSubmitNewCredential" class="btn btn-primary">
                         Save &nbsp;&nbsp;   
@@ -85,6 +87,7 @@ export default {
         },
         resetNewCredentialModal: function() {
             this.errors = []
+            this.permissions = []
 
         },
         onSubmitNewCredential: function(event) {
