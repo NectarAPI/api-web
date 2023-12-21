@@ -21,7 +21,11 @@
                     <label for="inputType1">STS Configuration</label>
                 </div>
                 <div class="col-md-9 showcase_content_area">
-                    <b-form-select :disabled="inputDisabled" v-model="sts_config" :options="sts_config_options" @change="setCurrentSTSConfig"></b-form-select>
+                    <select :disabled="inputDisabled" v-model="sts_config" @change="setCurrentSTSConfig">
+                        <option v-for="option in sts_config_options" :value="option.value">
+                            {{  option.text }}
+                        </option>
+                    </select>
                 </div>
             </div>
             <div class="form-group row showcase_row_area col-12">
@@ -29,7 +33,7 @@
                     <label for="drn">Enter Meter No</label>
                 </div>
                 <div class="col-md-9 showcase_content_area">
-                    <b-form-input :disabled="inputDisabled" id="drn" name="drn" v-model="drn"></b-form-input>
+                    <input :disabled="inputDisabled" id="drn" name="drn" v-model="drn"/>
                 </div>
             </div>
             <div class="form-group row showcase_row_area col-12">
@@ -37,7 +41,7 @@
                     <label for="token">Enter Token</label>
                 </div>
                 <div class="col-md-9 showcase_content_area">
-                    <b-form-input :disabled="inputDisabled" id="token" name="token" v-model="token"></b-form-input>
+                    <input :disabled="inputDisabled" id="token" name="token" v-model="token"/>
                 </div>
             </div>
             <div class="row showcase_row_area pt-4 pl-3 col-12 d-block text-center">

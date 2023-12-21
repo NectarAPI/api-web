@@ -1,10 +1,9 @@
-import './bootstrap';
+import './bootstrap'; 
+import { store } from './store'
 // import '../sass/app.scss'
 import { createApp } from 'vue';
-import { createStore } from 'vuex';
 
 const app = createApp({});
-const store = createStore({});
 
 import LoginFormComponent from './components/auth/LoginFormComponent.vue';
 import RegisterFormComponent from './components/auth/RegisterFormComponent.vue';
