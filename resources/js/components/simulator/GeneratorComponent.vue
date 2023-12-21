@@ -79,9 +79,9 @@
                         <label for="token_id">Token ID</label>
                     </div>
                     <div class="col-md-9">
-                        <Datepicker class="vue-picker1" 
-                            name="token_id" v-model="token_id" :config="datepicker_options">
-                        </datepicker>
+                        <Datepicker name="token_id" v-model="token_id" 
+                            :disabled="inputDisabled" :format="datepicker_options.format">
+                        </Datepicker>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area col-12">
@@ -112,8 +112,8 @@
                     <div class="col-md-9 showcase_content_area">
                         <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
-                            v-model="token_id" :config="datepicker_options">
-                        </datepicker>
+                            v-model="token_id" :format="datepicker_options.format">
+                        </Datepicker>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area col-12">
@@ -144,8 +144,9 @@
                     <div class="col-md-9 showcase_content_area">
                         <Datepicker class="vue-picker1" 
                             name="token_id"  :disabled="inputDisabled"
-                            v-model="token_id" :config="datepicker_options">
-                        </datepicker>                    </div>
+                            v-model="token_id" :format="datepicker_options.format">
+                        </Datepicker>                    
+                    </div>
                 </div>
                 <div class="form-group row showcase_row_area col-12">
                     <div class="col-md-3 showcase_text_area">
@@ -198,8 +199,8 @@
                     <div class="col-md-9 showcase_content_area">
                         <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
-                            v-model="token_id" :config="datepicker_options">
-                        </datepicker>
+                            v-model="token_id" :format="datepicker_options.format">
+                        </Datepicker>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area col-12">
@@ -230,8 +231,8 @@
                     <div class="col-md-9 showcase_content_area">
                         <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
-                            v-model="token_id" :config="datepicker_options">
-                        </datepicker>
+                            v-model="token_id" :format="datepicker_options.format">
+                        </Datepicker>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area col-12">
@@ -352,8 +353,8 @@
                     <div class="col-md-9 showcase_content_area">
                         <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
-                            v-model="token_id" :config="datepicker_options">
-                        </datepicker>
+                            v-model="token_id" :format="datepicker_options.format">
+                        </Datepicker>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area col-12">
@@ -376,7 +377,8 @@
 
             <!-- class 2,6 tokens -->
 
-            <div class="col-12" v-if="token_class == 2 && token_subclass == 6 && currSTSConfig.config.config_type == 'NATIVE'">
+            <div class="col-12" v-if="token_class == 2 && token_subclass == 6 && 
+                currSTSConfig.config.config_type == 'NATIVE'">
                 <div class="form-group row showcase_row_area col-12">
                     <div class="col-md-3 showcase_text_area">
                         <label for="token_id">Token ID</label>
@@ -384,8 +386,8 @@
                     <div class="col-md-9 showcase_content_area">
                         <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
-                            v-model="token_id" :config="datepicker_options">
-                        </datepicker>
+                            v-model="token_id" :format="datepicker_options.format">
+                        </Datepicker>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area col-12">
@@ -416,8 +418,8 @@
                     <div class="col-md-9 showcase_content_area">
                         <Datepicker class="vue-picker1" 
                             name="token_id" :disabled="inputDisabled" 
-                            v-model="token_id" :config="datepicker_options">
-                        </datepicker>
+                            v-model="token_id" :format="datepicker_options.format">
+                        </Datepicker>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area col-12">
@@ -454,7 +456,9 @@
 </template>
 <script>
 
-import Datepicker from 'vue3-datepicker';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+import moment from 'moment';
 
 
 export default {
@@ -469,19 +473,7 @@ export default {
     data() {
         return {
             datepicker_options: {
-                format: 'YYYY-MM-DDTHH:mm',
-                useCurrent: false,
-                icons: {
-                    time: 'mdi mdi-clock mdi-1x',
-                    date: 'mdi mdi-calendar mdi-1x',
-                    up: 'mdi mdi-arrow-up mdi-1x',
-                    down: 'mdi mdi-arrow-down mdi-1x',
-                    previous: 'mdi mdi-chevron-left mdi-1x',
-                    next: 'mdi mdi-chevron-right mdi-1x',
-                    today: 'mdi mdi-calendar-check mdi-1x',
-                    clear: 'mdi mdi-trash-can mdi-1x',
-                    close: 'mdi mdi-close-circle mdi-1x'
-                }
+                format: "yyyy-MM-dd'T'HH:mm",
             },
             errors: [],
             currSTSConfig: null,
@@ -525,7 +517,7 @@ export default {
                 { value: true, text: 'Yes' },
                 { value: false, text: 'No' },
             ],
-            token_id: '',
+            token_id: new Date(),
             amount: '',
             random_no: '',
             control: '',
@@ -680,7 +672,7 @@ export default {
 
                 if (this.errors.length == 0) {
                     return {
-                        'token_id' : this.token_id,
+                        'token_id' : moment(this.token_id).format("YYYY-MM-DDTHH:mm"),
                         'amount' : this.amount,
                         'random_no' : this.random_no
                     }
@@ -702,7 +694,7 @@ export default {
 
                 if (this.errors.length == 0) {
                     return {
-                        'token_id' : this.token_id,
+                        'token_id' : moment(this.token_id).format("YYYY-MM-DDTHH:mm"),
                         'control' : this.control,
                         'manufacturer_code' : this.manufacturer_code
                     }
@@ -728,7 +720,7 @@ export default {
 
                 if (this.errors.length == 0)
                     return {
-                        'token_id' : this.token_id,
+                        'token_id' : moment(this.token_id).format("YYYY-MM-DDTHH:mm"),
                         'maximum_power_limit' : this.maximum_power_limit,
                         'random_no' : this.random_no
                     }
@@ -754,7 +746,7 @@ export default {
 
                 if (this.errors.length == 0)
                     return {
-                        'token_id' : this.token_id,
+                        'token_id' : moment(this.token_id).format("YYYY-MM-DDTHH:mm"),
                         'register' : this.register,
                         'random_no' : this.random_no
                     }
@@ -769,7 +761,7 @@ export default {
 
                 if (this.errors.length == 0)
                     return {
-                        'token_id' : this.token_id,
+                        'token_id' : moment(this.token_id).format("YYYY-MM-DDTHH:mm"),
                         'tariff_rate' : this.tariff_rate,
                         'random_no' : this.random_no
                     }
@@ -792,7 +784,7 @@ export default {
 
                 if (this.errors.length == 0) {
                     return {
-                            'token_id' : this.token_id,
+                            'token_id' : moment(this.token_id).format("YYYY-MM-DDTHH:mm"),
                             'new_vending_key' : this.new_vending_key,
                             'new_supply_group_code' : this.new_supply_group_code,
                             'new_tariff_index' : this.new_tariff_index,
@@ -825,7 +817,7 @@ export default {
 
                 if (this.errors.length == 0)
                     return {
-                        'token_id' : this.token_id,
+                        'token_id' : moment(this.token_id).format("YYYY-MM-DDTHH:mm"),
                         'pad' : this.pad,
                         'random_no' : this.random_no
                     }
@@ -840,7 +832,7 @@ export default {
 
             if (this.errors.length == 0) {
                 return {
-                        'token_id' : this.token_id,
+                        'token_id' : moment(this.token_id).format("YYYY-MM-DDTHH:mm"),
                         'mppul' : this.mppul,
                         'random_no' : this.random_no
                     }
@@ -855,7 +847,7 @@ export default {
 
                 if (this.errors.length == 0) {
                     return {
-                        'token_id' : this.token_id,
+                        'token_id' : moment(this.token_id).format("YYYY-MM-DDTHH:mm"),
                         'wm_factor' : this.wm_factor,
                         'random_no' : this.random_no
                     }
@@ -863,8 +855,9 @@ export default {
             } else return {}
         },
         validateTokenID: function() {
-            if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(this.token_id)) 
-                this.errors.push('Invalid token ID')            
+            let tokenID = moment(this.token_id).format("YYYY-MM-DDTHH:mm");
+            if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(tokenID)) 
+                this.errors.push('Invalid token ID')         
         },
         validateAmount: function() {
             if (!/^\d+$|^[0-9].*\.[0-9]{2}$/.test(this.amount)) {
@@ -982,29 +975,28 @@ export default {
     align-items: stretch;
     height: auto;
 }
-</style>
-
-<style>
-#token_id {
-    border: 0;
-    padding: 0;
-    box-shadow: none!important;
-    margin: 0;
-}
-
-#token_id__value_ {
-    border: 0;
-    height: auto;
-    line-height: 1em;
-}
-
 #generated-token {
     font-family: 'Jura', sans-serif;
     font-size: 1em;
 }
-
 .bootstrap-datetimepicker-widget {
     position: absolute;
     z-index: 100;
+}
+input, select {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+    width: 100%;
+    letter-spacing: 0.03rem;
+    padding: 0.3em 0.2em;
+}
+input[name=token_id] {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+    width: 100%;
+    letter-spacing: 0.03rem;
+    padding: 0.3em 0.2em;
+    border: 1px solid #ccc;
+    font-size: 18px;
 }
 </style>
