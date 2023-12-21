@@ -20,7 +20,7 @@
                             </ul>
                         </p>
                     </div>
-                    <form ref="form" id="editCredentialForm" @submit="onSubmitEditCredential">
+                    <form ref="form" id="editCredentialForm" class="modal-form">
                         <input type="hidden" name="status" id="status" :value="credential.activated" />
                         <p>Are you sure that you would like to 
                             <span v-if="credential.activated">
@@ -154,20 +154,35 @@ export default {
   transform: rotate(-45deg);
 }
 
-#newCredentialForm label {
+.modal-form label, .modal-form textarea, .modal-form > input:not(input[type=checkbox]) {
     letter-spacing: 0.03rem;
     display: block;
     width: 100%;
 }
 
-select#permissions {
+.modal-form > input:not(input[type=checkbox]), .modal-form textarea {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+}
+
+.modal-form label {
+    margin-top: 0.5em;
+    margin-bottom: 0.1em;
+}
+
+.modal-form > input[type=checkbox] {
+    margin-right: 0.5em;
+    border: 1px solid #ccc;
+}
+
+.modal-form select {
     display: block;
     width: 100%;
     border: 1px solid #ccc;
     padding: 0.1em;
 }
 
-select#permissions option {
+.modal-form select option {
     padding: 0.3em 0.3em;
 }
 </style>

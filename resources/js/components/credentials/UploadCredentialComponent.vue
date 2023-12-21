@@ -20,8 +20,8 @@
                             </ul>
                         </p>
                     </div>
-                    <form ref="form" id="newCredentialForm">
-                        <label for="permissions">Select permissions for credentials</label>
+                    <form ref="form" id="newCredentialForm" class="modal-form">
+                        <span for="permissions">Select permissions for credentials</span>
                         <select class="form-select" id="permissions" name="permissions[]" 
                                 v-model="permissions" multiple :select-size="4">
                             <option v-for="option in options" :value="option.value">
@@ -183,20 +183,34 @@ export default {
   transform: rotate(-45deg);
 }
 
-#newCredentialForm label {
+.modal-form label, .modal-form textarea, .modal-form > input:not(input[type=checkbox]) {
     letter-spacing: 0.03rem;
     display: block;
     width: 100%;
 }
 
-select#permissions {
+.modal-form > input:not(input[type=checkbox]), .modal-form textarea {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+}
+
+.modal-form label {
+    margin-top: 0.5em;
+}
+
+.modal-form > input[type=checkbox] {
+    margin-right: 0.5em;
+    border: 1px solid #ccc;
+}
+
+.modal-form select {
     display: block;
     width: 100%;
     border: 1px solid #ccc;
     padding: 0.1em;
 }
 
-select#permissions option {
+.modal-form select option {
     padding: 0.3em 0.3em;
 }
 </style>

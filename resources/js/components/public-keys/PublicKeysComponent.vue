@@ -8,8 +8,7 @@
                     id="load-details-spinner"
                     class="spinner-border text-primary float-right"
                     role="status"
-                    style="height:20px; width: 20px"
-                >
+                    style="height:20px; width: 20px">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
@@ -23,27 +22,27 @@
                                 <p class="card-title ml-n1">Public Keys</p>
                             </div>
                             <div class="col-2">
-                                <b-button v-b-modal.upload-public-key-modal>Upload</b-button>
-
+                                <button class="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target="#upload-public-key-modal">Upload</button>
+                                        
                                 <upload-public-key-component
                                     @fetchPublicKeys="fetchPublicKeys"
-                                    @createdPublicKey="createdPublicKey"
-                                >
+                                    @createdPublicKey="createdPublicKey">
                                 </upload-public-key-component>
                             </div>
                         </div>
                     </div>
                     <public-keys-table-component
                         :public-keys="publicKeys"
-                        @displayPublicKeyDetails="displayPublicKeyDetails($event)"
-                    >
+                        @displayPublicKeyDetails="displayPublicKeyDetails($event)">
                     </public-keys-table-component>
                 </div>
             </div>
             <div class="col-md-4 equel-grid">
                 <public-key-component
-                    :public-key="currPublicKey"
-                ></public-key-component>
+                    :public-key="currPublicKey">
+                </public-key-component>
             </div>
         </div>
 
