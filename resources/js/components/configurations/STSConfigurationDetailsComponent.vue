@@ -14,7 +14,9 @@
                             <i class="mdi mdi-dots-vertical"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item"  v-b-modal.activate-deactivate-configuration-modal>
+                            <a data-toggle="modal" 
+                                class="dropdown-item"  
+                                href="#activate-deactivate-configuration-modal">
                                 <span v-if="configuration.config.activated">
                                     Deactivate
                                 </span>

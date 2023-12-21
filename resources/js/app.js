@@ -1,8 +1,10 @@
 import './bootstrap';
 // import '../sass/app.scss'
 import { createApp } from 'vue';
+import { createStore } from 'vuex';
 
 const app = createApp({});
+const store = createStore({});
 
 import LoginFormComponent from './components/auth/LoginFormComponent.vue';
 import RegisterFormComponent from './components/auth/RegisterFormComponent.vue';
@@ -138,4 +140,5 @@ app.component('meter-component', MeterComponent);
 
 app.component('buy-credits-component', BuyCreditsComponent);
 
+app.use(store)
 app.mount('#app');

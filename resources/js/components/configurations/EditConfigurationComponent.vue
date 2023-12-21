@@ -1,63 +1,56 @@
 <template>
-    <b-modal
-        id="activate-deactivate-configuration-modal"
-        title="Confirm"
-        @show="resetActivateDeactivateConfigurationsModal">
-            <div class="col-md-12 text-center mb-2">
-                <p v-if="errors.length">
-                    <ul class="list-group">
-                        <li v-for="error in errors" 
-                            v-bind:key="error" 
-                            class="list-group-item list-group-item-danger">{{ error }}</li>
-                    </ul>
-                </p>
-            </div>
-            <b-form ref="form" id="editConfigurationForm">
-                
-                <input type="hidden" name="configuration_activated_status" id="key_activated_status" :value="configuration.config.activated" />
-
-                <p>Are you sure that you would like to 
-
-                    <span v-if="configuration.config.activated">
-                        deactivate
-                    </span>
-                    <span v-else>
-                        activate
-                    </span>
-
-                    configuration {{ configuration.config.name }}?
-                </p>
-
-            </b-form>
-            <div slot="modal-footer">
-                <b-btn variant="secondary">Cancel</b-btn>
-                <span v-if="!configuration.config.activated">
-                    <b-button variant="danger" 
-                        @click="activateConfiguration(configuration, true)">
-                        Activate &nbsp;&nbsp;   
-                        <div v-if="showSpinner" 
+    <div class="modal fade" 
+        tabindex="-1" 
+        id="activate-deactivate-configuration-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm</h5>
+                    <button type="button" @click="resetActivateDeactivateConfigurationsModal" 
+                            class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 text-center mb-2">
+                        <p v-if="errors.length">
+                            <ul class="list-group">
+                                <li v-for="error in errors" 
+                                    v-bind:key="error" 
+                                    class="list-group-item list-group-item-danger">{{ error }}
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                    <form ref="form" id="editConfigurationForm">
+                        <input type="hidden" name="configuration_activated_status" 
+                                id="key_activated_status" :value="configuration.config.activated" />
+                        <p>Are you sure that you would like to 
+                            <span v-if="configuration.config.activated">
+                                deactivate
+                            </span>
+                            <span v-else>
+                                activate
+                            </span>
+                            configuration {{ configuration.config.name }}?
+                        </p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" 
+                        @click="resetActivateDeactivateCredentialsModal" data-dismiss="modal">Cancel</button>
+                    <button type="button" :disabled="buttonSubmitDisabled" 
+                        @click="resetActivateDeactivateConfigurationsModal" class="btn btn-primary">
+                        Save &nbsp;&nbsp;   
+                        <div v-if="saveSpinner" 
                             id="save-spinner" 
-                            class="spinner-border text-secondary" 
-                            role="status">
-                            <span class="sr-only">Loading...</span>
+                                class="spinner-border text-secondary" 
+                                role="status">
+                                <span class="sr-only">Loading...</span>
                         </div> 
-                    </b-button>
-                </span>
-
-                <span v-else>
-                    <b-button variant="success"
-                        @click="activateConfiguration(configuration, false)">
-                        Deactivate &nbsp;&nbsp;   
-                        <div v-if="showSpinner" 
-                            id="save-spinner" 
-                            class="spinner-border text-secondary" 
-                            role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div> 
-                    </b-button>
-                </span>
+                    </button>
+                </div>
             </div>
-    </b-modal>
+        </div>
+    </div>
 </template>
 <script>
 export default {
