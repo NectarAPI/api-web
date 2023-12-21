@@ -13,8 +13,9 @@
                         <i class="mdi mdi-dots-vertical"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <!-- v-b-modal.activate-deactivate-credential-modal -->
-                            <a class="dropdown-item">
+                            <a data-toggle="modal" 
+                                href="#activate-deactivate-credential-modal" 
+                                class="dropdown-item">
                                 <span v-if="credential.activated">
                                     Deactivate
                                 </span>
