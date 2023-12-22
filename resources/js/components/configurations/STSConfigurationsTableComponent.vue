@@ -18,8 +18,7 @@
                         id="load-details-spinner"
                         class="spinner-border text-primary float-right"
                         role="status"
-                        style="height:20px; width: 20px"
-                    >
+                        style="height:20px; width: 20px">
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>

@@ -26,7 +26,7 @@
                         <label for="cn">Config Name</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <b-form-input id="cn" name="cn" v-model="cn"></b-form-input>
+                        <input id="cn" name="cn" v-model="cn"/>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area">
@@ -34,17 +34,20 @@
                         <label for="sgc">Supply Group Code (SGC)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <b-form-input id="sgc" name="sgc" v-model="sgc"></b-form-input>
+                        <input id="sgc" name="sgc" v-model="sgc"/>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area">
                     <div class="col-md-3 showcase_text_area">
-                        <label for="iin"
-                            >Issuer Identification No (IIN)</label
-                        >
+                        <label for="iin">Issuer Identification No (IIN)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <b-form-select id="iin" name="iin" v-model="iin" :options="iin_options"></b-form-select>
+                        <select class="form-select" id="iin" name="iin" 
+                            v-model="iin">
+                            <option v-for="option in iin_options" :value="option.value">
+                                {{  option.text }}
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area">
@@ -52,7 +55,7 @@
                         <label for="kt">Key Type (KT)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <b-form-input id="kt" name="kt" v-model="kt"></b-form-input>
+                        <input id="kt" name="kt" v-model="kt"/>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area">
@@ -60,7 +63,7 @@
                         <label for="krn">Key Revision No (KRN)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                         <b-form-input id="krn" name="krn" v-model="krn"></b-form-input>
+                         <input id="krn" name="krn" v-model="krn"/>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area">
@@ -68,7 +71,7 @@
                         <label for="ti">Tariff Index (TI)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                         <b-form-input id="ti" name="ti" v-model="ti"></b-form-input>
+                         <input id="ti" name="ti" v-model="ti"/>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area">
@@ -76,7 +79,7 @@
                         <label for="ken">Key Expiry Number (KEN)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                         <b-form-input id="ken" name="ken" v-model="ken"></b-form-input>
+                         <input id="ken" name="ken" v-model="ken"/>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area">
@@ -84,7 +87,7 @@
                         <label for="vk">Vending Key (VK)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                         <b-form-input id="vk" name="vk" v-model="vk"></b-form-input>
+                         <input id="vk" name="vk" v-model="vk"/>
                     </div>
                 </div>
                 <div class="row showcase_row_area">
@@ -92,7 +95,11 @@
                         <label>Decoder Key Generation Algorithm (DKGA)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <b-form-select v-model="dkga" :options="dkga_options"></b-form-select>
+                        <select class="form-select" v-model="dkga">
+                            <option v-for="option in dkga_options" :value="option.value">
+                                {{  option.text }}
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div class="row showcase_row_area">
@@ -100,7 +107,11 @@
                         <label>Encryption Algorithm (EA)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <b-form-select v-model="ea" :options="ea_options"></b-form-select>
+                        <select class="form-select" v-model="ea">
+                            <option v-for="option in ea_options" :value="option.value">
+                                {{ option.text }}
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area">
@@ -108,7 +119,11 @@
                         <label for="bd">Base Date (BD)</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <b-form-select v-model="bd" :options="bd_options"></b-form-select>
+                        <select class="form-select" v-model="bd">
+                            <option v-for="option in bd_options" :value="option.value">
+                                {{  option.text }}
+                            </option>
+                        </select>
                     </div>
                 </div>
             
@@ -116,18 +131,22 @@
                      <div class="col-md-3 showcase_text_area">
                         <p class="pb-4">
                             Symmetric key
-                            <b-button size="sm" class="learn_more" v-b-modal.information-modal @click="displayLabel('symmetric-key')">Learn more</b-button>
+                            <button type="button"
+                                size="sm" 
+                                class="learn_more btn btn-primary"
+                                data-toggle="modal" 
+                                data-target="#information-modal" 
+                                @click="displayLabel('symmetric-key')">Learn more</button>
                         </p>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <b-form-file
+                        <input class="form-control" type="file"
                             id="user-symmetric-key"
                             name="user-symmetric-key"
-                            v-model="symmetricKey"
+                            @change="handleSymmetricKey"
                             accept="text/plain"
                             placeholder="Choose a symmetric key"
-                            drop-placeholder="Drop file here...">
-                        </b-form-file>
+                            drop-placeholder="Drop file here..."/>
                     </div>
                 </div>
                 
@@ -135,18 +154,22 @@
                      <div class="col-md-3 showcase_text_area">
                         <p class="pb-4">
                             Private key
-                            <b-button size="sm" class="learn_more" v-b-modal.information-modal @click="displayLabel('private-key')">Learn more</b-button>
+                            <button type="button" 
+                                class="learn_more btn btn-primary" 
+                                data-toggle="modal"
+                                size="sm" 
+                                data-target="#information-modal" 
+                                @click="displayLabel('private-key')">Learn more</button>
                         </p>
                     </div>
                     <div class="col-md-9 showcase_content_area">
-                        <b-form-file
+                        <input class="form-control" type="file"
                             id="user-private-key"
                             name="user-private-key"
-                            v-model="userPrivateKey"
+                            @change="handleUserPrivateKey"
                             accept="text/plain"
                             placeholder="Choose a private key"
-                            drop-placeholder="Drop file here...">
-                        </b-form-file>
+                            drop-placeholder="Drop file here..."/>
                     </div>
                 </div>
 
@@ -210,6 +233,12 @@ export default {
       }
     }, 
     methods: {
+        handleSymmetricKey(event) {
+            this.symmetricKey = event.target.files[0];
+        },
+        handleUserPrivateKey(event) {
+            this.userPrivateKey = event.target.files[0];
+        },
         displayLabel: function(label) {
             this.$emit('displayLabel', label)
         },
@@ -422,9 +451,19 @@ export default {
 </script>
 <style scoped>
 .learn_more {
-    height: 1.5em;
-    padding: 0.2em;
+    height: 2em;
+    padding: 0.5em;
     margin: 0;
-    color: #696ffb;
+    color: #fff;
+}
+input:not(input[type=file]), select {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+    width: 100%;
+    letter-spacing: 0.03rem;
+    padding: 0.3em 0.2em;
+}
+input[type=file] {
+    padding: 0
 }
 </style>

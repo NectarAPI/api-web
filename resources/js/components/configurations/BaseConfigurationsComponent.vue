@@ -75,10 +75,10 @@
                     <div class="col-lg-12">
                         <div class="grid">
                             <div class="grid-body">
-                                <!-- <sts-configuration-form-component
+                                <sts-configuration-form-component
                                     @displayLabel="displayLabel"
                                     :nectar-public-key="nectarPublicKey">
-                                </sts-configuration-form-component> -->
+                                </sts-configuration-form-component>
                             </div>
                         </div>
                     </div>

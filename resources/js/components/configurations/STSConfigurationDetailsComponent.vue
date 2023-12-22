@@ -103,11 +103,9 @@
                     <p class="text-muted">
                         {{ configuration.issuer_identification_no }}
                     </p>
-
                 </div>
 
                 <div v-else-if="configuration.config.config_type == 'PRISM_THRIFT'">
-                                
                     <small class="text-black font-weight-medium d-block pt-2">
                         Host
                     </small>
