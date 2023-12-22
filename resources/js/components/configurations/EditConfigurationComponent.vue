@@ -40,8 +40,8 @@
                     <button type="button" :disabled="buttonSubmitDisabled" 
                         @click="resetActivateDeactivateConfigurationsModal" class="btn btn-primary">
                         Save &nbsp;&nbsp;   
-                        <div v-if="saveSpinner" 
-                            id="save-spinner" 
+                        <div v-if="showSpinner" 
+                            id="show-spinner" 
                                 class="spinner-border text-secondary" 
                                 role="status">
                                 <span class="sr-only">Loading...</span>

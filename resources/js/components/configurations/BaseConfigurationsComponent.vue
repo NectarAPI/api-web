@@ -17,18 +17,19 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <sts-configurations-table-component
-                        :configurations="getSTSConfigurations"
+                    <sts-configurations-table-component
+                        :configurations="sts_configs"
                         :showSpinner="showSpinner"
                         @displaySTSConfigurationDetails="displaySTSConfigurationDetails($event)">
-                    </sts-configurations-table-component> -->
+                    </sts-configurations-table-component>
                 </div>
             </div>
             <div class="col-md-4 equel-grid">
                 <div class="grid">
-                    <!-- <sts-configuration-details-component
+                    <sts-configuration-details-component
+                        v-if="currConfiguration"
                         :configuration="currConfiguration">
-                    </sts-configuration-details-component> -->
+                    </sts-configuration-details-component>
                 </div>
             </div>
         </div>
@@ -103,7 +104,8 @@ export default {
       return {
         errors: [],
         selectedLabel: '',
-        currConfiguration: Object,
+        sts_configs: [],
+        currConfiguration: null,
         showSpinner: false,
       }
     },
@@ -114,6 +116,13 @@ export default {
         displaySTSConfigurationDetails: function(selectedConfiguration) {
             let self = this;
             self.currConfiguration = selectedConfiguration;
+        },
+        getSTSConfigurations() {
+            this.sts_configs =  this.$store.getters.getSTSConfigurations
+            if (this.sts_configs.length > 0) {
+                this.currConfiguration = this.sts_configs[0];
+            }
+            this.showSpinner = false
         }
     },
     async mounted() {
@@ -122,6 +131,8 @@ export default {
 
         try {
             await self.$store.dispatch('fetchConfigurations')
+            self.getSTSConfigurations()
+
         } catch(e) {
             self.errors.push(e)
         } finally {
@@ -129,14 +140,7 @@ export default {
         }
     },
     computed: {
-        getSTSConfigurations() {
-            let configurations =  this.$store.getters.getSTSConfigurations
-            if (configurations.length > 0) {
-                this.currConfiguration = configurations[0];
-            }
-            this.showSpinner = false
-            return configurations
-        }
+
     }
 }
 </script>

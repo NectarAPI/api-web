@@ -186,6 +186,8 @@
     </div>
 </template>
 <script>
+import * as crypto from 'crypto';
+
 export default {
     name: 'STSConfigurationFormComponent',
     props: [
@@ -441,7 +443,7 @@ export default {
         this.buttonSubmitDisabled = false
 
         try {
-            this.crypto = require('crypto')
+            this.crypto = crypto
         } catch (err) {
             throw 'crypto support is disabled!'
 
