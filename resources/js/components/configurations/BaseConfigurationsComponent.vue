@@ -17,18 +17,18 @@
                             </div>
                         </div>
                     </div>
-                    <sts-configurations-table-component
+                    <!-- <sts-configurations-table-component
                         :configurations="getSTSConfigurations"
                         :showSpinner="showSpinner"
                         @displaySTSConfigurationDetails="displaySTSConfigurationDetails($event)">
-                    </sts-configurations-table-component>
+                    </sts-configurations-table-component> -->
                 </div>
             </div>
             <div class="col-md-4 equel-grid">
                 <div class="grid">
-                    <sts-configuration-details-component
+                    <!-- <sts-configuration-details-component
                         :configuration="currConfiguration">
-                    </sts-configuration-details-component>
+                    </sts-configuration-details-component> -->
                 </div>
             </div>
         </div>
@@ -61,40 +61,33 @@
                     id="nav-option-1"
                     role="tabpanel"
                     aria-labelledby="nav-profile-tab">
-
                     <div class="col-lg-12">
-
                         <upload-sts-configuration-component 
                             @displayLabel="displayLabel">
                         </upload-sts-configuration-component>
-
                     </div>
                 </div>
-
                 <div
                     class="tab-pane fade"
                     id="nav-option-2"
                     role="tabpanel"
-                    aria-labelledby="nav-home-tab"
-                >
+                    aria-labelledby="nav-home-tab">
                     <div class="col-lg-12">
                         <div class="grid">
                             <div class="grid-body">
-                                
-                                <sts-configuration-form-component
+                                <!-- <sts-configuration-form-component
                                     @displayLabel="displayLabel"
                                     :nectar-public-key="nectarPublicKey">
-                                </sts-configuration-form-component>
-
+                                </sts-configuration-form-component> -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-            <information-component
-                :label="selectedLabel">
-            </information-component>
+        <information-component
+            :label="selectedLabel">
+        </information-component>
     </div>
 </template>
 <script>
