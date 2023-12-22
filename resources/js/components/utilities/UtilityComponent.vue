@@ -14,7 +14,8 @@
                             <i class="mdi mdi-dots-vertical"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item"  v-b-modal.activate-deactivate-public-key-modal>
+                            <a class="dropdown-item" data-toggle="modal"
+                                href="#activate-deactivate-public-key-modal">
                                 <span v-if="utility.activated">
                                     Deactivate
                                 </span>

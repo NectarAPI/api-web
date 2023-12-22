@@ -29,10 +29,12 @@
                     <div class="grid-body py-3">
                         <div class="row">
                             <div class="col-10">
-                                <p class="card-title ml-n1">Utilitiessssss</p>
+                                <p class="card-title ml-n1">Utilities</p>
                             </div>
                             <div class="col-2">
-                                <b-button v-b-modal.upload-utility-modal>Creates</b-button>
+                                <button class="btn btn-primary" 
+                                    data-toggle="modal"
+                                    data-target="#upload-utility-modal">Creates</button>
                                 <upload-utility-component
                                     @createdUtility="createdUtility">
                                 </upload-utility-component>
@@ -42,7 +44,7 @@
 
                     <utilities-table-component
                         :utilities="utilities"
-                        @displayUtilityDetails="displayUtilitysDetails($event)">
+                        @displayUtilityDetails="displayUtilityDetails($event)">
                     </utilities-table-component>
                 </div>
             </div>
@@ -103,6 +105,7 @@ export default {
         let self = this;
         self.showSpinner = true;
         self.fetchUtilities();
+
     }
 };
 </script>

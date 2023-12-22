@@ -17,8 +17,7 @@
                 <tr v-else class="data-row"
                     @click="displayUtilityDetails(utility)"
                     v-for="utility in utilities"
-                    v-bind:key="utility.ref"
-                >
+                    v-bind:key="utility.ref">
                     <td>
                         <span class="text-gray">
                             {{ utility.name }}

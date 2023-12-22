@@ -1,48 +1,56 @@
 <template>
-    <b-modal
-        id="activate-deactivate-utility-modal"
-        title="Confirm"
-        @show="resetActivateDeactivateUtilityModal"
-        @ok="onSubmitEditUtility">
-            <div class="col-md-12 text-center mb-2">
-                <p v-if="errors.length">
-                    <ul class="list-group">
-                        <li v-for="error in errors" 
-                            v-bind:key="error" 
-                            class="list-group-item list-group-item-danger">{{ error }}</li>
-                    </ul>
-                </p>
-            </div>
-            <b-form ref="form" id="editUtilityForm" @submit="onSubmitEditUtility">
-                
-                <input type="hidden" name="utility_activated_status" id="utility_activated_status" :value="utility.activated" />
-
-                <p>Are you sure that you would like to 
-
-                    <span v-if="utility.activated">
-                        deactivate
-                    </span>
-                    <span v-else>
-                        activate
-                    </span>
-
-                    utility {{ utility.name }}?
-                </p>
-
-            </b-form>
-            <div slot="modal-footer">
-                <b-btn variant="secondary">Cancel</b-btn>
-                <b-btn :disabled="buttonSubmitDisabled" variant="primary" @click="onSubmitEditUtility">
-                    Save &nbsp;&nbsp;   
+    <div class="modal fade" 
+        tabindex="-1" 
+        id="activate-deactivate-utility-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm</h5>
+                    <button type="button" @click="resetActivateDeactivateUtilityModal" 
+                            class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 text-center mb-2">
+                        <p v-if="errors.length">
+                            <ul class="list-group">
+                                <li v-for="error in errors" 
+                                    v-bind:key="error" 
+                                    class="list-group-item list-group-item-danger">{{ error }}
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                    <form ref="form" id="editUtilityForm" class="modal-form">
+                        <input type="hidden" name="utility_activated_status" 
+                            id="utility_activated_status" :value="utility.activated" />
+                        <p>Are you sure that you would like to 
+                            <span v-if="utility.activated">
+                                deactivate
+                            </span>
+                            <span v-else>
+                                activate
+                            </span>
+                            utility {{ utility.name }}?
+                        </p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" 
+                        @click="resetNewPublicKeysModal" data-dismiss="modal">Cancel</button>
+                    <button type="button" :disabled="buttonSubmitDisabled" 
+                        @click="onSubmitEditUtility" class="btn btn-primary">
+                        Save &nbsp;&nbsp;   
                         <div v-if="saveSpinner" 
-                        id="save-spinner" 
-                        class="spinner-border text-secondary" 
-                        role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div> 
-                </b-btn>
+                            id="save-spinner" 
+                                class="spinner-border text-secondary" 
+                                role="status">
+                                <span class="sr-only">Loading...</span>
+                        </div> 
+                    </button>
+                </div>
             </div>
-    </b-modal>
+        </div>
+    </div>
 </template>
 <script>
 export default {
@@ -63,15 +71,10 @@ export default {
         },
         onSubmitEditUtility: function(event) {
             let self = this
-
             self.errors = []
-            
-                
                 let formData = new FormData(document.getElementById("editUtilityForm"))
-
                 self.saveSpinner = true
                 self.buttonSubmitDisabled = true
-
                 axios.post('/utilities/' + self.utility.ref, formData).then(function(response, status, request) {  
                     
                     let responseStatus = response.data.status.code
