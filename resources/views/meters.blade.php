@@ -27,7 +27,7 @@ Meters
           </div>
         </div>
         <div id="app">
-          <meters-component></meters-component>
+          <subscriber-meters-component></subscriber-meters-component>
         </div>
       </div>
     </div>

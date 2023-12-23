@@ -1,52 +1,60 @@
 <template>
-    <b-modal
-        id="activate-deactivate-meter-modal"
-        title="Confirm"
-        @show="resetActivateDeactivateMeterModal"
-        @ok="onSubmitEditMeter">
-            <div class="col-md-12 text-center mb-2">
-                <p v-if="errors.length">
-                    <ul class="list-group">
-                        <li v-for="error in errors" 
-                            v-bind:key="error" 
-                            class="list-group-item list-group-item-danger">{{ error }}</li>
-                    </ul>
-                </p>
-            </div>
-            <b-form ref="form" id="editMeterForm" @submit="onSubmitEditMeter">
-                
-                <input type="hidden" name="meter_activated_status" id="meter_activated_status" :value="meter.activated" />
-
-                <p>Are you sure that you would like to 
-
-                    <span v-if="meter.activated">
-                        deactivate
-                    </span>
-                    <span v-else>
-                        activate
-                    </span>
-
-                    meter {{ meter.name }}?
-                </p>
-
-            </b-form>
-            <div slot="modal-footer">
-                <b-btn variant="secondary">Cancel</b-btn>
-                <b-btn :disabled="buttonSubmitDisabled" variant="primary" @click="onSubmitEditMeter">
-                    Save &nbsp;&nbsp;   
+    <div class="modal fade" 
+        tabindex="-1" 
+        id="activate-deactivate-meter-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create new credentials</h5>
+                    <button type="button" @click="resetNewCredentialModal" 
+                            class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 text-center mb-2">
+                        <p v-if="errors.length">
+                            <ul class="list-group">
+                                <li v-for="error in errors" 
+                                    v-bind:key="error" 
+                                    class="list-group-item list-group-item-danger">{{ error }}
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                    <form ref="form" id="editMeterForm" class="modal-form">
+                        <input type="hidden" name="meter_activated_status" 
+                            id="meter_activated_status" :value="meter.activated" />
+                        <p>Are you sure that you would like to 
+                            <span v-if="meter.activated">
+                                deactivate
+                            </span>
+                            <span v-else>
+                                activate
+                            </span>
+                            meter {{ meter.name }}?
+                        </p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" 
+                        @click="resetActivateDeactivateMeterModal" data-dismiss="modal">Cancel</button>
+                    <button type="button" :disabled="buttonSubmitDisabled" 
+                        @click="onSubmitEditMeter" class="btn btn-primary">
+                        Save &nbsp;&nbsp;   
                         <div v-if="saveSpinner" 
-                        id="save-spinner" 
-                        class="spinner-border text-secondary" 
-                        role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div> 
-                </b-btn>
+                            id="save-spinner" 
+                                class="spinner-border text-secondary" 
+                                role="status">
+                                <span class="sr-only">Loading...</span>
+                        </div> 
+                    </button>
+                </div>
             </div>
-    </b-modal>
+        </div>
+    </div>  
 </template>
 <script>
 export default {
-    name: "EditMeterComponent",
+    name: "EditSubscriberMeterComponent",
     props: [
         'meter'
     ],
@@ -63,12 +71,8 @@ export default {
         },
         onSubmitEditMeter: function(event) {
             let self = this
-
             self.errors = []
-            
-                
                 let formData = new FormData(document.getElementById("editMeterForm"))
-
                 self.saveSpinner = true
                 self.buttonSubmitDisabled = true
 

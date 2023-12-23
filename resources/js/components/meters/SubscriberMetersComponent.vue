@@ -18,8 +18,7 @@
                     id="load-details-spinner"
                     class="spinner-border text-primary float-right"
                     role="status"
-                    style="height:20px; width: 20px"
-                >
+                    style="height:20px; width: 20px">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
@@ -33,13 +32,12 @@
                                 <p class="card-title ml-n1">Meters</p>
                             </div>
                             <div class="col-2">
-                                <b-button v-b-modal.upload-meter-modal
-                                    >Create</b-button
-                                >
+                                <button class="btn btn-primary"
+                                    data-toggle="modal"
+                                    data-target="#upload-meter-modal">Create</button>
 
                                 <upload-meter-component
-                                    @createdMeter="createdMeter"
-                                >
+                                    @createdMeter="createdMeter">
                                 </upload-meter-component>
                             </div>
                         </div>
@@ -47,10 +45,7 @@
 
                     <meters-table-component
                         :meters="meters"
-                        @displayMeterDetails="
-                            displayMeterDetails($event)
-                        "
-                    >
+                        @displayMeterDetails="displayMeterDetails($event)">
                     </meters-table-component>
                 </div>
             </div>

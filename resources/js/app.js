@@ -57,9 +57,9 @@ import EditUtilityComponent from './components/utilities/EditUtilityComponent.vu
 
 import SubscriberMetersComponent from './components/meters/SubscriberMetersComponent.vue'
 import SubscriberMeterComponent from './components/meters/SubscriberMeterComponent.vue'
-import EditMeterComponent from './components/meters/EditMeterComponent.vue'
+import EditSubscriberMeterComponent from './components/meters/EditMeterComponent.vue'
 import SubscriberMetersTableComponent from './components/meters/SubscriberMetersTableComponent.vue'
-import UploadMeterComponent from './components/meters/UploadMeterComponent.vue'
+import UploadSubscriberMeterComponent from './components/meters/UploadMeterComponent.vue'
 
 import CreditsComponent from './components/credits/CreditsComponent.vue'
 import CreditsDetailsComponent from './components/credits/CreditsDetailsComponent.vue'
@@ -125,9 +125,9 @@ app.component('edit-utility-table-component', EditUtilityComponent);
 
 app.component('subscriber-meters-component', SubscriberMetersComponent);
 app.component('subscriber-meter-component', SubscriberMeterComponent);
-app.component('edit-meter-component', EditMeterComponent);
+app.component('edit-meter-component', EditSubscriberMeterComponent);
 app.component('subscriber-meters-table-component', SubscriberMetersTableComponent);
-app.component('upload-meter-component', UploadMeterComponent);
+app.component('upload-meter-component', UploadSubscriberMeterComponent);
 
 app.component('credits-component', CreditsComponent);
 app.component('credits-details-component', CreditsDetailsComponent);

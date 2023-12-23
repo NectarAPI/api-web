@@ -52,12 +52,10 @@
                 </div>
             </div>
         </div>
-
         <edit-meter-component
                 :meter="meter"
                 @activateDeactivateMeter="activateDeactivateMeter">
         </edit-meter-component>
-
     </div>
 </template>
 <script>

@@ -16,8 +16,7 @@
                 <tr v-else class="data-row"
                     @click="displayMeterDetails(meter)"
                     v-for="meter in meters"
-                    v-bind:key="meter.ref"
-                >
+                    v-bind:key="meter.ref">
                     <td>
                         <span class="text-gray">
                             {{ meter.name }}

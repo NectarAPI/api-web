@@ -1,4 +1,74 @@
 <template>
+    <div class="modal fade" 
+        tabindex="-1" 
+        id="upload-meter-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create new credentials</h5>
+                    <button type="button" @click="resetNewMeterModal" 
+                            class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 text-center mb-2">
+                        <p v-if="errors.length">
+                            <ul class="list-group">
+                                <li v-for="error in errors" 
+                                    v-bind:key="error" 
+                                    class="list-group-item list-group-item-danger">{{ error }}
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                    <form ref="form" id="newMeterForm" @submit="onSubmitNewMeter">
+                        <label for="new-meter-name">Name</label>
+                        <input id="new-meter-name" name="new_meter_name" v-model="newMeterName"/>
+
+                        <label for="new-meter-no">Number</label>
+                        <input id="new-meter-no" name="new-meter-no" v-model="newMeterNo"/>
+
+                        <label for="meter-subscriber-contact">Subscriber Contact</label>
+                        <input id="new-meter-subscriber-contact" name="new-meter-subscriber-contact" 
+                            v-model="newMeterSubscriberContact"/>
+
+                        <label for="new-meter-type">Type</label>
+                        <select id="newMeterType" name="newMeterType" v-model="newMeterType">
+                            <option v-for="option in meter_type_options" :value="option.value">
+                                {{ option.text }}
+                            </option>
+                        </select>
+                    </form>
+                    <form ref="form" id="editMeterForm" class="modal-form">
+                        <input type="hidden" name="meter_activated_status" 
+                            id="meter_activated_status" :value="meter.activated" />
+                        <p>Are you sure that you would like to 
+                            <span v-if="meter.activated">
+                                deactivate
+                            </span>
+                            <span v-else>
+                                activate
+                            </span>
+                            meter {{ meter.name }}?
+                        </p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" 
+                        @click="resetNewMeterModal" data-dismiss="modal">Cancel</button>
+                    <button type="button" :disabled="buttonSubmitDisabled" 
+                        @click="onSubmitNewMeter" class="btn btn-primary">
+                        Save &nbsp;&nbsp;   
+                        <div v-if="saveSpinner" 
+                            id="save-spinner" 
+                                class="spinner-border text-secondary" 
+                                role="status">
+                                <span class="sr-only">Loading...</span>
+                        </div> 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>  
         <b-modal
         id="upload-meter-modal"
         title="Create new Meter"
@@ -14,7 +84,7 @@
                     </ul>
                 </p>
             </div>
-            <b-form ref="form" id="newMeterForm" @submit="onSubmitNewMeter">
+            <form ref="form" id="newMeterForm" @submit="onSubmitNewMeter">
                 <label for="new-meter-name">Name</label>
                 <b-form-input id="new-meter-name" name="new_meter_name" v-model="newMeterName"></b-form-input>
 
@@ -28,11 +98,7 @@
                 <label for="new-meter-type">Type</label>
                 <b-form-select id="newMeterType" name="newMeterType" v-model="newMeterType" 
                     :options="meter_type_options"></b-form-select>
-
-                <label for="new-meter-gps-location">GPS Location</label>
-                <b-form-input id="new-meter-gps-location" name="new-meter-gps-location" 
-                    v-model="newMeterGPSLocation"></b-form-input>
-            </b-form>
+            </form>
             <div slot="modal-footer">
                     <b-btn variant="secondary">Cancel</b-btn>
                     <b-btn :disabled="buttonSubmitDisabled" variant="primary" @click="onSubmitNewMeter">
@@ -49,14 +115,14 @@
 </template>
 <script>
 export default {
-    name: "UploadMeterComponent",
+    name: "UploadSubscriberMeterComponent",
     data() {
         return {
-            newMeterName,
-            newMeterNo,
-            newMeterSubscriberContact,
-            newMeterType,
-            newUtilinewMeterGPSLocationtyAccountType,
+            newMeterName: '',
+            newMeterNo: '',
+            newMeterSubscriberContact: '',
+            newMeterType: '',
+            newUtilinewMeterGPSLocationtyAccountType: '',
             permissions: [],
             meter_type_options: [
                 'electricity',
