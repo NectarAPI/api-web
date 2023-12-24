@@ -78,11 +78,10 @@ export default {
         };
     },
     methods: {
-        fetchConfigs: function() {
+        fetchUtilties: function() {
             let self = this
-
             return axios
-                .get("/configs")
+                .get("/utility")
                 .then(response => {
                     if (response.data.status.code == 200) {
                         let configs = response.data.data.configs
@@ -114,10 +113,8 @@ export default {
                 this.errors.push('Please select desired permissions')
 
             } else {
-
                 let self = this
                 let formData = new FormData(document.getElementById("newUtilityForm"))
-
                 self.saveSpinner = true
                 self.buttonSubmitDisabled = true
 
@@ -149,7 +146,7 @@ export default {
                     }
 
                 }, function() {
-                    console.log('adding new key failed')
+                    console.log('adding new utility failed')
 
                 }).finally(() => {
                     self.saveSpinner = false
@@ -165,7 +162,7 @@ export default {
         let self = this
         self.saveSpinner = false
         self.buttonSubmitDisabled = false
-        self.fetchPermissions()
+        self.fetchUtilties()
     }
 }
 </script>

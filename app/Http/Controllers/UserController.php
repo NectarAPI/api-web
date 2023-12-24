@@ -138,6 +138,29 @@ class UserController extends Controller {
         }
     }
 
+    public function getUtilities(Request $request) {
+        $userRef = Auth::user()->ref;
+
+        try {
+            $user =  new User(new UserService());
+            $utilitiesDetails = $user->fetchUtilities($userRef);
+            return response()->json(['status' => [
+                            'code' => 200, 
+                            'message' => 'obtained user utilities'
+                        ],
+                        'data' => [
+                            'utilities' => $utilitiesDetails
+                    ]
+                ]
+            );
+
+        } catch (\Exception $e) {
+            info($e->getMessage());
+            return response()->json(['status' => ['code' => 500, 'message' => $e->getMessage()]]);
+
+        }
+    }
+
     private function validator(array $data) {
         
         return Validator::make($data, [

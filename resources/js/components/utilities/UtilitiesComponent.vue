@@ -34,7 +34,7 @@
                             <div class="col-2">
                                 <button class="btn btn-primary" 
                                     data-toggle="modal"
-                                    data-target="#upload-utility-modal">Creates</button>
+                                    data-target="#upload-utility-modal">Create</button>
                                 <upload-utility-component
                                     @createdUtility="createdUtility">
                                 </upload-utility-component>
@@ -60,7 +60,10 @@ import UploadUtilityComponent from "./UploadUtilityComponent.vue";
 import UtilitiesTableComponent from "./UtilitiesTableComponent.vue";
 
 export default {
-    components: { UploadUtilityComponent, UtilitiesTableComponent },
+    components: { 
+        UploadUtilityComponent, 
+        UtilitiesTableComponent 
+    },
     name: "UtilitiesComponent",
     data() {
         return {
@@ -87,7 +90,7 @@ export default {
                 .then(function(response, status, request) {
                     if (response.data.status.code == 200) {
                         self.utilities = response.data.data.utilities;
-                        
+
                         if (self.utilities.length > 0) {
                             self.currUtility = self.utilities[0];
                         }

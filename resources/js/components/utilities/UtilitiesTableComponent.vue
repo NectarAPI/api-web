@@ -54,7 +54,7 @@ export default {
         return {};
     },
     methods: {
-        displayUtilitiesDetails: function(utility) {
+        displayUtilityDetails: function(utility) {
             this.$emit('displayUtilityDetails', utility)
         }
     },

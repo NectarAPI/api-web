@@ -14,11 +14,5 @@ class Utility {
         $this->service = $service;
     }
 
-    public function getUtilities(string $userRef) {
-        try {
-            return $this->service->find(['user-ref' => $userRef]);
-        } catch(\Exception $e) {
-            throw $e;
-        }
-    }
+
 }

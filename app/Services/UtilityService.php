@@ -2,6 +2,10 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Http;
+
+use App\Http\Utils\UuidUtils;
+
 class UtilityService {
 
     public function __construct() {
@@ -20,28 +24,5 @@ class UtilityService {
         }
     }
 
-    public function findByUserRef(String $userRef) {
 
-        if (!is_null($userRef)) {
-            $response = Http::withBasicAuth($this->basicAuthUsername, $this->basicAuthPassword)
-                            ->get($this->   host, [
-                                            'request_id' => UuidUtils::generate(),
-                                            'user_ref' => $userRef
-                                         ]);
-
-            $data = $response->json();
-
-            if ($response->successful() && !is_null($data)) {
-                if ($data['status']['code'] == 200) {
-                    return $data['data']['data'];
-
-                } else {
-                    throw new \Exception(sprintf('User service returned status %s. %s', $data['status']['code'], $data['status']['message']));
-                }
-
-            } else {
-                return $response->status();
-            }
-        }
-    }
 }

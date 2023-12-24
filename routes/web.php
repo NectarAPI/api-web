@@ -69,7 +69,7 @@ Route::get('/configs', 'STSConfigurationsController@getConfigs')->name('configs.
 Route::post('/configs', 'STSConfigurationsController@addConfig')->name('configs.add');
 Route::post('/configs/{config_ref}', 'STSConfigurationsController@setConfigStatus')->name('configs.activate');
 
-Route::get('/utility', 'UtilityController@getUtilities')->name('utility.get');
+Route::get('/utility', 'UserController@getUtilities')->name('utility.get');
 
 
 Route::get('/creds', 'CredentialsController@getCredentials')->name('creds.get');

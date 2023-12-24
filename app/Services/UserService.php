@@ -391,4 +391,29 @@ class UserService implements ServiceInterface {
             }
     }
 
+    public function findUtilitiesByUserRef(String $userRef) {
+
+        if (!is_null($userRef)) {
+            $host = sprintf("%s/%s/utility?request_id=%s", 
+                            $this->host, $userRef, UuidUtils::generate());
+
+            $response = Http::withBasicAuth($this->basicAuthUsername, $this->basicAuthPassword)
+                            ->get($host);
+
+            $data = $response->json();
+
+            if ($response->successful() && !is_null($data)) {
+                if ($data['status']['code'] == 200) {
+                    return $data['data']['utilities'];
+
+                } else {
+                    throw new \Exception(sprintf('User service returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                }
+
+            } else {
+                return $response->status();
+            }
+        }
+    }
+
 }
