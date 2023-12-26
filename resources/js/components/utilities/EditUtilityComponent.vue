@@ -22,24 +22,28 @@
                     </div>
                     <form ref="form" id="editUtilityForm" class="modal-form">
                         <label for="text-key-name">Name</label>
-                        <input id="name" name="name" v-model="utilityName"/>
+                        <input id="name" name="name" :value="utility.name"/>
 
                         <label for="text-key-name">Contact Phone No</label>
-                        <input id="name" name="name" v-model="utilityContactPhoneNo"/>
+                        <input id="name" name="name" :value="utility.contact_phone_no"/>
 
                         <label for="text-key-name">Unit Charge</label>
-                        <input id="name" name="name" v-model="utilityUnitCharge"/>
+                        <input id="name" name="name" :value="utility.unit_charge"/>
 
-                        <label for="configurations">Select STS configurations for user</label>
-                        <select id="configurations" name="configurations[]" 
-                            v-model="utilityConfiguration">
+                        <label for="configurations">STS configuration</label>
+                        <select id="configurations" name="configurations[]" v-model="utility.ref">                        
                             <option v-for="option in utilitiesOptions" :value="option.value">
-                                {{  option.text }}
+                                {{ option.text }}
                             </option>
                         </select>
 
-                        <label for="text-key-name">Account Type</label>
-                        <input id="name" name="name" v-model="utilityAccountType"/>
+                        <input type="checkbox"
+                            class="mt-2"
+                            id="activated"
+                            name="activated"
+                            :checked="utility.activated ? true : false" 
+                            v-model="utilityActivated"/>
+                        <span>Activated</span>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -62,14 +66,17 @@
 </template>
 <script>
 export default {
-    name: "UploadUtilityComponent",
+    name: "EditUtilityComponent",
+    props: [
+        'utility'
+    ],
     data() {
         return {
             utilityName: '',
             utilityContactPhoneNo: '',
             utilityUnitCharge: '',
-            utilityConfiguration: '',
             utilityAccountType: '',
+            utilityActivated: Boolean,
             utilitiesOptions: [],
             errors: [],
             saveSpinner: false,
@@ -86,7 +93,7 @@ export default {
                         let utilities = response.data.data.utilities
                         for (let utility of utilities) {
                             let utilityObj = {
-                                value: utility.id,
+                                value: utility.ref,
                                 text: utility.name
                             }
                             self.utilitiesOptions.push(utilityObj)
@@ -165,3 +172,67 @@ export default {
     }
 }
 </script>
+<style scoped>
+.modal-header .btn-close {
+    position: absolute;
+    right: 22px;
+    top: 12px;
+    width: 25px;
+    height: 25px;
+    opacity: 0.3;
+    border: 0;
+    background-color: #fff;
+}
+.modal-header .btn-close:hover {
+  opacity: 1;
+}
+.modal-header .btn-close:before, .modal-header .btn-close:after {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  content: ' ';
+  height: 25px;
+  width: 2px;
+  background-color: #333;
+}
+.modal-header .btn-close:before {
+  transform: rotate(45deg);
+}
+.modal-header .btn-close:after {
+  transform: rotate(-45deg);
+}
+
+.modal-form label, .modal-form textarea, .modal-form > input:not(input[type=checkbox]) {
+    letter-spacing: 0.03rem;
+    display: block;
+    width: 100%;
+}
+
+.modal-form > input:not(input[type=checkbox]), .modal-form textarea {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+}
+
+.modal-form label {
+    margin-top: 0.5em;
+    margin-bottom: 0.1em;
+}
+
+.modal-form > input[type=checkbox] {
+    margin-right: 0.5em;
+    border: 1px solid #ccc;
+}
+
+.modal-form select {
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 0.1em;
+    height: auto;
+    padding: 0.5em 0.2em
+}
+
+.modal-form select option {
+    padding: 0.3em 0.3em;
+}
+</style>

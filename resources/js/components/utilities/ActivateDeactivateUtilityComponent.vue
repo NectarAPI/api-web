@@ -116,7 +116,6 @@ export default {
     }, 
     mounted: function() {
         let self = this
-
         self.saveSpinner = false
         self.buttonSubmitDisabled = false
     }
