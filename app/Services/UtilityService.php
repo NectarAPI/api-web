@@ -14,13 +14,73 @@ class UtilityService {
         $this->basicAuthPassword = config('utility-service.password');
     }
 
-    public function find(array $criteria) {
-        try {
-            $userRef = $criteria['user-ref'];
-            return $this->findByUserRef($userRef);
+    public function activateUtility(string $utilityRef, string $userRef) {
+        
+        if (!is_null($utilityRef)) {
+            
+            $url = sprintf("%s?request_id=%s&ref=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $utilityRef, $userRef);
 
-        } catch(\Exception $e) {
-            throw $e;
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->put($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ]
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data['status']['message'];
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
+        }
+    }
+
+    public function deactivateUtility(string $utilityRef, string $userRef) {
+
+        if (!is_null($utilityRef)) {
+            
+            $url = sprintf("%s?request_id=%s&ref=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $utilityRef, $userRef);
+
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->delete($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ]
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data['status']['message'];
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
         }
     }
 
