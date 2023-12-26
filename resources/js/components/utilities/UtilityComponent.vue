@@ -14,8 +14,14 @@
                             <i class="mdi mdi-dots-vertical"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" data-toggle="modal"
-                                href="#activate-deactivate-public-key-modal">
+                            <a class="dropdown-item"
+                                data-toggle="modal"
+                                href="#edit-utility-modal">
+                                Edit
+                            </a>
+                            <a class="dropdown-item" 
+                                data-toggle="modal"
+                                href="#activate-deactivate-utility-modal">
                                 <span v-if="utility.activated">
                                     Deactivate
                                 </span>
@@ -64,18 +70,26 @@
             </div>
         </div>
 
-        <edit-utility-component
+        <activate-deactivate-utility-component
                 :utility="utility"
                 @activateDeactivateUtility="activateDeactivateUtility">
+        </activate-deactivate-utility-component>
+
+        <edit-utility-component
+                :utility="utility">
         </edit-utility-component>
 
     </div>
 </template>
 <script>
-import EditUtilityComponent from "./EditUtilityComponent.vue";
+import ActivateDeactivateUtilityComponent from "./ActivateDeactivateUtilityComponent.vue";
+import EditUtilityComponent from './EditUtilityComponent.vue';
 
 export default {
-    components: { EditUtilityComponent },
+    components: { 
+        ActivateDeactivateUtilityComponent,
+        EditUtilityComponent
+     },
     name: "UtilityComponent",
     props: [
         'utility'

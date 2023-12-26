@@ -34,10 +34,10 @@
                             <div class="col-2">
                                 <button class="btn btn-primary" 
                                     data-toggle="modal"
-                                    data-target="#upload-utility-modal">Create</button>
-                                <upload-utility-component
+                                    data-target="#create-utility-modal">Create</button>
+                                <create-utility-component
                                     @createdUtility="createdUtility">
-                                </upload-utility-component>
+                                </create-utility-component>
                             </div>
                         </div>
                     </div>
@@ -56,12 +56,12 @@
     </div>
 </template>
 <script>
-import UploadUtilityComponent from "./UploadUtilityComponent.vue";
+import CreateUtilityComponent from "./CreateUtilityComponent.vue";
 import UtilitiesTableComponent from "./UtilitiesTableComponent.vue";
 
 export default {
     components: { 
-        UploadUtilityComponent, 
+        CreateUtilityComponent, 
         UtilitiesTableComponent 
     },
     name: "UtilitiesComponent",

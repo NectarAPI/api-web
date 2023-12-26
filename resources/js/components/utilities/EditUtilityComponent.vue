@@ -1,12 +1,12 @@
 <template>
     <div class="modal fade" 
         tabindex="-1" 
-        id="activate-deactivate-utility-modal">
+        id="edit-utility-modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Confirm</h5>
-                    <button type="button" @click="resetActivateDeactivateUtilityModal" 
+                    <h5 class="modal-title">Edit utility</h5>
+                    <button type="button" @click="resetUtilityModal" 
                             class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -21,22 +21,30 @@
                         </p>
                     </div>
                     <form ref="form" id="editUtilityForm" class="modal-form">
-                        <input type="hidden" name="utility_activated_status" 
-                            id="utility_activated_status" :value="utility.activated" />
-                        <p>Are you sure that you would like to 
-                            <span v-if="utility.activated">
-                                deactivate
-                            </span>
-                            <span v-else>
-                                activate
-                            </span>
-                            utility {{ utility.name }}?
-                        </p>
+                        <label for="text-key-name">Name</label>
+                        <input id="name" name="name" v-model="utilityName"/>
+
+                        <label for="text-key-name">Contact Phone No</label>
+                        <input id="name" name="name" v-model="utilityContactPhoneNo"/>
+
+                        <label for="text-key-name">Unit Charge</label>
+                        <input id="name" name="name" v-model="utilityUnitCharge"/>
+
+                        <label for="configurations">Select STS configurations for user</label>
+                        <select id="configurations" name="configurations[]" 
+                            v-model="utilityConfiguration">
+                            <option v-for="option in utilitiesOptions" :value="option.value">
+                                {{  option.text }}
+                            </option>
+                        </select>
+
+                        <label for="text-key-name">Account Type</label>
+                        <input id="name" name="name" v-model="utilityAccountType"/>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" 
-                        @click="resetNewPublicKeysModal" data-dismiss="modal">Cancel</button>
+                        @click="resetUtilityModal" data-dismiss="modal">Cancel</button>
                     <button type="button" :disabled="buttonSubmitDisabled" 
                         @click="onSubmitEditUtility" class="btn btn-primary">
                         Save &nbsp;&nbsp;   
@@ -54,29 +62,62 @@
 </template>
 <script>
 export default {
-    name: "EditUtilityComponent",
-    props: [
-        'utility'
-    ],
+    name: "UploadUtilityComponent",
     data() {
         return {
+            utilityName: '',
+            utilityContactPhoneNo: '',
+            utilityUnitCharge: '',
+            utilityConfiguration: '',
+            utilityAccountType: '',
+            utilitiesOptions: [],
             errors: [],
             saveSpinner: false,
             buttonSubmitDisabled: false,
         };
     },
     methods: {
-        resetActivateDeactivateUtilityModal: function() {
+        fetchUtilties: function() {
+            let self = this
+            return axios
+                .get("/utility")
+                .then(response => {
+                    if (response.data.status.code == 200) {
+                        let utilities = response.data.data.utilities
+                        for (let utility of utilities) {
+                            let utilityObj = {
+                                value: utility.id,
+                                text: utility.name
+                            }
+                            self.utilitiesOptions.push(utilityObj)
+                        }
+
+                    } else {
+                        throw response.data.status.message
+                    }
+                })
+                .catch(err => {
+                    throw err
+                });
+
+        },
+        resetUtilityModal: function() {
             this.errors = []
+
         },
         onSubmitEditUtility: function(event) {
-            let self = this
-            self.errors = []
+            this.errors = []
+            
+            if (!this.configs) {
+                this.errors.push('Please select desired configuration')
+
+            } else {
+                let self = this
                 let formData = new FormData(document.getElementById("editUtilityForm"))
                 self.saveSpinner = true
                 self.buttonSubmitDisabled = true
-                axios.post('/utilities/' + self.utility.ref, formData).then(function(response, status, request) {  
-                    
+
+                axios.put('/utility', formData).then(function(response, status, request) {  
                     let responseStatus = response.data.status.code
                     let responseMessage = response.data.status.message
 
@@ -97,28 +138,30 @@ export default {
                         }
 
                     } else {
-                        self.errors.push(responseMessage)
-                        self.$emit('activateDeactivateUtility')
+                        let message = responseMessage + " " + response.data.data.utilities.utility.ref
+                        self.errors.push(message)
+                        self.$emit('updatedUtility',  response.data.data.utilities.utility)
 
                     }
 
                 }, function() {
-                    console.log('activating or deactivating utility failed')
+                    console.log('Updating utility failed')
 
                 }).finally(() => {
                     self.saveSpinner = false
                     self.buttonSubmitDisabled = false
 
                 })
+            }
             
             event.preventDefault()
         },
-    }, 
+    },
     mounted: function() {
         let self = this
-
         self.saveSpinner = false
         self.buttonSubmitDisabled = false
+        self.fetchUtilties()
     }
-};
+}
 </script>

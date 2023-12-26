@@ -51,8 +51,9 @@ import TokenTypesDistributionComponent from './components/dashboard/TokenTypesDi
 
 import UtilitiesComponent from './components/utilities/UtilitiesComponent.vue'
 import UtilityComponent from './components/utilities/UtilityComponent.vue'
-import UploadUtilityComponent from './components/utilities/UploadUtilityComponent.vue'
+import CreateUtilityComponent from './components/utilities/CreateUtilityComponent.vue'
 import UtilitiesTableComponent from './components/utilities/UtilitiesTableComponent.vue'
+import ActivateDeactivateUtilityComponent from './components/utilities/ActivateDeactivateUtilityComponent.vue'
 import EditUtilityComponent from './components/utilities/EditUtilityComponent.vue'
 
 import SubscriberMetersComponent from './components/meters/SubscriberMetersComponent.vue'
@@ -119,9 +120,10 @@ app.component('token-types-distribution-component', TokenTypesDistributionCompon
 
 app.component('utilities-component', UtilitiesComponent);
 app.component('utility-component', UtilityComponent);
-app.component('upload-utility-component', UploadUtilityComponent);
+app.component('create-utility-component', CreateUtilityComponent);
 app.component('utilities-table-component', UtilitiesTableComponent);
-app.component('edit-utility-table-component', EditUtilityComponent);
+app.component('activate-deactivate-utility-component', ActivateDeactivateUtilityComponent);
+app.component('edit-utility-component', EditUtilityComponent);
 
 app.component('subscriber-meters-component', SubscriberMetersComponent);
 app.component('subscriber-meter-component', SubscriberMeterComponent);
