@@ -20,7 +20,6 @@ class UtilityService {
             
             $url = sprintf("%s?request_id=%s&ref=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $utilityRef, $userRef);
 
-
             $client = new \GuzzleHttp\Client();
             $response = $client->put($url, [
                                             'headers' => ['Content-type' => 'application/json'],
@@ -55,7 +54,6 @@ class UtilityService {
             
             $url = sprintf("%s?request_id=%s&ref=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $utilityRef, $userRef);
 
-
             $client = new \GuzzleHttp\Client();
             $response = $client->delete($url, [
                                             'headers' => ['Content-type' => 'application/json'],
@@ -84,5 +82,47 @@ class UtilityService {
         }
     }
 
+    public function updateUtility($userRef, $utilityRef, $name, $contactPhoneNo, $unitCharge, $configRef, $activated) {
+
+        if (!is_null($utilityRef)) {
+            
+            $url = sprintf("%s?request_id=%s&ref=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $utilityRef, $userRef);
+
+            $utility = array ('name' => $name,
+                            'ref' => $utilityRef,
+                            'contact_phone_no' => $contactPhoneNo,
+                            'unit_charge' => $unitCharge,
+                            'activated' => $activated,
+                            'config_ref' => $configRef
+                        );
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->put($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ],
+                                            'json' => $utility
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data;
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
+        }
+    }
 
 }

@@ -75,7 +75,7 @@ export default {
                 let formData = new FormData(document.getElementById("activateDeactivateUtilityForm"))
                 self.saveSpinner = true
                 self.buttonSubmitDisabled = true
-                axios.post('/utility/' + self.utility.ref, formData).then(function(response, status, request) {  
+                axios.post('/utility/' + self.utility.ref + '/activateDeactivate', formData).then(function(response, status, request) {  
                     
                     let responseStatus = response.data.status.code
                     let responseMessage = response.data.status.message

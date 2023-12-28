@@ -22,31 +22,31 @@
                     </div>
                     <form ref="form" id="editUtilityForm" class="modal-form">
                         <label for="text-key-name">Name</label>
-                        <input id="name" name="name" :value="utility.name"/>
+                        <input id="name" :disabled="buttonSubmitDisabled" name="name" v-model="currUtility.name"/>
 
                         <label for="text-key-name">Contact Phone No</label>
-                        <input id="name" name="name" :value="utility.contact_phone_no"/>
+                        <input id="contact_phone_no" :disabled="buttonSubmitDisabled" name="contact_phone_no" v-model="currUtility.contact_phone_no"/>
 
                         <label for="text-key-name">Unit Charge</label>
-                        <input id="name" name="name" :value="utility.unit_charge"/>
+                        <input id="unit_charge" :disabled="buttonSubmitDisabled" name="unit_charge" v-model="currUtility.unit_charge"/>
 
                         <label for="configurations">STS configuration</label>
-                        <select id="configurations" name="configurations[]" v-model="utility.ref">                        
+                        <select :disabled="buttonSubmitDisabled" id="configuration" name="configuration" v-model="currUtility.ref">                        
                             <option v-for="option in utilitiesOptions" :value="option.value">
                                 {{ option.text }}
                             </option>
                         </select>
 
                         <input type="checkbox"
+                            :disabled="buttonSubmitDisabled"
                             class="mt-2"
                             id="activated"
                             name="activated"
-                            :checked="utility.activated ? true : false" 
-                            v-model="utilityActivated"/>
+                            :checked="currUtility.activated ? true : false"/>
                         <span>Activated</span>
                     </form>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer"><!--  -->
                     <button type="button" class="btn btn-secondary" 
                         @click="resetUtilityModal" data-dismiss="modal">Cancel</button>
                     <button type="button" :disabled="buttonSubmitDisabled" 
@@ -72,11 +72,6 @@ export default {
     ],
     data() {
         return {
-            utilityName: '',
-            utilityContactPhoneNo: '',
-            utilityUnitCharge: '',
-            utilityAccountType: '',
-            utilityActivated: Boolean,
             utilitiesOptions: [],
             errors: [],
             saveSpinner: false,
@@ -113,56 +108,57 @@ export default {
 
         },
         onSubmitEditUtility: function(event) {
-            this.errors = []
-            
-            if (!this.configs) {
-                this.errors.push('Please select desired configuration')
+            let self = this
+            self.errors = []
+            self.saveSpinner = true
+            self.buttonSubmitDisabled = true
 
-            } else {
-                let self = this
-                let formData = new FormData(document.getElementById("editUtilityForm"))
-                self.saveSpinner = true
-                self.buttonSubmitDisabled = true
+            let formData = new FormData(document.getElementById("editUtilityForm"))
 
-                axios.put('/utility', formData).then(function(response, status, request) {  
-                    let responseStatus = response.data.status.code
-                    let responseMessage = response.data.status.message
+            axios.post('/utility/' + self.utility.ref , formData).then(function(response, status, request) {  
+                    
+                let responseStatus = response.data.status.code
+                let responseMessage = response.data.status.message
 
-                    if (responseStatus != 200) {
+                if (responseStatus != 200) {
 
-                        if (typeof responseMessage === 'string' || responseMessage instanceof String) {
-                            self.errors.push(responseMessage)
+                    if (typeof responseMessage === 'string' || responseMessage instanceof String) {
+                        self.errors.push(responseMessage)
 
-                        } else if (Array.isArray(responseMessage) || typeof responseMessage == 'object') {
-                            for (const [key, value] of Object.entries(responseMessage)) {
-                                self.errors.push(`${value}`)
-
-                            }
-
-                        } else {
-                            self.errors.push(responseMessage)
+                    } else if (Array.isArray(responseMessage) || typeof responseMessage == 'object') {
+                        for (const [key, value] of Object.entries(responseMessage)) {
+                            self.errors.push(`${value}`)
 
                         }
 
                     } else {
-                        let message = responseMessage + " " + response.data.data.utilities.utility.ref
-                        self.errors.push(message)
-                        self.$emit('updatedUtility',  response.data.data.utilities.utility)
+                        self.errors.push(responseMessage)
 
                     }
 
-                }, function() {
-                    console.log('Updating utility failed')
+                } else {
+                    let message = responseMessage + " " + response.data.data.utility.data.utility.name
+                    self.errors.push(message)
+                    self.$emit('updatedUtility',  response.data.data.utility.data.utility)
 
-                }).finally(() => {
-                    self.saveSpinner = false
-                    self.buttonSubmitDisabled = false
+                }
 
-                })
-            }
-            
+            }, function() {
+                self.errors.push('Updating utility failed')
+
+            }).finally(() => {
+                self.saveSpinner = false
+                self.buttonSubmitDisabled = false
+
+            })
             event.preventDefault()
+
         },
+    },
+    computed: { // opt. 2
+        currUtility () {
+            return {...this.utility}
+        }
     },
     mounted: function() {
         let self = this
@@ -211,6 +207,7 @@ export default {
 .modal-form > input:not(input[type=checkbox]), .modal-form textarea {
     border: 1px solid #ccc;
     border-radius: 0.3em;
+    padding: 0.5em;
 }
 
 .modal-form label {

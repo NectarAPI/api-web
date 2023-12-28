@@ -52,6 +52,20 @@
                         </p>
 
                         <small class="text-black font-weight-medium d-block pt-2">
+                            Contact Phone No
+                        </small>
+                        <p class="text-muted">
+                            {{ utility.contact_phone_no }}
+                        </p>
+
+                        <small class="text-black font-weight-medium d-block pt-2">
+                            Unit Charge
+                        </small>
+                        <p class="text-muted">
+                            {{ utility.unit_charge }}
+                        </p>
+
+                        <small class="text-black font-weight-medium d-block pt-2">
                             Activated
                         </small>
                         <span class="text-gray">
@@ -76,7 +90,8 @@
         </activate-deactivate-utility-component>
 
         <edit-utility-component
-                :utility="utility">
+                :utility="utility"
+                @updatedUtility="updatedUtility">
         </edit-utility-component>
 
     </div>
@@ -105,6 +120,12 @@ export default {
             this.utility.activated = !this.utility.activated
 
         },
+        updatedUtility: function(utility) {
+            this.utility.name = utility.name
+            this.utility.contact_phone_no = utility.contact_phone_no
+            this.utility.unit_charge = utility.unit_charge
+            this.utility.activated = utility.activated
+        }
     },
     mounted: function() {
         let self = this;
