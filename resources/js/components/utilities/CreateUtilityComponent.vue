@@ -22,17 +22,19 @@
                     </div>
                     <form ref="form" id="newUtilityForm" class="modal-form">
                         <label for="text-key-name">Name</label>
-                        <input id="name" name="name"/>
+                        <input id="name" name="name" v-model="utilityName"/>
 
                         <label for="text-key-name">Contact Phone No</label>
-                        <input id="contact_phone_no" name="contact_phone_no"/>
+                        <input id="contact_phone_no" name="contact_phone_no" v-model="utilityContactPhoneNo"/>
 
                         <label for="text-key-name">Unit Charge</label>
-                        <input id="unit_charge" name="unit_charge"/>
+                        <input id="unit_charge" name="unit_charge" v-model="utilityUnitCharge"/>
 
                         <label for="configuration">STS configuration</label>
-                        <select id="configuration" name="configuration">
-                            <option v-for="option in utilitiesOptions" :value="option.value">
+                        <select id="configuration" name="configuration" v-model="utilityConfiguration">
+                            <option default value="null">Please select</option>
+            
+                            <option v-for="option in configsOptions" :value="option.value">
                                 {{  option.text }}
                             </option>
                         </select>
@@ -61,26 +63,30 @@ export default {
     name: "CreateUtilityComponent",
     data() {
         return {
-            utilitiesOptions: [],
+            utilityName: '',
+            utilityContactPhoneNo: '',
+            utilityUnitCharge: '',
+            utilityConfiguration: '',
+            configsOptions: [],
             errors: [],
             saveSpinner: false,
             buttonSubmitDisabled: false,
         };
     },
     methods: {
-        fetchUtilties: function() {
+        fetchSTSConfigurations: function() {
             let self = this
             return axios
-                .get("/utility")
+                .get("/configs")
                 .then(response => {
                     if (response.data.status.code == 200) {
-                        let utilities = response.data.data.utilities
-                        for (let utility of utilities) {
-                            let utilityObj = {
-                                value: utility.id,
-                                text: utility.name
+                        let configs = response.data.data.sts_configurations
+                        for (let config of configs) {
+                            let configObj = {
+                                value: config.config.ref,
+                                text: config.config.name
                             }
-                            self.utilitiesOptions.push(utilityObj)
+                            self.configsOptions.push(configObj)
                         }
 
                     } else {
@@ -100,54 +106,76 @@ export default {
             this.errors = []
             
             let self = this
-            let formData = new FormData(document.getElementById("newUtilityForm"))
-            self.saveSpinner = true
-            self.buttonSubmitDisabled = true
 
-            axios.post('/utility', formData).then(function(response, status, request) {  
-                let responseStatus = response.data.status.code
-                let responseMessage = response.data.status.message
+            if (!self.utilityName) {
+                self.errors.push('Utility Name is required')
+            }
 
-                if (responseStatus != 200) {
+            if (!self.utilityContactPhoneNo) {
+                self.errors.push('Utility phone number is required')
+            }
 
-                    if (typeof responseMessage === 'string' || responseMessage instanceof String) {
-                        self.errors.push(responseMessage)
+            if (!self.utilityUnitCharge) {
+                self.errors.push('Utility unit charge is required')
+            }
 
-                    } else if (Array.isArray(responseMessage) || typeof responseMessage == 'object') {
-                        for (const [key, value] of Object.entries(responseMessage)) {
-                            self.errors.push(`${value}`)
+            if (!self.utilityConfiguration) {
+                self.errors.push('Utility configuration is required')
+            }
+
+            if (self.errors.length == 0) {
+
+                let formData = new FormData(document.getElementById("newUtilityForm"))
+                self.saveSpinner = true
+                self.buttonSubmitDisabled = true
+
+                axios.post('/utility', formData).then(function(response, status, request) {  
+                    let responseStatus = response.data.status.code
+                    let responseMessage = response.data.status.message
+
+                    if (responseStatus != 200) {
+
+                        if (typeof responseMessage === 'string' || responseMessage instanceof String) {
+                            self.errors.push(responseMessage)
+
+                        } else if (Array.isArray(responseMessage) || typeof responseMessage == 'object') {
+                            for (const [key, value] of Object.entries(responseMessage)) {
+                                self.errors.push(`${value}`)
+
+                            }
+
+                        } else {
+                            self.errors.push(responseMessage)
 
                         }
 
                     } else {
-                        self.errors.push(responseMessage)
+                        let message = responseMessage + " " + response.data.data.utility.data.utility.name
+                        self.errors.push(message)
+                        self.$emit('createdUtility',  response.data.data.utility.data.utility)
 
                     }
 
-                } else {
-                    let message = responseMessage + " " + response.data.data.utility.data.utility.name
-                    self.errors.push(message)
-                    self.$emit('createdUtility',  response.data.data.utility.data.utility)
+                }, function() {
+                    self.errors.push('Adding new utility failed')
 
-                }
+                }).finally(() => {
+                    self.saveSpinner = false
+                    self.buttonSubmitDisabled = false
 
-            }, function() {
-                self.errors.push('Adding new utility failed')
+                })
+                
+                event.preventDefault()
 
-            }).finally(() => {
-                self.saveSpinner = false
-                self.buttonSubmitDisabled = false
+            }
 
-            })
-            
-            event.preventDefault()
         },
     },
     mounted: function() {
         let self = this
         self.saveSpinner = false
         self.buttonSubmitDisabled = false
-        self.fetchUtilties()
+        self.fetchSTSConfigurations()
     }
 }
 </script>

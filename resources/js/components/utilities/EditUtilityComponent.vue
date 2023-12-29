@@ -31,8 +31,8 @@
                         <input id="unit_charge" :disabled="buttonSubmitDisabled" name="unit_charge" v-model="currUtility.unit_charge"/>
 
                         <label for="configurations">STS configuration</label>
-                        <select :disabled="buttonSubmitDisabled" id="configuration" name="configuration" v-model="currUtility.ref">                        
-                            <option v-for="option in utilitiesOptions" :value="option.value">
+                        <select :disabled="buttonSubmitDisabled" id="configuration" name="configuration" v-model="currUtility.config_ref">                        
+                            <option v-for="option in configsOptions" :value="option.value">
                                 {{ option.text }}
                             </option>
                         </select>
@@ -72,26 +72,26 @@ export default {
     ],
     data() {
         return {
-            utilitiesOptions: [],
+            configsOptions: [],
             errors: [],
             saveSpinner: false,
             buttonSubmitDisabled: false,
         };
     },
     methods: {
-        fetchUtilties: function() {
+        fetchSTSConfigurations: function() {
             let self = this
             return axios
-                .get("/utility")
+                .get("/configs")
                 .then(response => {
                     if (response.data.status.code == 200) {
-                        let utilities = response.data.data.utilities
-                        for (let utility of utilities) {
-                            let utilityObj = {
-                                value: utility.ref,
-                                text: utility.name
+                        let configs = response.data.data.sts_configurations
+                        for (let config of configs) {
+                            let configObj = {
+                                value: config.config.ref,
+                                text: config.config.name
                             }
-                            self.utilitiesOptions.push(utilityObj)
+                            self.configsOptions.push(configObj)
                         }
 
                     } else {
@@ -155,7 +155,7 @@ export default {
 
         },
     },
-    computed: { // opt. 2
+    computed: {
         currUtility () {
             return {...this.utility}
         }
@@ -164,7 +164,7 @@ export default {
         let self = this
         self.saveSpinner = false
         self.buttonSubmitDisabled = false
-        self.fetchUtilties()
+        self.fetchSTSConfigurations()
     }
 }
 </script>
