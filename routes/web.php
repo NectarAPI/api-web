@@ -70,6 +70,7 @@ Route::post('/configs', 'STSConfigurationsController@addConfig')->name('configs.
 Route::post('/configs/{config_ref}', 'STSConfigurationsController@setConfigStatus')->name('configs.activate');
 
 Route::get('/utility', 'UserController@getUtilities')->name('utility.get');
+Route::post('/utility', 'UtilityController@addUtility')->name('utility.post');
 Route::post('/utility/{utility_ref}/activateDeactivate', 'UtilityController@activateDeactivateUtility')->name('utility.activateDeactivate');
 Route::post('/utility/{utility_ref}', 'UtilityController@updateUtility')->name('utility.update');
 

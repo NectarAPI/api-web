@@ -22,17 +22,16 @@
                     </div>
                     <form ref="form" id="newUtilityForm" class="modal-form">
                         <label for="text-key-name">Name</label>
-                        <input id="name" name="name" v-model="newUtilityName"/>
+                        <input id="name" name="name"/>
 
                         <label for="text-key-name">Contact Phone No</label>
-                        <input id="name" name="name" v-model="newUtilityContactPhoneNo"/>
+                        <input id="contact_phone_no" name="contact_phone_no"/>
 
                         <label for="text-key-name">Unit Charge</label>
-                        <input id="name" name="name" v-model="newUtilityUnitCharge"/>
+                        <input id="unit_charge" name="unit_charge"/>
 
-                        <label for="configurations">STS configuration</label>
-                        <select id="configurations" name="configurations[]" 
-                            v-model="newUtilityConfiguration">
+                        <label for="configuration">STS configuration</label>
+                        <select id="configuration" name="configuration">
                             <option v-for="option in utilitiesOptions" :value="option.value">
                                 {{  option.text }}
                             </option>
@@ -62,11 +61,6 @@ export default {
     name: "CreateUtilityComponent",
     data() {
         return {
-            newUtilityName: '',
-            newUtilityContactPhoneNo: '',
-            newUtilityUnitCharge: '',
-            newUtilityConfiguration: '',
-            permissions: [],
             utilitiesOptions: [],
             errors: [],
             saveSpinner: false,
@@ -105,51 +99,46 @@ export default {
         onSubmitNewUtility: function(event) {
             this.errors = []
             
-            if (!this.permissions) {
-                this.errors.push('Please select desired permissions')
+            let self = this
+            let formData = new FormData(document.getElementById("newUtilityForm"))
+            self.saveSpinner = true
+            self.buttonSubmitDisabled = true
 
-            } else {
-                let self = this
-                let formData = new FormData(document.getElementById("newUtilityForm"))
-                self.saveSpinner = true
-                self.buttonSubmitDisabled = true
+            axios.post('/utility', formData).then(function(response, status, request) {  
+                let responseStatus = response.data.status.code
+                let responseMessage = response.data.status.message
 
-                axios.post('/utilities', formData).then(function(response, status, request) {  
-                    let responseStatus = response.data.status.code
-                    let responseMessage = response.data.status.message
+                if (responseStatus != 200) {
 
-                    if (responseStatus != 200) {
+                    if (typeof responseMessage === 'string' || responseMessage instanceof String) {
+                        self.errors.push(responseMessage)
 
-                        if (typeof responseMessage === 'string' || responseMessage instanceof String) {
-                            self.errors.push(responseMessage)
-
-                        } else if (Array.isArray(responseMessage) || typeof responseMessage == 'object') {
-                            for (const [key, value] of Object.entries(responseMessage)) {
-                                self.errors.push(`${value}`)
-
-                            }
-
-                        } else {
-                            self.errors.push(responseMessage)
+                    } else if (Array.isArray(responseMessage) || typeof responseMessage == 'object') {
+                        for (const [key, value] of Object.entries(responseMessage)) {
+                            self.errors.push(`${value}`)
 
                         }
 
                     } else {
-                        let message = responseMessage + " " + response.data.data.utilities.utility.ref
-                        self.errors.push(message)
-                        self.$emit('createdUtility',  response.data.data.utilities.utility)
+                        self.errors.push(responseMessage)
 
                     }
 
-                }, function() {
-                    console.log('adding new utility failed')
+                } else {
+                    let message = responseMessage + " " + response.data.data.utility.data.utility.name
+                    self.errors.push(message)
+                    self.$emit('createdUtility',  response.data.data.utility.data.utility)
 
-                }).finally(() => {
-                    self.saveSpinner = false
-                    self.buttonSubmitDisabled = false
+                }
 
-                })
-            }
+            }, function() {
+                self.errors.push('Adding new utility failed')
+
+            }).finally(() => {
+                self.saveSpinner = false
+                self.buttonSubmitDisabled = false
+
+            })
             
             event.preventDefault()
         },

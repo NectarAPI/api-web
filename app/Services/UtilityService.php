@@ -18,7 +18,7 @@ class UtilityService {
         
         if (!is_null($utilityRef)) {
             
-            $url = sprintf("%s?request_id=%s&ref=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $utilityRef, $userRef);
+            $url = sprintf("%s/%s?request_id=%s&user_ref=%s", $this->host, $utilityRef, UuidUtils::generate(), $userRef);
 
             $client = new \GuzzleHttp\Client();
             $response = $client->put($url, [
@@ -52,7 +52,7 @@ class UtilityService {
 
         if (!is_null($utilityRef)) {
             
-            $url = sprintf("%s?request_id=%s&ref=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $utilityRef, $userRef);
+            $url = sprintf("%s/%s?request_id=%s&user_ref=%s", $this->host, $utilityRef, UuidUtils::generate(), $userRef);
 
             $client = new \GuzzleHttp\Client();
             $response = $client->delete($url, [
@@ -80,6 +80,46 @@ class UtilityService {
                                         
             }
         }
+    }
+
+    public function addUtility($userRef, $name, $contactPhoneNo, $unitCharge, $configRef, $activated=true) {
+        $url = sprintf("%s?request_id=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $userRef);
+
+        $utility = array ('name' => $name,
+                            'contact_phone_no' => $contactPhoneNo,
+                            'unit_charge' => $unitCharge,
+                            'activated' => $activated,
+                            'config_ref' => $configRef,
+                            'activated' => True
+                        );
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->post($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                        ],
+                                            'json' => $utility
+                                    ]);
+                                            
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        if (!is_null($data)){
+                        
+            if ($data['status']['code'] != 200) {
+                throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+            } else {
+                return $data;
+                    
+            }
+                
+        } else {
+            return $response->status();
+                                        
+        }
+
     }
 
     public function updateUtility($userRef, $utilityRef, $name, $contactPhoneNo, $unitCharge, $configRef, $activated) {

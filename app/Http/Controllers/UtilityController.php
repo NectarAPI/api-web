@@ -85,6 +85,56 @@ class UtilityController extends Controller {
         } 
     }
 
+    public function addUtility(Request $request) {
+        $this->validator($request->all())->validate();
+
+        $userRef = Auth::user()->ref;
+        $utility = new Utility(new UtilityService());
+
+        try {
+            $name = $request->name;
+            $contactPhoneNo = $request->contact_phone_no;
+            $unitCharge = $request->unit_charge;
+            $configRef = $request->configuration;
+
+            $updatedUtility = $utility->addUtility($userRef, $name, $contactPhoneNo, 
+                                                    $unitCharge, $configRef);
+
+            return response()->json(['status' => [
+                                                    'code' => 200, 
+                                                    'message' => 'Created utility'
+                                                ],
+                                                    'data' => [
+                                                    'utility' => $updatedUtility
+                                                ]
+                                            ]);
+                
+
+        } catch (\Exception $e) {
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+ 
+                 $errors = $e->errors();
+  
+                 foreach ($errors as $key =>  $value) {
+                      $arrImplode[] = implode( ', ', $errors[$key] );
+                  }
+  
+                  $message = implode(', ', $arrImplode);
+          
+              } else {
+                  $message =  $e->getMessage();
+              }
+              
+              return response()->json(['status' => [
+                                                     'code' => 500, 
+                                                     'message' => $message
+                                                 ]
+                                             ]);
+ 
+         }      
+
+    }
+
     public function updateUtility(Request $request) {
         $this->validator($request->all())->validate();
 

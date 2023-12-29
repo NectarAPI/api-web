@@ -35,7 +35,19 @@ class Utility {
         }
     }
 
-    public  function updateUtility($userRef, $utilityRef, $name, $contactPhoneNo, 
+    public function addUtility($userRef, $name, $contactPhoneNo, 
+                                    $unitCharge, $configRef) {
+        try {
+            return $this->service->addUtility($userRef, $name, $contactPhoneNo, 
+                                                    $unitCharge, $configRef);
+                                
+        } catch(\Exception $e) {
+            throw $e;
+                                
+        }
+    }
+
+    public function updateUtility($userRef, $utilityRef, $name, $contactPhoneNo, 
                                     $unitCharge, $configRef, $activated) {
         try {
             return $this->service->updateUtility($userRef, $utilityRef, $name, $contactPhoneNo, 
