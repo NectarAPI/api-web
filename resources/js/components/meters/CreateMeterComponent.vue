@@ -101,7 +101,18 @@ export default {
 
         },
         fetchUtilities() {
-            this.utilities = this.fetch("/utilities", "utility")
+            let self = this
+            self.fetch("/utility")
+                .then(response => {
+                    console.log(response.utilities)
+                    for (let obtainedUtility of response.utilities) {
+                        let utilityObj = {
+                                            value: obtainedUtility.ref,
+                                            text: obtainedUtility.name
+                                            }
+                        self.utilities.push(utilityObj)
+                    }
+                })
         },
         fetchMeterTypes() {
             let self = this
@@ -109,7 +120,7 @@ export default {
                 .then(response => {
                     for (let obtainedMeterType of response.meter_types) {
                         let meterTypeObj = {
-                                            value: obtainedMeterType.id,
+                                            value: obtainedMeterType.ref,
                                             text: obtainedMeterType.name
                                             }
                         self.meter_types.push(meterTypeObj)
@@ -183,7 +194,7 @@ export default {
         let self = this
         self.saveSpinner = false
         self.buttonSubmitDisabled = false
-        // self.fetchUtilities()
+        self.fetchUtilities()
         self.fetchMeterTypes()
         // self.fetchSubscribers()                                  
     }
