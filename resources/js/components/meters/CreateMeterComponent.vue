@@ -1,11 +1,11 @@
 <template>
     <div class="modal fade" 
         tabindex="-1" 
-        id="upload-meter-modal">
+        id="create-meter-modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Create new credentials</h5>
+                    <h5 class="modal-title">Create new meter</h5>
                     <button type="button" @click="resetNewMeterModal" 
                             class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -20,36 +20,31 @@
                             </ul>
                         </p>
                     </div>
-                    <form ref="form" id="newMeterForm" @submit="onSubmitNewMeter">
-                        <label for="new-meter-name">Name</label>
-                        <input id="new-meter-name" name="new_meter_name" v-model="newMeterName"/>
+                    <form  ref="form" id="newMeterForm" class="modal-form">
 
-                        <label for="new-meter-no">Number</label>
+                        <label for="new-meter-no">Meter No</label>
                         <input id="new-meter-no" name="new-meter-no" v-model="newMeterNo"/>
 
-                        <label for="meter-subscriber-contact">Subscriber Contact</label>
-                        <input id="new-meter-subscriber-contact" name="new-meter-subscriber-contact" 
-                            v-model="newMeterSubscriberContact"/>
-
-                        <label for="new-meter-type">Type</label>
-                        <select id="newMeterType" name="newMeterType" v-model="newMeterType">
-                            <option v-for="option in meter_type_options" :value="option.value">
+                        <label for="new-meter-utility">Utility</label>
+                        <select id="newMeterUtility" name="newMeterUtility" v-model="newMeterUtility">Type
+                            <option v-for="option in utilities" :value="option.value">
                                 {{ option.text }}
                             </option>
                         </select>
-                    </form>
-                    <form ref="form" id="editMeterForm" class="modal-form">
-                        <input type="hidden" name="meter_activated_status" 
-                            id="meter_activated_status" :value="meter.activated" />
-                        <p>Are you sure that you would like to 
-                            <span v-if="meter.activated">
-                                deactivate
-                            </span>
-                            <span v-else>
-                                activate
-                            </span>
-                            meter {{ meter.name }}?
-                        </p>
+                        
+                        <label for="new-meter-type">Type</label>
+                        <select id="newMeterType" name="newMeterType" v-model="newMeterType">
+                            <option v-for="option in meter_types" :value="option.value">
+                                {{ option.text }}
+                            </option>
+                        </select>
+
+                        <label for="new-meter-type">Subscriber</label>
+                        <select id="newMeterSubscriber" name="newMeterSubscriber" v-model="newMeterSubscriber">
+                            <option v-for="option in meter_subscribers" :value="option.value">
+                                {{ option.text }}
+                            </option>
+                        </select>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -69,72 +64,61 @@
             </div>
         </div>
     </div>  
-        <b-modal
-        id="upload-meter-modal"
-        title="Create new Meter"
-        @show="resetNewMeterModal"
-        @ok="onSubmitNewMeter">
-            <div class="col-md-12 text-center mb-2">
-                <p v-if="errors.length">
-                    <ul class="list-group">
-                        <li v-for="error in errors" 
-                            v-bind:key="error" 
-                            class="list-group-item list-group-item-danger">{{ error }}
-                        </li>
-                    </ul>
-                </p>
-            </div>
-            <form ref="form" id="newMeterForm" @submit="onSubmitNewMeter">
-                <label for="new-meter-name">Name</label>
-                <b-form-input id="new-meter-name" name="new_meter_name" v-model="newMeterName"></b-form-input>
-
-                <label for="new-meter-no">Number</label>
-                <b-form-input id="new-meter-no" name="new-meter-no" v-model="newMeterNo"></b-form-input>
-
-                <label for="meter-subscriber-contact">Subscriber Contact</label>
-                <b-form-input id="new-meter-subscriber-contact" name="new-meter-subscriber-contact" 
-                    v-model="newMeterSubscriberContact"></b-form-input>
-
-                <label for="new-meter-type">Type</label>
-                <b-form-select id="newMeterType" name="newMeterType" v-model="newMeterType" 
-                    :options="meter_type_options"></b-form-select>
-            </form>
-            <div slot="modal-footer">
-                    <b-btn variant="secondary">Cancel</b-btn>
-                    <b-btn :disabled="buttonSubmitDisabled" variant="primary" @click="onSubmitNewMeter">
-                        Save &nbsp;&nbsp;   
-                        <div v-if="saveSpinner" 
-                            id="save-spinner" 
-                                class="spinner-border text-secondary" 
-                                role="status">
-                                <span class="sr-only">Loading...</span>
-                        </div> 
-                    </b-btn>
-                </div>
-        </b-modal>
 </template>
 <script>
 export default {
-    name: "UploadSubscriberMeterComponent",
+    name: "CreateSubscriberMeterComponent",
     data() {
         return {
             newMeterName: '',
             newMeterNo: '',
             newMeterSubscriberContact: '',
             newMeterType: '',
-            newUtilinewMeterGPSLocationtyAccountType: '',
-            permissions: [],
-            meter_type_options: [
-                'electricity',
-                'water',
-                'gas'
-            ],
+            newMeterSubscriber: '',
+            newMeterUtility: '',
+            utilities:[],
+            meter_types: [],
+            meter_subscribers: [],
             errors: [],
             saveSpinner: false,
             buttonSubmitDisabled: false,
         }
     },
     methods: {
+        fetch: function(path) {
+            return axios
+                .get(path)
+                .then(response => {
+                    if (response.data.status.code == 200) {
+                        return response.data.data
+                    } else {
+                        throw response.data.status.message
+                    }
+                })
+                .catch(err => {
+                    throw err
+                });
+
+        },
+        fetchUtilities() {
+            this.utilities = this.fetch("/utilities", "utility")
+        },
+        fetchMeterTypes() {
+            let self = this
+            self.fetch("/subscriberMeters/meterTypes")
+                .then(response => {
+                    for (let obtainedMeterType of response.meter_types) {
+                        let meterTypeObj = {
+                                            value: obtainedMeterType.id,
+                                            text: obtainedMeterType.name
+                                            }
+                        self.meter_types.push(meterTypeObj)
+                    }
+                })
+        },
+        fetchSubscribers() {
+            this.utilities = this.fetch("/subscribers", "subscribers")
+        },
         resetNewMeterModal: function() {
             this.errors = []
 
@@ -169,7 +153,9 @@ export default {
                             }
 
                         } else {
+                            
                             self.errors.push(responseMessage)
+
 
                         }
 
@@ -197,6 +183,73 @@ export default {
         let self = this
         self.saveSpinner = false
         self.buttonSubmitDisabled = false
+        // self.fetchUtilities()
+        self.fetchMeterTypes()
+        // self.fetchSubscribers()                                  
     }
 }
 </script>
+<style scoped>
+.modal-header .btn-close {
+    position: absolute;
+    right: 22px;
+    top: 12px;
+    width: 25px;
+    height: 25px;
+    opacity: 0.3;
+    border: 0;
+    background-color: #fff;
+}
+.modal-header .btn-close:hover {
+  opacity: 1;
+}
+.modal-header .btn-close:before, .modal-header .btn-close:after {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  content: ' ';
+  height: 25px;
+  width: 2px;
+  background-color: #333;
+}
+.modal-header .btn-close:before {
+  transform: rotate(45deg);
+}
+.modal-header .btn-close:after {
+  transform: rotate(-45deg);
+}
+
+.modal-form label, .modal-form textarea, .modal-form > input:not(input[type=checkbox]) {
+    letter-spacing: 0.03rem;
+    display: block;
+    width: 100%;
+}
+
+.modal-form > input:not(input[type=checkbox]), .modal-form textarea {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+}
+
+.modal-form label {
+    margin-top: 0.5em;
+    margin-bottom: 0.1em;
+}
+
+.modal-form > input[type=checkbox] {
+    margin-right: 0.5em;
+    border: 1px solid #ccc;
+}
+
+.modal-form select {
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 0.1em;
+    height: auto;
+    padding: 0.5em 0.2em
+}
+
+.modal-form select option {
+    padding: 0.3em 0.3em;
+}
+</style>

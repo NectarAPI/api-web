@@ -34,11 +34,11 @@
                             <div class="col-2">
                                 <button class="btn btn-primary"
                                     data-toggle="modal"
-                                    data-target="#upload-meter-modal">Create</button>
+                                    data-target="#create-meter-modal">Create</button>
 
-                                <!-- <upload-meter-component
+                                <create-meter-component
                                     @createdMeter="createdMeter">
-                                </upload-meter-component> -->
+                                </create-meter-component>
                             </div>
                         </div>
                     </div>
@@ -58,12 +58,12 @@
     </div>
 </template>
 <script>
-import UploadMeterComponent from "./UploadMeterComponent.vue";
+import CreateMeterComponent from "./CreateMeterComponent.vue";
 import MetersTableComponent from "./SubscriberMetersTableComponent.vue";
 import SubscriberMeterComponent from "./SubscriberMeterComponent.vue";
 
 export default {
-    components: { UploadMeterComponent, MetersTableComponent, SubscriberMeterComponent },
+    components: { CreateMeterComponent, MetersTableComponent, SubscriberMeterComponent },
     name: "SubscriberMetersComponent",
     data() {
         return {

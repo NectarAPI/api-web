@@ -75,6 +75,9 @@ Route::post('/utility/{utility_ref}/activateDeactivate', 'UtilityController@acti
 Route::post('/utility/{utility_ref}', 'UtilityController@updateUtility')->name('utility.update');
 
 Route::get('/subscriberMeters', 'MetersController@getSubscriberMeters')->name('subscribers-meters.get');
+Route::get('/subscriberMeters/utilities', 'MetersController@getUtilities')->name('subscribers-meters.getutilities');
+Route::get('/subscriberMeters/meterTypes', 'MetersController@getMeterTypes')->name('subscribers-meters.getmetertypes');
+Route::get('/subscriberMeters/subscribers', 'MetersController@getSubscribers')->name('subscribers-meters.getsubscribers');
 
 Route::get('/creds', 'CredentialsController@getCredentials')->name('creds.get');
 Route::post('/creds', 'CredentialsController@addCredentials')->name('creds.add');
