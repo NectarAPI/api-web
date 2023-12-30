@@ -3,7 +3,7 @@
         <table class="table table-hover table-sm">
             <thead>
                 <tr class="solid-header">
-                    <th>Name</th>
+                    <th>Ref</th>
                     <th>Meter No</th>
                 </tr>
             </thead>
@@ -19,12 +19,12 @@
                     v-bind:key="meter.ref">
                     <td>
                         <span class="text-gray">
-                            {{ meter.name }}
+                            {{ meter.ref }}
                         </span>
                     </td>
                     <td>
                         <span class="text-gray">
-                            {{ meter.meter_no }}
+                            {{ meter.no }}
                         </span>
                     </td>
                 </tr>

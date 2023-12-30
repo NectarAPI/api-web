@@ -74,6 +74,8 @@ Route::post('/utility', 'UtilityController@addUtility')->name('utility.post');
 Route::post('/utility/{utility_ref}/activateDeactivate', 'UtilityController@activateDeactivateUtility')->name('utility.activateDeactivate');
 Route::post('/utility/{utility_ref}', 'UtilityController@updateUtility')->name('utility.update');
 
+Route::get('/subscriberMeters', 'MetersController@getSubscriberMeters')->name('subscribers-meters.get');
+
 Route::get('/creds', 'CredentialsController@getCredentials')->name('creds.get');
 Route::post('/creds', 'CredentialsController@addCredentials')->name('creds.add');
 Route::post('/creds/{credential_ref}', 'CredentialsController@setCredentialStatus')->name('creds.activate');

@@ -36,22 +36,23 @@
                                     data-toggle="modal"
                                     data-target="#upload-meter-modal">Create</button>
 
-                                <upload-meter-component
+                                <!-- <upload-meter-component
                                     @createdMeter="createdMeter">
-                                </upload-meter-component>
+                                </upload-meter-component> -->
                             </div>
                         </div>
                     </div>
-
-                    <meters-table-component
+ 
+                    <subscriber-meters-table-component
                         :meters="meters"
                         @displayMeterDetails="displayMeterDetails($event)">
-                    </meters-table-component>
+                    </subscriber-meters-table-component>
                 </div>
             </div>
             <div class="col-md-4 equel-grid">
-                <meter-component
-                    :meter="currMeter"></meter-component>
+                <subscriber-meter-component
+                    :meter="currMeter">
+                </subscriber-meter-component>
             </div>
         </div>
     </div>
@@ -59,9 +60,10 @@
 <script>
 import UploadMeterComponent from "./UploadMeterComponent.vue";
 import MetersTableComponent from "./SubscriberMetersTableComponent.vue";
+import SubscriberMeterComponent from "./SubscriberMeterComponent.vue";
 
 export default {
-    components: { UploadMeterComponent, MetersTableComponent },
+    components: { UploadMeterComponent, MetersTableComponent, SubscriberMeterComponent },
     name: "SubscriberMetersComponent",
     data() {
         return {
@@ -84,7 +86,7 @@ export default {
             let self = this;
 
             axios
-                .get("/meters")
+                .get("/subscriberMeters")
                 .then(function(response, status, request) {
                     if (response.data.status.code == 200) {
                         self.meters = response.data.data.meters;
@@ -92,6 +94,7 @@ export default {
                         if (self.meters.length > 0) {
                             self.currMeter = self.meters[0];
                         }
+                        
                     } else {
                         self.errors.push(response.data.status.message)
                     }

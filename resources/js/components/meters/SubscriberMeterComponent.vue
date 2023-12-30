@@ -14,10 +14,10 @@
                             <i class="mdi mdi-dots-vertical"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item"  v-b-modal.edit-meter-modal>
-                                <span>
-                                    Edit
-                                </span>
+                            <a class="dropdown-item"
+                                data-toggle="modal"
+                                href="#edit-meter-modal">
+                                Edit
                             </a>
                         </div>
                     </div>
@@ -28,10 +28,10 @@
                         <p class="pb-2 small">{{ meter.created_at }}</p>
 
                         <small class="text-black font-weight-medium d-block pt-2">
-                            Name
+                            No
                         </small>
                         <p class="text-muted">
-                            {{ meter.name }}
+                            {{ meter.no }}
                         </p>
 
                         <small class="text-black font-weight-medium d-block pt-2">
@@ -42,11 +42,26 @@
                         </p>
 
                         <small class="text-black font-weight-medium d-block pt-2">
-                            Ref
+                            Type
                         </small>
-                        <p class="text-muted">
-                            {{ meter.meter_no }}
+                        <p v-if="meter.meterType" class="text-muted">
+                            {{ meter.meterType.name }}
                         </p>
+
+                        <small class="text-black font-weight-medium d-block pt-2">
+                            Activated
+                        </small>
+                        <span class="text-gray">
+                            <span
+                                v-if="meter.activated"
+                                class="status-indicator rounded-indicator small bg-primary"
+                            ></span>
+                            <span
+                                v-else-if="!meter.activated"
+                                class="status-indicator rounded-indicator small bg-secondary"
+                            ></span>
+                            {{ meter.activated }}
+                        </span>
 
                     </div>
                 </div>

@@ -59,4 +59,14 @@ class Utility {
         }
     }
 
+    public function getMeters($utilityRef) {
+        try {
+            return $this->service->getMeters($utilityRef);
+            
+        } catch(\Exception $e) {
+            throw $e;
+
+        }
+    }
+
 }
