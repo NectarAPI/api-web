@@ -198,4 +198,38 @@ class UtilityService {
         }
     }
 
+    public function getSubscribers($utilityRef) {
+        if (!is_null($utilityRef)) {
+
+            $url = sprintf("%s/%s/subscriber?request_id=%s", $this->host, $utilityRef, UuidUtils::generate());
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->get($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ]
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data['data'];
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
+
+        }
+    }
+
 }

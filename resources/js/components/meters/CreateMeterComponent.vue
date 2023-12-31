@@ -104,7 +104,6 @@ export default {
             let self = this
             self.fetch("/utility")
                 .then(response => {
-                    console.log(response.utilities)
                     for (let obtainedUtility of response.utilities) {
                         let utilityObj = {
                                             value: obtainedUtility.ref,
@@ -128,7 +127,17 @@ export default {
                 })
         },
         fetchSubscribers() {
-            this.utilities = this.fetch("/subscribers", "subscribers")
+            let self = this
+            this.fetch("/subscriberMeters/subscribers")
+                .then(response => {
+                    for (let obtainedSubscriber of response.subscribers) {
+                        let subscriberObj = {
+                                                value: obtainedSubscriber.ref,
+                                                text: obtainedSubscriber.name
+                                            }
+                        self.meter_subscribers.push(subscriberObj)
+                    }
+                })
         },
         resetNewMeterModal: function() {
             this.errors = []
@@ -178,7 +187,7 @@ export default {
                     }
 
                 }, function() {
-                    console.log('adding new meter failed')
+                    self.errors.log('adding new meter failed')
 
                 }).finally(() => {
                     self.saveSpinner = false
@@ -196,7 +205,7 @@ export default {
         self.buttonSubmitDisabled = false
         self.fetchUtilities()
         self.fetchMeterTypes()
-        // self.fetchSubscribers()                                  
+        self.fetchSubscribers()                                  
     }
 }
 </script>

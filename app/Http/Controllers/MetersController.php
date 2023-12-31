@@ -102,14 +102,24 @@ class MetersController extends Controller {
         $userRef = Auth::user()->ref;
 
         try {
-            $meter = new Meter(new MeterService());
-            $subscribers = $meter->getSubscribers();
+            $utility = new Utility(new UtilityService());
+            $user =  new User(new UserService());
+
+            $subscribers = array();
+            
+            $utilitiesDetails = $user->fetchUtilities($userRef);
+
+            foreach($utilitiesDetails as $utilityDetail) {
+                $utilitySubscribers = $utility->getSubscribers($utilityDetail['ref']);
+                $subscribers = array_merge($subscribers, $utilitySubscribers['subscribers']);
+
+            }
 
             return response()->json(['status' => ['code' => 200, 
                                                     'message' => 'obtained subscribers'
                                                 ],
                                                 'data' => [
-                                                    'meters' => $subscribers
+                                                    'subscribers' => $subscribers
                                             ]
                                         ]);
 
