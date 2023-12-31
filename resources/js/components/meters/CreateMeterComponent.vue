@@ -39,7 +39,7 @@
                             </option>
                         </select>
 
-                        <label for="new-meter-type">Subscriber</label>
+                        <label for="new-meter-type">Subscriber (*Optional)</label>
                         <select id="newMeterSubscriber" name="newMeterSubscriber" v-model="newMeterSubscriber">
                             <option v-for="option in meter_subscribers" :value="option.value">
                                 {{ option.text }}
@@ -139,17 +139,48 @@ export default {
                     }
                 })
         },
+        luhnCheck(num) {
+            const arr = (num + '')
+                        .split('')
+                        .reverse()
+                        .map(x => parseInt(x));
+            const lastDigit = arr.shift();
+            let sum = arr.reduce(
+                (acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val *= 2) > 9 ? val - 9 : val)),
+                0
+            );
+            sum += lastDigit;
+            return sum % 10 === 0;
+        },
         resetNewMeterModal: function() {
             this.errors = []
 
         },
         onSubmitNewMeter: function(event) {
             this.errors = []
+
+            if (!this.newMeterNo) {
+                this.errors.push('Please enter meter no')
+            } else if (!this.newMeterNo.match(/^([0-9]){11}$|^([0-9]){13}$/g)) {
+                this.errors.push('Invalid meter length')
+            }
+            else if (!this.luhnCheck(this.newMeterNo)) {
+                this.errors.push('Invalid meter no')
+            } 
+
+            if (!this.newMeterUtility) {
+                this.errors.push('Please select meter utility')
+            }
             
             if (!this.newMeterType) {
                 this.errors.push('Please select meter type')
+            } 
 
-            } else {
+            if (!this.newMeterType) {
+                this.errors.push('Please select meter type')
+            }
+
+            if (this.errors.length == 0) {
 
                 let self = this
                 let formData = new FormData(document.getElementById("newMeterForm"))
@@ -187,7 +218,7 @@ export default {
                     }
 
                 }, function() {
-                    self.errors.log('adding new meter failed')
+                    self.errors.push('Adding new meter failed')
 
                 }).finally(() => {
                     self.saveSpinner = false

@@ -82,6 +82,19 @@ export default {
         }
     },
     methods:{
+        luhnCheck(num) {
+            const arr = (num + '')
+                        .split('')
+                        .reverse()
+                        .map(x => parseInt(x));
+            const lastDigit = arr.shift();
+            let sum = arr.reduce(
+                (acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val *= 2) > 9 ? val - 9 : val)),
+                0
+            );
+            sum += lastDigit;
+            return sum % 10 === 0;
+        },
         setCurrentSTSConfig: function() {
             this.sts_configs.forEach(config => {
                 if (config.config.ref == this.sts_config) {
@@ -100,7 +113,7 @@ export default {
 
             if (self.sts_config) {
                 if (self.token && self.token.match(/^[0-9]{20}$/)) {
-                    if(self.drn && self.drn.match(/^[0-9]{11}|[0-9]{13}$/)) {
+                    if(self.drn && self.drn.match(/^[0-9]{11}|[0-9]{13}$/) && self.luhnCheck(self.drn)) {
 
                         return axios 
                             .get('/decodeToken', {

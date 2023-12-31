@@ -540,6 +540,19 @@ export default {
         }
     },
     methods: {
+        luhnCheck(num) {
+            const arr = (num + '')
+                        .split('')
+                        .reverse()
+                        .map(x => parseInt(x));
+            const lastDigit = arr.shift();
+            let sum = arr.reduce(
+                (acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val *= 2) > 9 ? val - 9 : val)),
+                0
+            );
+            sum += lastDigit;
+            return sum % 10 === 0;
+        },
         setCurrentSTSConfig: function() {
             let self = this;
             this.sts_configs.forEach(config => {
@@ -598,7 +611,9 @@ export default {
                 self.errors.push('Invalid STS configuration')
             }
 
-            if(!self.decoder_reference_number || !self.decoder_reference_number.match(/^[0-9]{11}|[0-9]{13}$/)) {
+            if(!self.decoder_reference_number || 
+                !self.decoder_reference_number.match(/^[0-9]{11}|[0-9]{13}$/) ||
+                !this.luhnCheck(self.decoder_reference_number)) {
                 self.errors.push('Invalid meter no')
             }
 
@@ -930,7 +945,8 @@ export default {
             }
         },
         validateNewDrn: function() {
-            if (!/^[0-9]{11,13}$/.test(this.new_decoder_reference_number)) {
+            if (!/^([0-9]){11}$|^([0-9]){13}$/.test(this.new_decoder_reference_number) ||
+                !this.luhnCheck(this.new_decoder_reference_number)) {
                 this.errors.push('Invalid new DRN')
             }
         },
