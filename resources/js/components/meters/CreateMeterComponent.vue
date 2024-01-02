@@ -70,7 +70,6 @@ export default {
     name: "CreateSubscriberMeterComponent",
     data() {
         return {
-            newMeterName: '',
             newMeterNo: '',
             newMeterSubscriberContact: '',
             newMeterType: '',
@@ -154,7 +153,11 @@ export default {
         },
         resetNewMeterModal: function() {
             this.errors = []
-
+            this.newMeterNo = ''
+            this.newMeterSubscriberContact = ''
+            this.newMeterType = ''
+            this.newMeterSubscriber = ''
+            this.newMeterUtility = ''
         },
         onSubmitNewMeter: function(event) {
             this.errors = []

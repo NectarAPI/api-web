@@ -92,6 +92,7 @@ class MeterService implements ServiceInterface {
         $meter = array ('no' => $meterNo,
                             'meter_type' => $type,
                             'utility_ref' => $utility,
+                            'subscriber_ref' => $subscriber,
                             'activated' => True,
                         );
 
