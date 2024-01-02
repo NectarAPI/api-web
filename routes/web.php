@@ -78,6 +78,7 @@ Route::get('/subscriberMeters', 'MetersController@getSubscriberMeters')->name('s
 Route::get('/subscriberMeters/utilities', 'MetersController@getUtilities')->name('subscribers-meters.getutilities');
 Route::get('/subscriberMeters/meterTypes', 'MetersController@getMeterTypes')->name('subscribers-meters.getmetertypes');
 Route::get('/subscriberMeters/subscribers', 'MetersController@getSubscribers')->name('subscribers-meters.getsubscribers');
+Route::post('/subscriberMeters/createMeter', 'MetersController@createMeter')->name('subscribers-meters.createmeter');
 
 Route::get('/creds', 'CredentialsController@getCredentials')->name('creds.get');
 Route::post('/creds', 'CredentialsController@addCredentials')->name('creds.add');

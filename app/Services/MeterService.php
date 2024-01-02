@@ -86,4 +86,43 @@ class MeterService implements ServiceInterface {
         }  
     }
 
+    public function createMeter($userRef, $meterNo, $utility, $type, $subscriber = null) {
+        $url = sprintf("%s?request_id=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $userRef);
+
+        $meter = array ('no' => $meterNo,
+                            'meter_type' => $type,
+                            'utility_ref' => $utility,
+                            'activated' => True,
+                        );
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->post($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                        ],
+                                            'json' => $meter
+                                    ]);
+                                            
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        if (!is_null($data)){
+                        
+            if ($data['status']['code'] != 200) {
+                throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+            } else {
+                return $data;
+                    
+            }
+                
+        } else {
+            return $response->status();
+                                        
+        }
+
+
+    }
+
 }

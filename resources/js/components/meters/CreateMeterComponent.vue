@@ -22,25 +22,25 @@
                     </div>
                     <form  ref="form" id="newMeterForm" class="modal-form">
 
-                        <label for="new-meter-no">Meter No</label>
-                        <input id="new-meter-no" name="new-meter-no" v-model="newMeterNo"/>
+                        <label for="meter_no">Meter No</label>
+                        <input id="meter_no" name="meter_no" v-model="newMeterNo"/>
 
-                        <label for="new-meter-utility">Utility</label>
-                        <select id="newMeterUtility" name="newMeterUtility" v-model="newMeterUtility">Type
+                        <label for="utility">Utility</label>
+                        <select id="utility" name="utility" v-model="newMeterUtility">Type
                             <option v-for="option in utilities" :value="option.value">
                                 {{ option.text }}
                             </option>
                         </select>
                         
-                        <label for="new-meter-type">Type</label>
-                        <select id="newMeterType" name="newMeterType" v-model="newMeterType">
+                        <label for="type">Type</label>
+                        <select id="type" name="type" v-model="newMeterType">
                             <option v-for="option in meter_types" :value="option.value">
                                 {{ option.text }}
                             </option>
                         </select>
 
-                        <label for="new-meter-type">Subscriber (*Optional)</label>
-                        <select id="newMeterSubscriber" name="newMeterSubscriber" v-model="newMeterSubscriber">
+                        <label for="subscriber">Subscriber (*Optional)</label>
+                        <select id="subscriber" name="subscriber" v-model="newMeterSubscriber">
                             <option v-for="option in meter_subscribers" :value="option.value">
                                 {{ option.text }}
                             </option>
@@ -188,7 +188,7 @@ export default {
                 self.saveSpinner = true
                 self.buttonSubmitDisabled = true
 
-                axios.post('/meters', formData).then(function(response, status, request) {  
+                axios.post('/subscriberMeters/createMeter', formData).then(function(response, status, request) {  
                     let responseStatus = response.data.status.code
                     let responseMessage = response.data.status.message
 
@@ -204,16 +204,14 @@ export default {
                             }
 
                         } else {
-                            
                             self.errors.push(responseMessage)
-
 
                         }
 
                     } else {
-                        let message = responseMessage + " " + response.data.data.meters.meter.ref
+                        let message = responseMessage + " " + response.data.data.meter.data.meter.no
                         self.errors.push(message)
-                        self.$emit('createdMeter',  response.data.data.meters.meter)
+                        self.$emit('createdMeter',  response.data.data.meter.data.meter)
 
                     }
 

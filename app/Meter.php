@@ -27,11 +27,25 @@ class Meter {
     public function getSubscribers(string $userRef) {
         try {
             return $this->service->getSubscribers($userRef);
-            
+
         } catch(\Exception $e) {
             throw $e;
             
         }
     }
+
+    public function createMeter(string $userRef, string $meterNo, 
+                                string $utility, string $type, 
+                                string $subscriber = null) {
+        try {
+            return $this->service->createMeter($userRef, $meterNo, 
+                                                $utility, $type, $subscriber);
+
+        } catch(\Exception $e) {
+            throw $e;
+            
+        }
+    }
+
 
 }
