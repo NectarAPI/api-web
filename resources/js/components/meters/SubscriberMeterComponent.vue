@@ -63,6 +63,27 @@
                             {{ meter.activated }}
                         </span>
 
+                        <span v-if="meter.utility">
+                            <small class="text-black font-weight-medium d-block pt-2">
+                                Utility
+                            </small>
+                            <p v-if="meter.meterType" class="text-muted">
+                                {{ meter.utility.name }}
+                            </p>
+
+                        </span>
+
+                        <span v-if="meter.subscriber">
+
+                            <small class="text-black font-weight-medium d-block pt-2">
+                                Subscriber
+                            </small>
+                            <p v-if="meter.meterType" class="text-muted">
+                                {{ meter.subscriber.name }}
+                            </p>
+                        
+                        </span>
+
                     </div>
                 </div>
             </div>

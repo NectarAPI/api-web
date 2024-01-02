@@ -5,11 +5,12 @@
                 <tr class="solid-header">
                     <th>Ref</th>
                     <th>Meter No</th>
+                    <th>Activated</th>
                 </tr>
             </thead>
             <tbody>
                  <tr v-if="meters.length == 0" style="text-align: center">
-                    <td colspan="2">
+                    <td colspan="3">
                         No Meters
                     </td>
                 </tr>
@@ -25,6 +26,11 @@
                     <td>
                         <span class="text-gray">
                             {{ meter.no }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="text-gray">
+                            {{ meter.activated }}
                         </span>
                     </td>
                 </tr>

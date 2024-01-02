@@ -30,10 +30,13 @@ class MetersController extends Controller {
             $meters = array();
 
             foreach($userUtilities as $userUtility) {
-                $utilityMeters = $userUtility['meters'];
 
-                if (count($utilityMeters) > 0) {
-                    $meters = array_merge($meters, $utilityMeters);
+                foreach($userUtility['meters'] as $userUtilityMeter) {
+                    $userUtilityMeter['utility']['name'] = $userUtility['name'];
+                    $userUtilityMeter['utility']['ref'] = $userUtility['ref'];
+                    $userUtilityMeter['utility']['activated'] = $userUtility['activated'];
+
+                    array_push($meters, $userUtilityMeter);
                 }
                 
             }         

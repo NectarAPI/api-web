@@ -212,6 +212,7 @@ export default {
                         }
 
                     } else {
+                        console.log(response)
                         let message = responseMessage + " " + response.data.data.meter.data.meter.no
                         self.errors.push(message)
                         self.$emit('createdMeter',  response.data.data.meter.data.meter)
