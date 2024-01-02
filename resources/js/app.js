@@ -61,6 +61,7 @@ import SubscriberMeterComponent from './components/meters/SubscriberMeterCompone
 import EditSubscriberMeterComponent from './components/meters/EditMeterComponent.vue'
 import SubscriberMetersTableComponent from './components/meters/SubscriberMetersTableComponent.vue'
 import CreateSubscriberMeterComponent from './components/meters/CreateMeterComponent.vue'
+import ActivateDeactivateMeterComponent from './components/meters/ActivateDeactivateMeterComponent.vue'
 
 import CreditsComponent from './components/credits/CreditsComponent.vue'
 import CreditsDetailsComponent from './components/credits/CreditsDetailsComponent.vue'
@@ -130,6 +131,7 @@ app.component('subscriber-meter-component', SubscriberMeterComponent);
 app.component('edit-meter-component', EditSubscriberMeterComponent);
 app.component('subscriber-meters-table-component', SubscriberMetersTableComponent);
 app.component('create-meter-component', CreateSubscriberMeterComponent);
+app.component('activate-deactivate-meter-component', ActivateDeactivateMeterComponent);
 
 app.component('credits-component', CreditsComponent);
 app.component('credits-details-component', CreditsDetailsComponent);

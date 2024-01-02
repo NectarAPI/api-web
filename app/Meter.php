@@ -47,5 +47,27 @@ class Meter {
         }
     }
 
+    public function activateMeter(string $meterRef, string $userRef) {
+        try {
+            return $this->service->activateMeter($meterRef, $userRef);
+
+        } catch(\Exception $e) {
+            throw $e;
+
+        }
+    }
+
+    public function deactivateMeter(string $meterRef, string $userRef) {
+
+        try {
+            return $this->service->deactivateMeter($meterRef, $userRef);
+
+        } catch(\Exception $e) {
+            throw $e;
+
+        }
+    }
+
+
 
 }

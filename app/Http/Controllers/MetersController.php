@@ -180,6 +180,57 @@ class MetersController extends Controller {
         }    
     }
 
+    public function activateDeactivateMeter(Request $request) {
+        $userRef = Auth::user()->ref;
+        $meterRef = $request->meter_ref;
+
+        $meter = new Meter(new MeterService());
+
+        try {
+            $user =  new User(new UserService());
+            $userUtilities = $user->fetchUtilities($userRef);
+
+            $meters = array();
+
+            foreach($userUtilities as $userUtility) {
+
+                foreach($userUtility['meters'] as $userUtilityMeter) {
+                    
+                    if ($userUtilityMeter['ref'] == $meterRef) {
+
+                        if ($userUtilityMeter['activated']) {
+                            $updatedMeter = $meter->deactivateMeter($meterRef, $userRef);
+
+                        } else {
+                            $updatedMeter = $meter->activateMeter($meterRef, $userRef);
+
+                        }
+
+                        $message = $userUtilityMeter['activated'] ? 'Deactivated meter' : 'Activated meter';
+
+                        return response()->json(['status' => [
+                                                                'code' => 200, 
+                                                                'message' => $message
+                                                            ],
+                                                            'data' => [
+                                                                'meter' => $updatedMeter
+                                                        ]
+                                                    ]
+                                                );
+                    }
+                }
+
+                throw new \Exception('Invalid meter ref');
+                
+            }        
+
+        } catch (\Exception $e) {
+            info($e->getMessage());
+            return response()->json(['status' => ['code' => 500, 'message' => $e->getMessage()]]);
+
+        }
+    }
+
     private function validator(array $data) {
         
         return Validator::make($data, [

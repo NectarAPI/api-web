@@ -126,4 +126,72 @@ class MeterService implements ServiceInterface {
 
     }
 
+    public function activateMeter(string $meterRef, string $userRef) {
+        
+        if (!is_null($meterRef)) {
+            
+            $url = sprintf("%s/%s?request_id=%s&user_ref=%s", $this->host, $meterRef, UuidUtils::generate(), $userRef);
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->put($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ]
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data['status']['message'];
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
+        }
+    }
+
+    public function deactivateMeter(string $meterRef, string $userRef) {
+
+        if (!is_null($meterRef)) {
+            
+            $url = sprintf("%s/%s?request_id=%s&user_ref=%s", $this->host, $meterRef, UuidUtils::generate(), $userRef);
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->delete($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ]
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data['status']['message'];
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
+        }
+    }
+
 }

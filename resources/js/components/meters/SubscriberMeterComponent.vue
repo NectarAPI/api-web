@@ -19,6 +19,16 @@
                                 href="#edit-meter-modal">
                                 Edit
                             </a>
+                            <a class="dropdown-item" 
+                                data-toggle="modal"
+                                href="#activate-deactivate-meter-modal">
+                                <span v-if="meter.activated">
+                                    Deactivate
+                                </span>
+                                <span v-else>
+                                    Activate
+                                </span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -88,6 +98,11 @@
                 </div>
             </div>
         </div>
+        <activate-deactivate-meter-component
+                :meter="meter"
+                @activateDeactivateMeter="activateDeactivateMeter">
+        </activate-deactivate-meter-component>
+
         <edit-meter-component
                 :meter="meter"
                 @activateDeactivateMeter="activateDeactivateMeter">
@@ -96,9 +111,13 @@
 </template>
 <script>
 import EditMeterComponent from "./EditMeterComponent.vue";
+import ActivateDeactivateMeterComponent from "./ActivateDeactivateMeterComponent.vue";
 
 export default {
-    components: { EditMeterComponent },
+    components: { 
+        EditMeterComponent,
+        ActivateDeactivateMeterComponent
+    },
     name: "SubscriberMeterComponent",
     props: [
         'meter'
