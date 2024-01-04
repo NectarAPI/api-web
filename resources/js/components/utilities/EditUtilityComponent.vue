@@ -46,7 +46,7 @@
                         <span>Activated</span>
                     </form>
                 </div>
-                <div class="modal-footer"><!--  -->
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" 
                         @click="resetUtilityModal" data-dismiss="modal">Cancel</button>
                     <button type="button" :disabled="buttonSubmitDisabled" 

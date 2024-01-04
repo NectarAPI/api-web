@@ -21,7 +21,6 @@
                         </p>
                     </div>
                     <form  ref="form" id="newMeterForm" class="modal-form">
-
                         <label for="meter_no">Meter No</label>
                         <input id="meter_no" name="meter_no" v-model="newMeterNo"/>
 
@@ -68,6 +67,11 @@
 <script>
 export default {
     name: "CreateSubscriberMeterComponent",
+    props: [
+        'utilities',
+        'meter_types',
+        'meter_subscribers'
+    ],
     data() {
         return {
             newMeterNo: '',
@@ -75,69 +79,12 @@ export default {
             newMeterType: '',
             newMeterSubscriber: '',
             newMeterUtility: '',
-            utilities:[],
-            meter_types: [],
-            meter_subscribers: [],
             errors: [],
             saveSpinner: false,
             buttonSubmitDisabled: false,
         }
     },
     methods: {
-        fetch: function(path) {
-            return axios
-                .get(path)
-                .then(response => {
-                    if (response.data.status.code == 200) {
-                        return response.data.data
-                    } else {
-                        throw response.data.status.message
-                    }
-                })
-                .catch(err => {
-                    throw err
-                });
-
-        },
-        fetchUtilities() {
-            let self = this
-            self.fetch("/utility")
-                .then(response => {
-                    for (let obtainedUtility of response.utilities) {
-                        let utilityObj = {
-                                            value: obtainedUtility.ref,
-                                            text: obtainedUtility.name
-                                            }
-                        self.utilities.push(utilityObj)
-                    }
-                })
-        },
-        fetchMeterTypes() {
-            let self = this
-            self.fetch("/subscriberMeters/meterTypes")
-                .then(response => {
-                    for (let obtainedMeterType of response.meter_types) {
-                        let meterTypeObj = {
-                                            value: obtainedMeterType.ref,
-                                            text: obtainedMeterType.name
-                                            }
-                        self.meter_types.push(meterTypeObj)
-                    }
-                })
-        },
-        fetchSubscribers() {
-            let self = this
-            this.fetch("/subscriberMeters/subscribers")
-                .then(response => {
-                    for (let obtainedSubscriber of response.subscribers) {
-                        let subscriberObj = {
-                                                value: obtainedSubscriber.ref,
-                                                text: obtainedSubscriber.name
-                                            }
-                        self.meter_subscribers.push(subscriberObj)
-                    }
-                })
-        },
         luhnCheck(num) {
             const arr = (num + '')
                         .split('')
@@ -164,8 +111,10 @@ export default {
 
             if (!this.newMeterNo) {
                 this.errors.push('Please enter meter no')
+
             } else if (!this.newMeterNo.match(/^([0-9]){11}$|^([0-9]){13}$/g)) {
                 this.errors.push('Invalid meter length')
+
             }
             else if (!this.luhnCheck(this.newMeterNo)) {
                 this.errors.push('Invalid meter no')
@@ -212,7 +161,6 @@ export default {
                         }
 
                     } else {
-                        console.log(response)
                         let message = responseMessage + " " + response.data.data.meter.data.meter.no
                         self.errors.push(message)
                         self.$emit('createdMeter',  response.data.data.meter.data.meter)
@@ -235,10 +183,7 @@ export default {
     mounted: function() {
         let self = this
         self.saveSpinner = false
-        self.buttonSubmitDisabled = false
-        self.fetchUtilities()
-        self.fetchMeterTypes()
-        self.fetchSubscribers()                                  
+        self.buttonSubmitDisabled = false                               
     }
 }
 </script>

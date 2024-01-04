@@ -37,6 +37,9 @@
                                     data-target="#create-meter-modal">Create</button>
 
                                 <create-meter-component
+                                    :utilities="utilities"
+                                    :meter_types="meter_types"
+                                    :meter_subscribers="meter_subscribers"
                                     @createdMeter="createdMeter">
                                 </create-meter-component>
                             </div>
@@ -51,6 +54,9 @@
             </div>
             <div class="col-md-4 equel-grid">
                 <subscriber-meter-component
+                    :utilities="utilities"
+                    :meter_types="meter_types"
+                    :meter_subscribers="meter_subscribers"
                     :meter="currMeter">
                 </subscriber-meter-component>
             </div>
@@ -63,18 +69,79 @@ import MetersTableComponent from "./SubscriberMetersTableComponent.vue";
 import SubscriberMeterComponent from "./SubscriberMeterComponent.vue";
 
 export default {
-    components: { CreateMeterComponent, MetersTableComponent, SubscriberMeterComponent },
+    components: { 
+        CreateMeterComponent, 
+        MetersTableComponent, 
+        SubscriberMeterComponent 
+    },
     name: "SubscriberMetersComponent",
     data() {
         return {
+            utilities: [],
+            meter_types: [],
+            meter_subscribers: [],
             errors: [],
-            meters: Array,
+            meters: [],
             currMeter: Object,
             showSpinner: false,
             editKey: ""
         };
     },
     methods: {
+        fetch: function(path) {
+            return axios
+                .get(path)
+                .then(response => {
+                    if (response.data.status.code == 200) {
+                        return response.data.data
+                    } else {
+                        throw response.data.status.message
+                    }
+                })
+                .catch(err => {
+                    throw err
+                });
+
+        },
+        fetchUtilities() {
+            let self = this
+            self.fetch("/utility")
+                .then(response => {
+                    for (let obtainedUtility of response.utilities) {
+                        let utilityObj = {
+                                            value: obtainedUtility.ref,
+                                            text: obtainedUtility.name
+                                            }
+                        self.utilities.push(utilityObj)
+                    }
+                })
+        },
+        fetchMeterTypes() {
+            let self = this
+            self.fetch("/subscriberMeters/meterTypes")
+                .then(response => {
+                    for (let obtainedMeterType of response.meter_types) {
+                        let meterTypeObj = {
+                                            value: obtainedMeterType.ref,
+                                            text: obtainedMeterType.name
+                                            }
+                        self.meter_types.push(meterTypeObj)
+                    }
+                })
+        },
+        fetchSubscribers() {
+            let self = this
+            this.fetch("/subscriberMeters/subscribers")
+                .then(response => {
+                    for (let obtainedSubscriber of response.subscribers) {
+                        let subscriberObj = {
+                                                value: obtainedSubscriber.ref,
+                                                text: obtainedSubscriber.name
+                                            }
+                        self.meter_subscribers.push(subscriberObj)
+                    }
+                })
+        },
         createdMeter: function(meter) {
             this.meters.push(meter);
         },
@@ -109,6 +176,9 @@ export default {
         let self = this;
         self.showSpinner = true;
         self.fetchMeters();
+        self.fetchUtilities()
+        self.fetchMeterTypes()
+        self.fetchSubscribers()
     }
 };
 </script>

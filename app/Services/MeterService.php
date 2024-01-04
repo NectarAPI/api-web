@@ -123,6 +123,46 @@ class MeterService implements ServiceInterface {
                                         
         }
 
+    }
+
+    public function updateMeter($meterRef, $userRef, $meterNo, $utility, $type, 
+                                $subscriber = null, $activated) {
+        $url = sprintf("%s?request_id=%s&user_ref=%s&meter_ref=%s", 
+                        $this->host,  UuidUtils::generate(), $userRef, $meterRef);
+
+        $meter = array ('no' => $meterNo,
+                            'meter_type' => $type,
+                            'utility_ref' => $utility,
+                            'subscriber_ref' => $subscriber,
+                            'activated' => $activated,
+                        );
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->put($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                        ],
+                                            'json' => $meter
+                                    ]);
+                                            
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        if (!is_null($data)){
+                        
+            if ($data['status']['code'] != 200) {
+                throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+            } else {
+                return $data;
+                    
+            }
+                
+        } else {
+            return $response->status();
+                                        
+        }
 
     }
 

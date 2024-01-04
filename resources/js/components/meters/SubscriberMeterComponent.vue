@@ -105,6 +105,10 @@
 
         <edit-meter-component
                 :meter="meter"
+                :utilities="utilities"
+                :meter_types="meter_types"
+                :meter_subscribers="meter_subscribers"
+                @updatedMeter="updatedMeter"
                 @activateDeactivateMeter="activateDeactivateMeter">
         </edit-meter-component>
     </div>
@@ -120,7 +124,10 @@ export default {
     },
     name: "SubscriberMeterComponent",
     props: [
-        'meter'
+        'meter',
+        'utilities',
+        'meter_types',
+        'meter_subscribers'
     ],
      data() {
         return {
@@ -129,6 +136,13 @@ export default {
         };
     },
     methods: {
+        updatedMeter: function(meter) {
+            this.meter.no = meter.no
+            this.meter.ref = meter.ref
+            this.meter.meterType.name = meter.meterType.name
+            this.meter.activated = meter.activated
+            this.meter.utility = meter.utility
+        },
         activateDeactivateMeter: function() {
             this.meter.activated = !this.meter.activated
 

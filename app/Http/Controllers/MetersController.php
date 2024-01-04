@@ -133,6 +133,58 @@ class MetersController extends Controller {
         }
     }
 
+    public function updateMeter(Request $request) {
+        $this->validator($request->all())->validate();
+
+        $userRef = Auth::user()->ref;
+
+        try {
+            $meter = new Meter(new MeterService());
+
+            $meterRef = $request->meter_ref;
+            $meterNo = $request->meter_no;
+            $utility = $request->utility;
+            $type = $request->type;
+            $subscriber = $request->subscriber;
+            $activated = $request->activated == 'on' ? true : false;
+
+            $updatedMeter = $meter->updateMeter($meterRef, $userRef, $meterNo, $utility, 
+                                                    $type, $subscriber, $activated);
+                                                    return response()->json(['status' => [
+                                                        'code' => 200, 
+                                                        'message' => 'updated meter'
+                                                    ],
+                                                    'data' => [
+                                                        'meter' => $updatedMeter
+                                                ]
+                                            ]
+                                        );
+
+        } catch (\Exception $e) {
+           if ($e instanceof \Illuminate\Validation\ValidationException) {
+
+                $errors = $e->errors();
+ 
+                foreach ($errors as $key =>  $value) {
+                     $arrImplode[] = implode( ', ', $errors[$key] );
+                 }
+ 
+                 $message = implode(', ', $arrImplode);
+         
+             } else {
+                 $message =  $e->getMessage();
+             }
+             
+             return response()->json(['status' => [
+                                                    'code' => 500, 
+                                                    'message' => $message
+                                                ]
+                                            ]);
+
+        }    
+    }
+
+
     public function createMeter(Request $request) {
         $this->validator($request->all())->validate();
 

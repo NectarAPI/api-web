@@ -47,6 +47,20 @@ class Meter {
         }
     }
 
+    public function updateMeter(string $meterRef, string $userRef, string $meterNo, 
+                                string $utility, string $type, string $subscriber = null,
+                                $activated) {
+        try {
+            return $this->service->updateMeter($meterRef, $userRef, $meterNo, 
+                                                $utility, $type, $subscriber,
+                                                $activated);
+
+        } catch(\Exception $e) {
+            throw $e;
+
+        }
+    }
+
     public function activateMeter(string $meterRef, string $userRef) {
         try {
             return $this->service->activateMeter($meterRef, $userRef);
