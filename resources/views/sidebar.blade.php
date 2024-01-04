@@ -48,6 +48,12 @@
         </a>
       </li>
       <li>
+        <a href="{{ route('subscribers') }}">
+          <span class="link-title">Subscribers</span>
+          <i class="mdi mdi-account-multiple link-icon"></i>
+        </a>
+      </li>
+      <li>
         <a href="{{ route('public-keys') }}">
           <span class="link-title">Public Keys</span>
           <i class="mdi mdi-key-variant link-icon"></i>

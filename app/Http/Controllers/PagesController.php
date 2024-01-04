@@ -66,6 +66,17 @@ class PagesController extends Controller {
         ]);
     }
 
+    public function subscribers(Request $request) {
+        $userManager = new UserManager();
+
+        return view('subscribers', [
+            'user' => $this->user,
+            'notifications' => $this->notifications,
+            'lastLoginDate' => $userManager->getUserLastLogin($this->user->ref)['created_at']
+        ]);
+    }
+
+
     public function requests(Request $request) {
         return view('requests', [
             'user' => $this->user,

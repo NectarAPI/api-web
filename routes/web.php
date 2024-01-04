@@ -37,6 +37,7 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
 Route::get('/utilities', 'PagesController@utilities')->name('utilities');
 Route::get('/meters', 'PagesController@meters')->name('meters');
+Route::get('/subscribers', 'PagesController@subscribers')->name('subscribers');
 Route::get('/requests', 'PagesController@requests')->name('requests');
 Route::get('/credentials', 'PagesController@credentials')->name('credentials');
 Route::get('/public-keys', 'PagesController@publicKeys')->name('public-keys');
