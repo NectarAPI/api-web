@@ -83,6 +83,7 @@ Route::post('/subscriberMeters/createMeter', 'MetersController@createMeter')->na
 Route::post('/subscriberMeters/{meter_ref}/activateDeactivate', 'MetersController@activateDeactivateMeter')->name('subscriber-meters.activateDeactivate');
 Route::post('/subscriberMeters/updateMeter', 'MetersController@updateMeter')->name('subscriber-meters.updateMeter');
 
+Route::get('/subscriber', 'SubscribersController@getSubscribers')->name('subscribers.getsubscribers');
 
 Route::get('/creds', 'CredentialsController@getCredentials')->name('creds.get');
 Route::post('/creds', 'CredentialsController@addCredentials')->name('creds.add');

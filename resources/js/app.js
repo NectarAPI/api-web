@@ -64,6 +64,7 @@ import CreateSubscriberMeterComponent from './components/meters/CreateMeterCompo
 import ActivateDeactivateMeterComponent from './components/meters/ActivateDeactivateMeterComponent.vue'
 
 import SubscribersComponent from './components/subscribers/SubscribersComponent.vue'
+import SubscribersTableComponent from './components/subscribers/SubscribersTableComponent.vue'
 
 import CreditsComponent from './components/credits/CreditsComponent.vue'
 import CreditsDetailsComponent from './components/credits/CreditsDetailsComponent.vue'
@@ -93,7 +94,6 @@ app.component('sts-configurations-table-component', STSConfigurationsTableCompon
 app.component('upload-sts-configuration-component', UploadSTSConfigurationComponent);
 app.component('sts-configuration-form-component', STSConfigurationFormComponent);
 app.component('edit-configuration-component', EditConfigurationComponent);
-
 
 app.component('credentials-component', CredentialsComponent);
 app.component('credentials-table-component', CredentialsTableComponent);
@@ -136,6 +136,7 @@ app.component('create-meter-component', CreateSubscriberMeterComponent);
 app.component('activate-deactivate-meter-component', ActivateDeactivateMeterComponent);
 
 app.component('subscribers-component', SubscribersComponent);
+app.component('subscribers-table-component', SubscribersTableComponent);
 
 app.component('credits-component', CreditsComponent);
 app.component('credits-details-component', CreditsDetailsComponent);

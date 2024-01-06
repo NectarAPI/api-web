@@ -33,10 +33,10 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <public-keys-table-component
-                        :public-keys="publicKeys"
-                        @displayPublicKeyDetails="displayPublicKeyDetails($event)">
-                    </public-keys-table-component> -->
+                    <subscribers-table-component
+                        :subscribers="subscribers"
+                        @displaySubscribersDetails="displaySubscriberDetails($event)">
+                    </subscribers-table-component>
                 </div>
             </div>
             <!-- <div class="col-md-4 equel-grid">
@@ -49,52 +49,52 @@
     </div>
 </template>
 <script>
-// import UploadPublicKeyComponent from "./UploadPublicKeyComponent.vue";
+ import SubscribersTableComponent from "./SubscribersTableComponent.vue";
 
-// export default {
-//     components: { UploadPublicKeyComponent },
-//     name: "PublicKeysComponent",
-//     data() {
-//         return {
-//             errors: [],
-//             publicKeys: Array,
-//             currPublicKey: Object,
-//             showSpinner: false,
-//             editKey: ""
-//         };
-//     },
-//     methods: {
-//         createdPublicKey: function(publicKey) {
-//             this.publicKeys.push(publicKey);
+export default {
+    components: { SubscribersTableComponent },
+    name: "SubscribersComponent",
+    data() {
+        return {
+            errors: [],
+            subscribers: Array,
+            currSubscriber: Object,
+            showSpinner: false,
+            // editKey: ""
+        };
+    },
+    methods: {
+        createdSubscriber: function(subscriber) {
+            this.subscribers.push(subscriber);
             
-//         },
-//         displayPublicKeyDetails: function(selectedPublicKey) {
-//             let self = this;
-//             self.currPublicKey = selectedPublicKey;
-//         },
-//         fetchPublicKeys: function() {
-//             let self = this;
+        },
+        displaySubscriberDetails: function(selectedSubscriber) {
+            let self = this;
+            self.currSubscriber = selectedSubscriber;
+        },
+        fetchSubscribers: function() {
+            let self = this;
 
-//             axios
-//                 .get("/pkeys")
-//                 .then(function(response, status, request) {
-//                     self.publicKeys = response.data.data.public_keys;
+            axios
+                .get("/subscriber")
+                .then(function(response, status, request) {
+                    self.subscribers = response.data.data.subscribers.subscribers;
 
-//                     if (self.publicKeys.length > 0) {
-//                         self.currPublicKey = self.publicKeys[0];
-//                     }
-//                 })
-//                 .finally(() => {
-//                     self.showSpinner = false;
-//                 });
-//         }
-//     },
-//     mounted: function() {
-//         let self = this;
-//         self.showSpinner = true;
-//         self.fetchPublicKeys();
-//     }
-// };
+                    if (self.subscribers.length > 0) {
+                        self.currSubscriber = self.subscribers[0];
+                    }
+                })
+                .finally(() => {
+                    self.showSpinner = false;
+                });
+        }
+    },
+    mounted: function() {
+        let self = this;
+        self.showSpinner = true;
+        self.fetchSubscribers();
+    }
+};
 </script>
 <style scoped>
 .spinner-row {
