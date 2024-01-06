@@ -68,6 +68,7 @@ import SubscriberComponent from './components/subscribers/SubscriberComponent.vu
 import EditSubscriberComponent from './components/subscribers/EditSubscriberComponent.vue'
 import SubscribersTableComponent from './components/subscribers/SubscribersTableComponent.vue'
 import ActivateDeactivateSubscriberComponent from './components/subscribers/ActivateDeactivateSubscriberComponent.vue'
+import CreateSubscriberComponent from './components/subscribers/CreateSubscriberComponent.vue';
 
 import CreditsComponent from './components/credits/CreditsComponent.vue'
 import CreditsDetailsComponent from './components/credits/CreditsDetailsComponent.vue'
@@ -143,6 +144,7 @@ app.component('subscriber-component', SubscriberComponent);
 app.component('subscribers-table-component', SubscribersTableComponent);
 app.component('edit-subscriber-component', EditSubscriberComponent);
 app.component('activate-deactivate-subscriber-component', ActivateDeactivateSubscriberComponent);
+app.component('create-subscriber-component', CreateSubscriberComponent);
 
 app.component('credits-component', CreditsComponent);
 app.component('credits-details-component', CreditsDetailsComponent);

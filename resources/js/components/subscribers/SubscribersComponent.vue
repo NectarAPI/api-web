@@ -24,12 +24,9 @@
                             <div class="col-2">
                                 <button class="btn btn-primary"
                                         data-toggle="modal"
-                                        data-target="#upload-public-key-modal">Create</button>
+                                        data-target="#create-subscriber-modal">Create</button>
                                         
-                                <!-- <upload-public-key-component
-                                    @fetchPublicKeys="fetchPublicKeys"
-                                    @createdPublicKey="createdPublicKey">
-                                </upload-public-key-component> -->
+                                <create-subscriber-component/>
                             </div>
                         </div>
                     </div>
@@ -51,11 +48,13 @@
 <script>
 import SubscribersTableComponent from "./SubscribersTableComponent.vue";
 import SubscriberComponent from "./SubscriberComponent.vue";
+import CreateSubscriberComponent from "./CreateSubscriberComponent.vue";
 
 export default {
     components: { 
         SubscribersTableComponent,
-        SubscriberComponent 
+        SubscriberComponent,
+        CreateSubscriberComponent
     },
     name: "SubscribersComponent",
     data() {
