@@ -39,20 +39,24 @@
                     </subscribers-table-component>
                 </div>
             </div>
-            <!-- <div class="col-md-4 equel-grid">
-                <public-key-component
-                    :public-key="currPublicKey">
-                </public-key-component>
-            </div> -->
+            <div class="col-md-4 equel-grid">
+                <subscriber-component
+                    :subscriber="currSubscriber">
+                </subscriber-component>
+            </div>
         </div>
 
     </div>
 </template>
 <script>
- import SubscribersTableComponent from "./SubscribersTableComponent.vue";
+import SubscribersTableComponent from "./SubscribersTableComponent.vue";
+import SubscriberComponent from "./SubscriberComponent.vue";
 
 export default {
-    components: { SubscribersTableComponent },
+    components: { 
+        SubscribersTableComponent,
+        SubscriberComponent 
+    },
     name: "SubscribersComponent",
     data() {
         return {
@@ -60,7 +64,6 @@ export default {
             subscribers: Array,
             currSubscriber: Object,
             showSpinner: false,
-            // editKey: ""
         };
     },
     methods: {
