@@ -26,7 +26,9 @@
                                         data-toggle="modal"
                                         data-target="#create-subscriber-modal">Create</button>
                                         
-                                <create-subscriber-component/>
+                                <create-subscriber-component 
+                                    :utilities="utilities"
+                                    @createdSubscriber="createdSubscriber($event)" />
                             </div>
                         </div>
                     </div>
@@ -59,13 +61,42 @@ export default {
     name: "SubscribersComponent",
     data() {
         return {
+            utilities: [],
             errors: [],
-            subscribers: Array,
+            subscribers: [],
             currSubscriber: Object,
             showSpinner: false,
         };
     },
     methods: {
+        fetch: function(path) {
+            return axios
+                .get(path)
+                .then(response => {
+                    if (response.data.status.code == 200) {
+                        return response.data.data
+                    } else {
+                        throw response.data.status.message
+                    }
+                })
+                .catch(err => {
+                    throw err
+                });
+
+        },
+        fetchUtilities() {
+            let self = this
+            self.fetch("/utility")
+                .then(response => {
+                    for (let obtainedUtility of response.utilities) {
+                        let utilityObj = {
+                                            value: obtainedUtility.ref,
+                                            text: obtainedUtility.name
+                                            }
+                        self.utilities.push(utilityObj)
+                    }
+                })
+        },
         createdSubscriber: function(subscriber) {
             this.subscribers.push(subscriber);
             
@@ -95,6 +126,7 @@ export default {
         let self = this;
         self.showSpinner = true;
         self.fetchSubscribers();
+        self.fetchUtilities();
     }
 };
 </script>

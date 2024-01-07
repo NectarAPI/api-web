@@ -23,10 +23,9 @@ class SubscribersService implements ServiceInterface {
     private $path;
 
     public function __construct() {
-        $this->host = config('subscriber-service.host');
-        $this->utilitiesHost = config('user-service.host');
-        $this->basicAuthUsername = config('subscriber-service.username');
-        $this->basicAuthPassword = config('subscriber-service.password');
+        $this->host = config('subscribers-service.host');
+        $this->basicAuthUsername = config('subscribers-service.username');
+        $this->basicAuthPassword = config('subscribers-service.password');
     }
 
     public function find(array $criteria) {
@@ -39,6 +38,43 @@ class SubscribersService implements ServiceInterface {
             throw $e;
             
         }     
+    }
+
+    public function addSubscriber(string $userRef, string $name, string $contactPhoneNo, string $utility) {
+        $url = sprintf("%s?request_id=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $userRef);
+
+        $subscriber = array ('name' => $name,
+                            'phone_no' => $contactPhoneNo,
+                            'activated' => True,
+                            'utility' => $utility
+                        );
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->post($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                        ],
+                                            'json' => $subscriber
+                                    ]);
+                                            
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        if (!is_null($data)){
+                        
+            if ($data['status']['code'] != 200) {
+                throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+            } else {
+                return $data;
+                    
+            }
+                
+        } else {
+            return $response->status();
+                                        
+        }
     }
 
 }

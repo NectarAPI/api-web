@@ -6,7 +6,7 @@ use App\Subscriber;
 use App\Utility;
 use App\User;
 
-use App\Services\SubscriberService;
+use App\Services\SubscribersService;
 use App\Services\UserService;
 use App\Services\UtilityService;
 
@@ -57,5 +57,54 @@ class SubscribersController extends Controller {
             
         }  
    
+    }
+
+    public function createSubscriber(Request $request) {
+        $userRef = Auth::user()->ref;
+        $subscriber = new Subscriber(new SubscribersService());
+
+        try {
+            if (!is_null($userRef)) {
+                $name = $request->name;
+                $contactPhoneNo = $request->phone_no;
+                $utility = $request->utility;
+
+                $createdSubscriber = $subscriber->addSubscriber($userRef, $name, $contactPhoneNo, $utility);
+
+                return response()->json(['status' => [
+                                                        'code' => 200, 
+                                                        'message' => 'Created subscriber'
+                                                    ],
+                                                        'data' => [
+                                                        'subscriber' => $createdSubscriber
+                                                    ]
+                                                ]);
+
+
+            }
+
+        } catch(\Exception $e) {
+                        if ($e instanceof \Illuminate\Validation\ValidationException) {
+ 
+                 $errors = $e->errors();
+  
+                 foreach ($errors as $key =>  $value) {
+                      $arrImplode[] = implode( ', ', $errors[$key] );
+                  }
+  
+                  $message = implode(', ', $arrImplode);
+          
+              } else {
+                  $message =  $e->getMessage();
+              }
+              
+              return response()->json(['status' => [
+                                                     'code' => 500, 
+                                                     'message' => $message
+                                                 ]
+                                             ]);
+ 
+            
+        }  
     }
 }

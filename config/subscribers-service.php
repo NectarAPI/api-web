@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'subscribers-host' => env('SUBSCRIBERS_SERVICE_HOST'),
+    'host' => env('SUBSCRIBERS_SERVICE_HOST'),
 
      /*
     |--------------------------------------------------------------------------
