@@ -33,4 +33,35 @@ class Subscriber {
 
         }
     }
+
+    public function getSubscriber(string $subscriberRef, string $utilityRef) {
+        try {
+            return $this->service->getSubscriber($subscriberRef, $utilityRef);
+
+        } catch(\Exception $e) {
+            throw $e;
+
+        }
+    }
+
+    public function activateSubscriber(string $subscriberRef, $userRef) {
+        try {
+            return $this->service->activateSubscriber($subscriberRef, $userRef);
+
+        } catch(\Exception $e) {
+            throw $e;
+
+        }
+    }
+
+    public function deactivateSubscriber(string $subscriberRef, $userRef) {
+
+        try {
+            return $this->service->deactivateSubscriber($subscriberRef, $userRef);
+
+        } catch(\Exception $e) {
+            throw $e;
+
+        }
+    }
 }

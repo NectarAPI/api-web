@@ -77,4 +77,106 @@ class SubscribersService implements ServiceInterface {
         }
     }
 
+    public function getSubscriber(string $subscriberRef, string $utilityRef) {
+        if (!is_null($subscriberRef) && !is_null($utilityRef)) {
+            
+            $url = sprintf("%s?request_id=%s&subscriber_ref=%s&utility_ref=%s", $this->host, 
+                            UuidUtils::generate(), $subscriberRef, $utilityRef);
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->get($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ]
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data['status']['message'];
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
+        }
+    }
+
+    public function activateSubscriber(string $subscriberRef, string $userRef) {
+        
+        if (!is_null($subscriberRef)) {
+            
+            $url = sprintf("%s/%s?request_id=%s&user_ref=%s", $this->host, $subscriberRef, UuidUtils::generate(), $userRef);
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->put($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ]
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data['status']['message'];
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
+        }
+    }
+
+    public function deactivateSubscriber(string $subscriberRef, string $userRef) {
+
+        if (!is_null($subscriberRef)) {
+            
+            $url = sprintf("%s/%s?request_id=%s&user_ref=%s", $this->host, $subscriberRef, UuidUtils::generate(), $userRef);
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->delete($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ]
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data['status']['message'];
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
+        }
+    }
+
 }
