@@ -44,6 +44,18 @@ class Subscriber {
         }
     }
 
+    public function updateSubscriber(string $userRef, string $subscriberRef, string $name, 
+                                        string $contactPhoneNo, bool $activated) {
+        try {
+            return $this->service->updateSubscriber($userRef, $subscriberRef, $name, 
+                                                        $contactPhoneNo, $activated);
+
+        } catch(\Exception $e) {
+            throw $e;
+
+        }
+    }
+
     public function activateSubscriber(string $subscriberRef, $userRef) {
         try {
             return $this->service->activateSubscriber($subscriberRef, $userRef);

@@ -72,44 +72,44 @@ export default {
         onSubmitEditSubscriber: function(event) {
             let self = this
             self.errors = []
-                let formData = new FormData(document.getElementById("activateDeactivateSubscriberForm"))
-                self.saveSpinner = true
-                self.buttonSubmitDisabled = true
-                axios.post('/subscriber/' + self.subscriber.ref + '/activateDeactivate', formData).then(function(response, status, request) {  
+            let formData = new FormData(document.getElementById("activateDeactivateSubscriberForm"))
+            self.saveSpinner = true
+            self.buttonSubmitDisabled = true
+            axios.post('/subscriber/' + self.subscriber.ref + '/activateDeactivate', formData).then(function(response, status, request) {  
                     
-                    let responseStatus = response.data.status.code
-                    let responseMessage = response.data.status.message
+                let responseStatus = response.data.status.code
+                let responseMessage = response.data.status.message
 
-                    if (responseStatus != 200) {
+                if (responseStatus != 200) {
 
-                        if (typeof responseMessage === 'string' || responseMessage instanceof String) {
-                            self.errors.push(responseMessage)
+                    if (typeof responseMessage === 'string' || responseMessage instanceof String) {
+                        self.errors.push(responseMessage)
 
-                        } else if (Array.isArray(responseMessage) || typeof responseMessage == 'object') {
-                            for (const [key, value] of Object.entries(responseMessage)) {
+                    } else if (Array.isArray(responseMessage) || typeof responseMessage == 'object') {
+                        for (const [key, value] of Object.entries(responseMessage)) {
                                 self.errors.push(`${value}`)
-
-                            }
-
-                        } else {
-                            self.errors.push(responseMessage)
 
                         }
 
                     } else {
                         self.errors.push(responseMessage)
-                        self.$emit('activateDeactivateSubscriber')
 
                     }
 
-                }, function() {
-                    console.log('activating or deactivating subscriber failed')
+                } else {
+                    self.errors.push(responseMessage)
+                    self.$emit('activateDeactivateSubscriber')
 
-                }).finally(() => {
-                    self.saveSpinner = false
-                    self.buttonSubmitDisabled = false
+                }
 
-                })
+            }, function() {
+                console.log('activating or deactivating subscriber failed')
+
+            }).finally(() => {
+                self.saveSpinner = false
+                self.buttonSubmitDisabled = false
+
+            })
             
             event.preventDefault()
         },

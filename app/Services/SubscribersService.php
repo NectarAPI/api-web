@@ -111,6 +111,46 @@ class SubscribersService implements ServiceInterface {
         }
     }
 
+    public function updateSubscriber(string $userRef, string $subscriberRef, string $name, string $contactPhoneNo, bool $activated) {
+        if (!is_null($subscriberRef)) {
+            
+            $url = sprintf("%s?request_id=%s&subscriber_ref=%s&user_ref=%s", $this->host, 
+                            UuidUtils::generate(), $subscriberRef, $userRef);
+
+            $subscriber = array ('name' => $name,
+                            'phone_no' => $contactPhoneNo,
+                            'activated' => $activated,
+                        );
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->put($url, [
+                                            'headers' => ['Content-type' => 'application/json'],
+                                            'auth' => [
+                                                $this->basicAuthUsername, 
+                                                $this->basicAuthPassword
+                                            ],
+                                            'json' => $subscriber
+                                        ]);
+                                            
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_null($data)){
+                        
+                if ($data['status']['code'] != 200) {
+                    throw new \Exception(sprintf('Returned status %s. %s', $data['status']['code'], $data['status']['message']));
+                    
+                } else {
+                    return $data;
+                    
+                }
+                    
+            } else {
+                return $response->status();
+                                        
+            }
+        }
+    }
+
     public function activateSubscriber(string $subscriberRef, string $userRef) {
         
         if (!is_null($subscriberRef)) {

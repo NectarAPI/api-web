@@ -25,7 +25,8 @@
                         <input id="name" :disabled="buttonSubmitDisabled" name="name" v-model="currSubscriber.name"/>
 
                         <label for="text-key-name">Contact Phone No</label>
-                        <input id="contact_phone_no" :disabled="buttonSubmitDisabled" name="contact_phone_no" v-model="currSubscriber.phone_no"/>
+                        <input id="contact_phone_no" :disabled="buttonSubmitDisabled" 
+                            name="contact_phone_no" v-model="currSubscriber.phone_no"/>
 
                         <input type="checkbox"
                             :disabled="buttonSubmitDisabled"
@@ -62,7 +63,6 @@ export default {
     ],
     data() {
         return {
-            configsOptions: [],
             errors: [],
             saveSpinner: false,
             buttonSubmitDisabled: false,
@@ -80,8 +80,9 @@ export default {
             self.buttonSubmitDisabled = true
 
             let formData = new FormData(document.getElementById("editSubscriberForm"))
+            formData.append('subscriber_ref', self.subscriber.ref)
 
-            axios.post('/subscriber/' + self.subscriber.ref , formData).then(function(response, status, request) {  
+            axios.post('/subscriber/updateSubscriber', formData).then(function(response, status, request) {  
                     
                 let responseStatus = response.data.status.code
                 let responseMessage = response.data.status.message

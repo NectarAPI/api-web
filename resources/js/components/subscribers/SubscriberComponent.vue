@@ -80,7 +80,7 @@
 
         <edit-subscriber-component
                 :subscriber="subscriber"
-                @activateDeactivateSubscriber="activateDeactivateSubscriber">
+                @updatedSubscriber="updatedSubscriber">
         </edit-subscriber-component>
 
         <activate-deactivate-subscriber-component
@@ -110,6 +110,13 @@ export default {
         };
     },
     methods: {
+        updatedSubscriber: function(subscriber) {
+            this.subscriber.name = subscriber.name
+            this.subscriber.phone_no = subscriber.phone_no
+            this.subscriber.activated = subscriber.activated
+            this.subscriber.created_at = subscriber.created_at
+            this.subscriber.updated_at = subscriber.updated_at
+        },
         activateDeactivateSubscriber: function() {
             this.subscriber.activated = !this.subscriber.activated
 
