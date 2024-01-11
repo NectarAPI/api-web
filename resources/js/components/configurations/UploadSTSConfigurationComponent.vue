@@ -143,7 +143,7 @@ export default {
                                                 'key': key 
 
                                             }).then((res) => {
-                                                self.errors.push('Created config ' + res.config.name)
+                                                self.errors.push('Created config ' + res.config.config.name)
                                                 self.showSpinner = false
                                                 self.buttonSubmitDisabled = false
 
