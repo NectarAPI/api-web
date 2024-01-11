@@ -142,6 +142,7 @@ export default {
             this.meter.meterType.name = meter.meterType.name
             this.meter.activated = meter.activated
             this.meter.utility = meter.utility
+            this.meter.subscriber = meter.subscriber
         },
         activateDeactivateMeter: function() {
             this.meter.activated = !this.meter.activated
