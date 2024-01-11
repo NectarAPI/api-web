@@ -111,7 +111,7 @@ export default {
             axios
                 .get("/subscriber")
                 .then(function(response, status, request) {
-                    self.subscribers = response.data.data.subscribers.subscribers;
+                    self.subscribers = response.data.data.subscribers;
 
                     if (self.subscribers.length > 0) {
                         self.currSubscriber = self.subscribers[0];
