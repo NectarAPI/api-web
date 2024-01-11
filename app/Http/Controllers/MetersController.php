@@ -271,10 +271,9 @@ class MetersController extends Controller {
                                                 );
                     }
                 }
+            }
 
-                throw new \Exception('Invalid meter ref');
-                
-            }        
+            throw new \Exception('Invalid meter ref');
 
         } catch (\Exception $e) {
             info($e->getMessage());
