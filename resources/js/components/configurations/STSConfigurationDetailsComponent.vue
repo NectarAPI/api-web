@@ -60,13 +60,6 @@
                     {{ configuration.config.config_type }}
                 </p>
 
-                <small class="text-black font-weight-medium d-block pt-2">
-                    Created At
-                </small>
-                <p class="text-muted">
-                    {{ configuration.config.created_at }}
-                </p>
-
                 <div v-if="configuration.config.config_type == 'NATIVE'">
 
                     <small class="text-black font-weight-medium d-block pt-2">
@@ -182,6 +175,13 @@
                 </small>
                 <p class="text-muted">
                     {{ configuration.token_carrier_type }}
+                </p>
+
+                <small class="text-black font-weight-medium d-block pt-2">
+                    Created At
+                </small>
+                <p class="text-muted">
+                    {{ configuration.config.created_at }}
                 </p>
             </div>  
         </div>
