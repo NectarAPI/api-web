@@ -36,7 +36,7 @@ class SubscribersController extends Controller {
                 foreach ($userUtilities as $userUtility) {
                     $currUtilitySubscribers = $utility->getSubscribers($userUtility['ref']);
 
-                    if (count($currUtilitySubscribers) > 0) {
+                    if (count($currUtilitySubscribers['subscribers']) > 0) {
                         $subscribers = array_merge($subscribers, $currUtilitySubscribers);
                     }
                 }
