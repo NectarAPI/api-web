@@ -32,8 +32,7 @@
 
                         <label for="configuration">STS configuration</label>
                         <select id="configuration" name="configuration" v-model="utilityConfiguration">
-                            <option default value="null">Please select</option>
-            
+                            <option default value="null"></option>
                             <option v-for="option in configsOptions" :value="option.value">
                                 {{  option.text }}
                             </option>
@@ -61,43 +60,21 @@
 <script>
 export default {
     name: "CreateUtilityComponent",
+    props: [
+        'configsOptions'
+    ],
     data() {
         return {
             utilityName: '',
             utilityContactPhoneNo: '',
             utilityUnitCharge: '',
             utilityConfiguration: '',
-            configsOptions: [],
             errors: [],
             saveSpinner: false,
             buttonSubmitDisabled: false,
         };
     },
     methods: {
-        fetchSTSConfigurations: function() {
-            let self = this
-            return axios
-                .get("/configs")
-                .then(response => {
-                    if (response.data.status.code == 200) {
-                        let configs = response.data.data.sts_configurations
-                        for (let config of configs) {
-                            let configObj = {
-                                value: config.config.ref,
-                                text: config.config.name
-                            }
-                            self.configsOptions.push(configObj)
-                        }
-
-                    } else {
-                        throw response.data.status.message
-                    }
-                })
-                .catch(err => {
-                    throw err
-                });
-
-        },
         resetNewUtilityModal: function() {
             this.errors = []
 
@@ -175,7 +152,7 @@ export default {
         let self = this
         self.saveSpinner = false
         self.buttonSubmitDisabled = false
-        self.fetchSTSConfigurations()
+        
     }
 }
 </script>

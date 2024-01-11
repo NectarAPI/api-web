@@ -36,6 +36,7 @@
                                     data-toggle="modal"
                                     data-target="#create-utility-modal">Create</button>
                                 <create-utility-component
+                                    :configsOptions="configsOptions"
                                     @createdUtility="createdUtility">
                                 </create-utility-component>
                             </div>
@@ -50,7 +51,9 @@
             </div>
             <div class="col-md-4 equel-grid">
                 <utility-component
-                    :utility="currUtility"></utility-component>
+                    :configsOptions="configsOptions"
+                    :utility="currUtility">
+                </utility-component>
             </div>
         </div>
     </div>
@@ -70,11 +73,36 @@ export default {
             errors: [],
             utilities: Array,
             currUtility: Object,
+            configsOptions: [],
             showSpinner: false,
             editKey: ""
         };
     },
     methods: {
+        fetchSTSConfigurations: function() {
+            let self = this
+            return axios
+                .get("/configs")
+                .then(response => {
+                    if (response.data.status.code == 200) {
+                        let configs = response.data.data.sts_configurations
+                        for (let config of configs) {
+                            let configObj = {
+                                value: config.config.ref,
+                                text: config.config.name
+                            }
+                            self.configsOptions.push(configObj)
+                        }
+
+                    } else {
+                        throw response.data.status.message
+                    }
+                })
+                .catch(err => {
+                    throw err
+                });
+
+        },
         createdUtility: function(utility) {
             this.utilities.push(utility);
         },
@@ -108,6 +136,7 @@ export default {
         let self = this;
         self.showSpinner = true;
         self.fetchUtilities();
+        self.fetchSTSConfigurations();
 
     }
 };

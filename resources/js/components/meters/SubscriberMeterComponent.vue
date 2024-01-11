@@ -58,21 +58,6 @@
                             {{ meter.meterType.name }}
                         </p>
 
-                        <small class="text-black font-weight-medium d-block pt-2">
-                            Activated
-                        </small>
-                        <span class="text-gray">
-                            <span
-                                v-if="meter.activated"
-                                class="status-indicator rounded-indicator small bg-primary"
-                            ></span>
-                            <span
-                                v-else-if="!meter.activated"
-                                class="status-indicator rounded-indicator small bg-secondary"
-                            ></span>
-                            {{ meter.activated }}
-                        </span>
-
                         <span v-if="meter.utility">
                             <small class="text-black font-weight-medium d-block pt-2">
                                 Utility
@@ -92,6 +77,21 @@
                                 {{ meter.subscriber.name }}
                             </p>
                         
+                        </span>
+
+                        <small class="text-black font-weight-medium d-block pt-2">
+                            Activated
+                        </small>
+                        <span class="text-gray">
+                            <span
+                                v-if="meter.activated"
+                                class="status-indicator rounded-indicator small bg-primary"
+                            ></span>
+                            <span
+                                v-else-if="!meter.activated"
+                                class="status-indicator rounded-indicator small bg-secondary"
+                            ></span>
+                            {{ meter.activated }}
                         </span>
 
                     </div>

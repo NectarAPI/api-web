@@ -68,41 +68,17 @@
 export default {
     name: "EditUtilityComponent",
     props: [
-        'utility'
+        'utility',
+        'configsOptions'
     ],
     data() {
         return {
-            configsOptions: [],
             errors: [],
             saveSpinner: false,
             buttonSubmitDisabled: false,
         };
     },
     methods: {
-        fetchSTSConfigurations: function() {
-            let self = this
-            return axios
-                .get("/configs")
-                .then(response => {
-                    if (response.data.status.code == 200) {
-                        let configs = response.data.data.sts_configurations
-                        for (let config of configs) {
-                            let configObj = {
-                                value: config.config.ref,
-                                text: config.config.name
-                            }
-                            self.configsOptions.push(configObj)
-                        }
-
-                    } else {
-                        throw response.data.status.message
-                    }
-                })
-                .catch(err => {
-                    throw err
-                });
-
-        },
         resetUtilityModal: function() {
             this.errors = []
 
@@ -164,7 +140,6 @@ export default {
         let self = this
         self.saveSpinner = false
         self.buttonSubmitDisabled = false
-        self.fetchSTSConfigurations()
     }
 }
 </script>

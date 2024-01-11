@@ -65,9 +65,21 @@
                             {{ utility.unit_charge }}
                         </p>
 
+                        <span v-for="configOption in configsOptions" v-if="configsOptions">
+                            <span v-if="configOption.value == utility.config_ref">
+                                <small class="text-black font-weight-medium d-block pt-2">
+                                    STS Configuration
+                                </small>
+                                <p class="text-muted">
+                                    {{  configOption.text }}
+                                </p>
+                            </span>
+                        </span>
+
                         <small class="text-black font-weight-medium d-block pt-2">
                             Activated
                         </small>
+
                         <span class="text-gray">
                             <span
                                 v-if="utility.activated"
@@ -91,6 +103,7 @@
 
         <edit-utility-component
                 :utility="utility"
+                :configsOptions="configsOptions"
                 @updatedUtility="updatedUtility">
         </edit-utility-component>
 
@@ -107,7 +120,8 @@ export default {
      },
     name: "UtilityComponent",
     props: [
-        'utility'
+        'utility',
+        'configsOptions'
     ],
      data() {
         return {
@@ -125,6 +139,7 @@ export default {
             this.utility.contact_phone_no = utility.contact_phone_no
             this.utility.unit_charge = utility.unit_charge
             this.utility.activated = utility.activated
+            this.utility.config_ref = utility.config_ref
         }
     },
     mounted: function() {
