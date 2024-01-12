@@ -16,7 +16,7 @@
                     Please fill in the following STS Configuration data. STS
                     configuration data will encrypted using the private key locally on this client
                     before it is transmitted. The private key will not be transmitted fron this client.
-                    <!-- <a href="#">Learn More</a> -->
+                    <a href="/docs">Learn More</a>
                 </p>
             </div>
             <div class="col-md-8 col-sm-12">

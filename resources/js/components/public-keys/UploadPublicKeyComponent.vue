@@ -32,7 +32,7 @@
                         </textarea>
                         <p id="key-help-block">
                             Your public key must be a 4096 bit
-                            RSA/ECB/PKCS1Padding key. <a href="/documentation">Learn more</a>
+                            RSA/ECB/PKCS1Padding key. <a href="/docs">Learn more</a>
                         </p>
 
                         <input type="checkbox"
