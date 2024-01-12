@@ -18,12 +18,12 @@
                             <ol>
                                 <li>
                                     <h4>Create the STS configuration YAML</h4>
-                                    <p>An STS configuration must be created in the form of a YAML file. Below is an example of an STS configuration with all required fields. 
+                                    <p>An STS configuration must be created in the form of a YAML file. Below is an example of a native STS configuration with all required fields. 
                                         The file can be saved using any name and with any extension desired.
                                         <span class="code">
                                             <pre>
 ---
-name: example_config
+name: example_native_config
 type: native
 key_expiry_no: 255
 encryption_algorithm: sta
@@ -36,6 +36,27 @@ supply_group_code: 123456
 key_type: 3
 base_date: 2035
 issuer_identification_no: 600727
+                                            </pre>
+                                        </span>
+                                    </p>
+                                    
+                                    <p>Below is an example of a prism thrift STS configuration with all required fields. 
+                                        <span class="code">
+                                            <pre>
+---
+name: example prism thrift config
+type: prism-thrift
+host: 194.0.0.0
+port: 9443
+realm: local
+username: username
+password: password
+encryption_algorithm: sta
+token_carrier_type: numeric
+supply_group_code: 600675
+key_revision_no: 1
+key_expiry_no: 255
+tariff_index: 01
                                             </pre>
                                         </span>
                                     </p>
@@ -53,7 +74,7 @@ issuer_identification_no: 600727
                                 </li>
                             </ol> 
                         </p>
-                        <p>The following commands can be used to encrypt an STS configuration using a symmetric key and base64 encode the output.
+                        <p>The following commands can be used to encrypt an STS configuration using a symmetric key and base64 encode the output as defined in Steps 2 and 3 above.
                             <span class="code">
                                 <pre>
 <span class="comment">These set of commands use the IV `1234567812345678` </span>
@@ -103,7 +124,7 @@ openssl rsa -in key.pem -pubout > public.pub
 <span class="comment">== end</span>
 
 <span class="comment">Generate SHA256 digest and sign encrypting it with your private key</span>
-cat sts_config.yml | openssl dgst -binary -sha256 | openssl rsautl -sign -inkey user_key.pem -in - -out - | openssl base64 > encrypted_digest.txt
+cat sts_config.yml | openssl dgst -binary -sha256 | openssl rsautl -sign -inkey key.pem -in - -out - | openssl base64 > encrypted_digest.txt
                                 </pre>
                             </span>
                         </p> <br/><br/><br/><hr /><br/><br/><br/>
