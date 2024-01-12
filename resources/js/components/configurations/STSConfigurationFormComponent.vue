@@ -14,19 +14,70 @@
             <div class="row col-12">
                 <p class="pb-4 pt-2">
                     Please fill in the following STS Configuration data. STS
-                    configuration data will be sent to our servers
-                    encrypted.
-                    <a href="#">Learn More</a>
+                    configuration data will encrypted using the private key locally on this client
+                    before it is transmitted. The private key will not be transmitted fron this client.
+                    <!-- <a href="#">Learn More</a> -->
                 </p>
             </div>
             <div class="col-md-8 col-sm-12">
-
+                <div class="form-group row showcase_row_area col-12">
+                    <div class="col-md-3 showcase_text_area">
+                        <label for="sts_config_type">STS Configuration Type</label>
+                    </div>
+                    <div class="col-md-9 showcase_content_area">
+                        <select name="sts_config_type" id="sts_config" 
+                            v-model="currSTSConfigType">
+                            <option value="NATIVE">Native</option>
+                            <option value="PRISM">Prism</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group row showcase_row_area">
                     <div class="col-md-3 showcase_text_area">
                         <label for="cn">Config Name</label>
                     </div>
                     <div class="col-md-9 showcase_content_area">
                         <input id="cn" name="cn" v-model="cn"/>
+                    </div>
+                </div>
+                <div class="form-group row showcase_row_area" v-if="currSTSConfigType == 'PRISM'">
+                    <div class="col-md-3 showcase_text_area">
+                        <label for="host">Host</label>
+                    </div>
+                    <div class="col-md-9 showcase_content_area">
+                        <input id="host" name="host" v-model="host"/>
+                    </div>
+                </div>
+                <div class="form-group row showcase_row_area" v-if="currSTSConfigType == 'PRISM'">
+                    <div class="col-md-3 showcase_text_area">
+                        <label for="realm">Realm</label>
+                    </div>
+                    <div class="col-md-9 showcase_content_area">
+                        <input id="realm" name="realm" v-model="realm"/>
+                    </div>
+                </div>
+                <div class="form-group row showcase_row_area" v-if="currSTSConfigType == 'PRISM'">
+                    <div class="col-md-3 showcase_text_area">
+                        <label for="port">Port</label>
+                    </div>
+                    <div class="col-md-9 showcase_content_area">
+                        <input id="port" name="port" v-model="port"/>
+                    </div>
+                </div>
+                <div class="form-group row showcase_row_area" v-if="currSTSConfigType == 'PRISM'">
+                    <div class="col-md-3 showcase_text_area">
+                        <label for="username">Username</label>
+                    </div>
+                    <div class="col-md-9 showcase_content_area">
+                        <input id="username" name="username" v-model="username"/>
+                    </div>
+                </div>
+                <div class="form-group row showcase_row_area" v-if="currSTSConfigType == 'PRISM'">
+                    <div class="col-md-3 showcase_text_area">
+                        <label for="password">Password</label>
+                    </div>
+                    <div class="col-md-9 showcase_content_area">
+                        <input id="password" name="password" v-model="password"/>
                     </div>
                 </div>
                 <div class="form-group row showcase_row_area">
@@ -37,7 +88,7 @@
                         <input id="sgc" name="sgc" v-model="sgc"/>
                     </div>
                 </div>
-                <div class="form-group row showcase_row_area">
+                <div class="form-group row showcase_row_area" v-if="currSTSConfigType == 'NATIVE'">
                     <div class="col-md-3 showcase_text_area">
                         <label for="iin">Issuer Identification No (IIN)</label>
                     </div>
@@ -50,7 +101,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group row showcase_row_area">
+                <div class="form-group row showcase_row_area"  v-if="currSTSConfigType == 'NATIVE'">
                     <div class="col-md-3 showcase_text_area">
                         <label for="kt">Key Type (KT)</label>
                     </div>
@@ -82,7 +133,8 @@
                          <input id="ken" name="ken" v-model="ken"/>
                     </div>
                 </div>
-                <div class="form-group row showcase_row_area">
+                <div class="form-group row showcase_row_area" 
+                            v-if="currSTSConfigType == 'NATIVE'">
                     <div class="col-md-3 showcase_text_area">
                         <label for="vk">Vending Key (VK)</label>
                     </div>
@@ -90,7 +142,8 @@
                          <input id="vk" name="vk" v-model="vk"/>
                     </div>
                 </div>
-                <div class="row showcase_row_area">
+                <div class="row showcase_row_area" 
+                            v-if="currSTSConfigType == 'NATIVE'">
                     <div class="col-md-3 showcase_text_area">
                         <label>Decoder Key Generation Algorithm (DKGA)</label>
                     </div>
@@ -114,7 +167,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group row showcase_row_area">
+                <div class="form-group row showcase_row_area" v-if="currSTSConfigType == 'NATIVE'">
                     <div class="col-md-3 showcase_text_area">
                         <label for="bd">Base Date (BD)</label>
                     </div>
@@ -196,11 +249,17 @@ export default {
     data() {
       return {
         errors: [],
+        currSTSConfigType: 'NATIVE',
         crypto: null,
         buttonSubmitDisabled: false,
         showSpinner: false,
         symmetricKey: null,
         userPrivateKey: null,
+        host: '',
+        realm: '',
+        port: '',
+        username: '',
+        password: '',
         cn: '',
         sgc: '',
         iin: null,
@@ -269,20 +328,9 @@ export default {
                                                     'key': encryptedSymmetricKey
 
                                                 }).then((res) => {
-                                                    self.errors.push('Created config ' + res.config.name)
+                                                    self.errors.push('Created config ' + res.config.config.name)
                                                     self.showSpinner = false
                                                     self.buttonSubmitDisabled = false
-                                                    self.cn = ''
-                                                    self.sgc = ''
-                                                    self.iin = null
-                                                    self.kt = ''
-                                                    self.krn = ''
-                                                    self.ti = ''
-                                                    self.ken = ''
-                                                    self.vk = ''
-                                                    self.dkga = null
-                                                    self.ea = null
-                                                    self.bd = null
 
                                                 }).catch(err => {
                                                     self.errors.push(err)
@@ -315,11 +363,11 @@ export default {
                 self.errors.push('Invalid Supply Group Code')
             }
 
-            if (!/^(600727|0000)$/.test(self.iin)) {
+            if (self.currSTSConfigType == 'NATIVE' && !/^(600727|0000)$/.test(self.iin)) {
                 self.errors.push('Invalid Issuer Identification Number')
             }
 
-            if (!/^([0-3])$/.test(self.kt)) {
+            if (self.currSTSConfigType == 'NATIVE' && !/^([0-3])$/.test(self.kt)) {
                 self.errors.push('Invalid Key Type')
             }
 
@@ -336,11 +384,11 @@ export default {
                 self.errors.push('Invalid Key Expiry No')
             }
 
-            if (!/^([0-9a-fA-F]{16})$/.test(self.vk)) {
+            if (self.currSTSConfigType == 'NATIVE' && !/^([0-9a-fA-F]{16})$/.test(self.vk)) {
                 self.errors.push('Invalid Vending Key')
             }
 
-            if (!/^(01|02|03|04)$/.test(self.dkga)) {
+            if (self.currSTSConfigType == 'NATIVE' && !/^(01|02|03|04)$/.test(self.dkga)) {
                 self.errors.push('Invalid Decoder Key Generation Algorithm')
             }
 
@@ -348,8 +396,28 @@ export default {
                 self.errors.push('Invalid Encryption Algorithm')
             }
 
-            if (!/^(1993|2014|2035)$/.test(self.bd)) {
+            if (self.currSTSConfigType == 'NATIVE' && !/^(1993|2014|2035)$/.test(self.bd)) {
                 self.errors.push('Invalid Base Date')
+            }
+
+            if (self.currSTSConfigType == 'PRISM' && !/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(self.host)) {
+                self.errors.push('Invalid host')
+            }
+
+            if (self.currSTSConfigType == 'PRISM' && !/^\d{1,}$/.test(self.port)) {
+                self.errors.push('Invalid port')
+            }
+
+            if (self.currSTSConfigType == 'PRISM' &&  (self.realm == undefined || self.realm == '')) {
+                self.errors.push('Invalid realm')
+            }
+
+            if (self.currSTSConfigType == 'PRISM' && (self.username == undefined || self.username == '')) {
+                self.errors.push('Invalid username')
+            }
+
+            if (self.currSTSConfigType == 'PRISM' && (self.password == undefined || self.password == '')) {
+                self.errors.push('Invalid password')
             }
 
             if (!self.symmetricKey || self.symmetricKey['type'] != 'text/plain') {
@@ -365,19 +433,37 @@ export default {
         },
         generateYAMLConfig: function() {
             let self = this
-            return `---\n` +
-                    `name: ${self.cn}\n` +
-                    `key_expiry_no: ${self.ken}\n` +
-                    `encryption_algorithm: ${self.ea}\n` +
-                    `token_carrier_type: numeric\n` +
-                    `decoder_key_generation_algorithm: ${self.dkga}\n` +
-                    `tariff_index: ${self.ti}\n` +
-                    `key_revision_no: ${self.krn}\n` +
-                    `vending_key: ${self.vk}\n` +
-                    `supply_group_code: ${self.sgc}\n` +
-                    `key_type: ${self.kt}\n` +
-                    `base_date: ${self.bd}\n` +
-                    `issuer_identification_no: ${self.iin}`
+            if (self.currSTSConfigType == 'NATIVE') {
+                return `---\n` +
+                        `name: ${self.cn}\n` +
+                        `type: native\n` +
+                        `key_expiry_no: ${self.ken}\n` +
+                        `encryption_algorithm: ${self.ea}\n` +
+                        `token_carrier_type: numeric\n` +
+                        `decoder_key_generation_algorithm: ${self.dkga}\n` +
+                        `tariff_index: ${self.ti}\n` +
+                        `key_revision_no: ${self.krn}\n` +
+                        `vending_key: ${self.vk}\n` +
+                        `supply_group_code: ${self.sgc}\n` +
+                        `key_type: ${self.kt}\n` +
+                        `base_date: ${self.bd}\n` +
+                        `issuer_identification_no: ${self.iin}`
+            } else if (self.currSTSConfigType == 'PRISM') {
+                return `---\n` +
+                        `name: ${self.cn}\n` +
+                        `type: prism-thrift\n` +
+                        `host: ${self.host}\n` +
+                        `port: ${self.port}\n` +
+                        `realm: ${self.realm}\n` +
+                        `username: ${self.username}\n` +
+                        `password: ${self.password}\n` +
+                        `encryption_algorithm: ${self.ea}\n` +
+                        `token_carrier_type: numeric\n` +
+                        `supply_group_code: ${self.sgc}\n` +
+                        `key_revision_no: ${self.krn}\n` +
+                        `key_expiry_no: ${self.ken}\n` +
+                        `tariff_index: ${self.ti}`
+            }
         },
         encryptSTSConfig: function(yamlConfig, symmetricKey) {
             let self = this
@@ -400,7 +486,9 @@ export default {
         },
         refactorUserPrivateKey: function(userPrivateKey) {
             let refactoredUserPrivateKey = userPrivateKey.replace("-----BEGIN RSA PRIVATE KEY-----", "");
+            refactoredUserPrivateKey = userPrivateKey.replace("-----BEGIN PRIVATE KEY-----", "");
             refactoredUserPrivateKey = refactoredUserPrivateKey.replace("-----END RSA PRIVATE KEY-----", "");
+            refactoredUserPrivateKey = refactoredUserPrivateKey.replace("-----END PRIVATE KEY-----", "");
             refactoredUserPrivateKey = refactoredUserPrivateKey.replace("\r", "");
             return refactoredUserPrivateKey.replace("\n", "");
         },
@@ -444,7 +532,7 @@ export default {
 
         try {
             this.crypto = crypto
-        } catch (err) {
+         } catch (err) {
             throw 'crypto support is disabled!'
 
         }
