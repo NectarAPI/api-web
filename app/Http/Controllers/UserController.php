@@ -99,10 +99,10 @@ class UserController extends Controller {
 
                     if(!is_null($avatar)) {
                         $avatarManager = new AvatarManager();
-                        $fileName = $avatarManager->resizeAndUploadimageToS3($avatar, self::$IMAGE_WIDTH);
+                        $fileName = $avatarManager->resizeAndUploadimage($avatar, self::$IMAGE_WIDTH);
                     }
 
-                    $requestId = $user->updateUser($request->user_ref, $request->first_name, $request->last_name, 
+                    $requestId = $user->updateUser($request->user_ref, $request->first_name, $request->last_name,   
                                                     $request->phone_no, $fileName, $request->email, $request->password);
 
                     return response()->json(['status'   => 200, 

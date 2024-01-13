@@ -238,7 +238,7 @@
                         self.email = user.email
                         self.phone_no = user.phone_no
                         self.username = user.username
-                        self.image = "https://nectar-avatar-images.s3.amazonaws.com/"  + user.image_url
+                        self.image = user.image_url
 
                     }).finally(() => {
                             this.showSpinner = false
