@@ -15,7 +15,7 @@
                 <p class="pb-4 pt-2">
                     Please fill in the following STS Configuration data. STS
                     configuration data will encrypted using the private key locally on this client
-                    before it is transmitted. The private key will not be transmitted fron this client.
+                    before it is transmitted. The private key will not be transmitted from this client.
                     <a href="/docs">Learn More</a>
                 </p>
             </div>
