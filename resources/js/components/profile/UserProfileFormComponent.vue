@@ -204,8 +204,8 @@
 
                             }
 
-                        }, function() {
-                            console.log('registration failed')
+                        }, function(error) {
+                            self.errors.push('Registration failed. ' + error.response.statusText)
 
                     }).finally(() => {
                         self.saveSpinner = false

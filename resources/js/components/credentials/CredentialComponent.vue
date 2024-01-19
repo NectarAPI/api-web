@@ -29,7 +29,6 @@
 
             <div class="grid">
                 <div class="grid-body">
-                    <p class="pb-2 small">{{ credential.created_at }}</p>
 
                     <small class="text-black font-weight-medium d-block pt-2">
                         Key
@@ -81,7 +80,7 @@
                         Created At
                     </small>
                     <p class="text-muted">
-                        {{ credential.createdAt }}
+                        {{ credential.created_at }}
                     </p>
                 </div>
             </div>
