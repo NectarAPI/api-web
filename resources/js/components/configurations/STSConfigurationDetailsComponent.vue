@@ -49,6 +49,21 @@
                 <small class="text-black font-weight-medium d-block pt-2">
                     Activated
                 </small>
+                <span class="text-gray">
+                    <span
+                        v-if="configuration.config.activated"
+                        class="status-indicator rounded-indicator small bg-primary">
+                    </span>
+                    <span
+                        v-else-if="!configuration.config.activated"
+                        class="status-indicator rounded-indicator small bg-secondary">
+                    </span>
+                        {{ configuration.config.activated}}
+                </span>
+
+                <small class="text-black font-weight-medium d-block pt-2">
+                    Activated
+                </small>
                 <p class="text-muted">
                     {{ configuration.config.activated }}
                 </p>

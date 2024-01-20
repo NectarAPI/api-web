@@ -90,4 +90,8 @@ export default {
 tr.data-row {
   cursor: pointer;
 }
+.table-responsive {
+    max-height: 50em;
+    overflow-y: scroll;
+}
 </style>

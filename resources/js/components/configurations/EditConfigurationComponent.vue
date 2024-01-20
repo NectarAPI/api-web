@@ -38,7 +38,7 @@
                     <button type="button" class="btn btn-secondary" 
                         @click="resetActivateDeactivateConfigurationsModal" data-dismiss="modal">Cancel</button>
                     <button type="button" :disabled="buttonSubmitDisabled" 
-                        @click="activateConfiguration" class="btn btn-primary">
+                        @click="activateDeactivateConfiguration" class="btn btn-primary">
                         Save &nbsp;&nbsp;   
                         <div v-if="showSpinner" 
                             id="show-spinner" 
@@ -69,8 +69,10 @@ export default {
     methods: {
         resetActivateDeactivateConfigurationsModal: function() {
             this.errors = []
+            this.showSpinner = false
+            this.buttonSubmitDisabled = false
         },
-        activateConfiguration: function(config, state) {
+        activateDeactivateConfiguration: function(config, state) {
             let self = this
 
             self.errors = []
@@ -80,7 +82,7 @@ export default {
             let formData = new FormData()
             formData.append('status', state)
 
-            axios.post('/configs/' + config.config.ref, formData)
+            axios.post('/configs/' + self.configuration.config.ref, formData)
                 .then(function(response, status, request) {
                     
                 let responseStatus = response.data.status.code
@@ -104,7 +106,7 @@ export default {
 
                 } else {
                     self.errors.push(responseMessage)
-                    config.config.activated = !config.config.activated
+                    self.configuration.config.activated = !self.configuration.config.activated
                 }
 
             }, function() {

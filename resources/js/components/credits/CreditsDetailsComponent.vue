@@ -59,12 +59,6 @@
                         {{ consumption.units }}
                     </p>
 
-                    <small class="text-black font-weight-medium d-block pt-2">
-                        Created At
-                    </small>
-                    <p class="text-muted">
-                        {{ credits.purchase_date  }}
-                    </p>
 
                     <label class="badge badge-danger mt-4">Consumed</label>
                 </div>
