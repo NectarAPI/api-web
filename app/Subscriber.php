@@ -24,9 +24,9 @@ class Subscriber {
         }
     }
 
-    public function addSubscriber(string $userRef, string $name, string $phoneNo, string $utility) {
+    public function addSubscriber(string $userRef, string $name, string $phoneNo) {
         try {
-            return $this->service->addSubscriber($userRef, $name, $phoneNo, $utility);
+            return $this->service->addSubscriber($userRef, $name, $phoneNo);
 
         } catch(\Exception $e) {
             throw $e;

@@ -70,7 +70,7 @@ tr.data-row {
     cursor: pointer;
 }
 .table-responsive {
-    height: 60em;
+    max-height: 60em;
     overflow-y: scroll;
 }
 

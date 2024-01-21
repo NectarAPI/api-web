@@ -68,9 +68,8 @@ class SubscribersController extends Controller {
             if (!is_null($userRef)) {
                 $name = $request->name;
                 $contactPhoneNo = $request->phone_no;
-                $utility = $request->utility;
 
-                $createdSubscriber = $subscriber->addSubscriber($userRef, $name, $contactPhoneNo, $utility);
+                $createdSubscriber = $subscriber->addSubscriber($userRef, $name, $contactPhoneNo);
 
                 return response()->json(['status' => [
                                                         'code' => 200, 

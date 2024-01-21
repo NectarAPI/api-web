@@ -27,7 +27,6 @@
                                         data-target="#create-subscriber-modal">Create</button>
                                         
                                 <create-subscriber-component 
-                                    :utilities="utilities"
                                     @createdSubscriber="createdSubscriber($event)" />
                             </div>
                         </div>

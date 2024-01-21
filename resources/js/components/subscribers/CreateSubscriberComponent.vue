@@ -27,13 +27,6 @@
                         <label for="text-key-name">Contact Phone No</label>
                         <input id="phone_no" name="phone_no" v-model="subscriberPhoneNo"/>
 
-                        <label for="utility">Utility</label>
-                        <select id="utility" name="utility" v-model="subscriberUtility">
-                            <option v-for="option in utilities" :value="option.value">
-                                {{ option.text }}
-                            </option>
-                        </select>
-
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -57,14 +50,10 @@
 <script>
 export default {
     name: "CreateSubscriberComponent",
-    props: [
-        'utilities'
-    ],
     data() {
         return {
             subscriberName: '',
             subscriberPhoneNo: '',
-            subscriberUtility: '',
             errors: [],
             saveSpinner: false,
             buttonSubmitDisabled: false,
@@ -86,10 +75,6 @@ export default {
 
             if (!self.subscriberPhoneNo) {
                 self.errors.push('Subscriber phone number is required')
-            }
-
-            if (!self.subscriberUtility) {
-                self.errors.push('Subscriber utility is required')
             }
 
             if (self.errors.length == 0) {

@@ -40,13 +40,12 @@ class SubscribersService implements ServiceInterface {
         }     
     }
 
-    public function addSubscriber(string $userRef, string $name, string $contactPhoneNo, string $utility) {
+    public function addSubscriber(string $userRef, string $name, string $contactPhoneNo) {
         $url = sprintf("%s?request_id=%s&user_ref=%s", $this->host,  UuidUtils::generate(), $userRef);
 
         $subscriber = array ('name' => $name,
                             'phone_no' => $contactPhoneNo,
                             'activated' => True,
-                            'utility' => $utility
                         );
 
         $client = new \GuzzleHttp\Client();
