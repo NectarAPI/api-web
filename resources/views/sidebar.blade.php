@@ -2,7 +2,7 @@
     <div class="user-profile">
       <div class="display-avatar">
         @if($user->imageURL != '')
-          <img class="profile-img img-lg rounded-circle" src='{{ Storage::cloud()->url($user->imageURL) }}' alt="profile image" />
+          <img class="profile-img img-lg rounded-circle" src='{{ url($user->imageURL) }}' alt="profile image" />
         @else
           <img class="profile-img img-lg rounded-circle" src="{{ asset('images/profile/avatar.png') }}" alt="profile image">
         @endif
@@ -45,6 +45,12 @@
         <a href="{{ route('meters') }}">
           <span class="link-title">Meters</span>
           <i class="mdi mdi-gauge link-icon"></i>
+        </a>
+      </li>
+      <li>
+        <a href="{{ route('subscribers') }}">
+          <span class="link-title">Subscribers</span>
+          <i class="mdi mdi-account-multiple link-icon"></i>
         </a>
       </li>
       <li>

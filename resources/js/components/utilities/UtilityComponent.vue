@@ -14,7 +14,14 @@
                             <i class="mdi mdi-dots-vertical"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item"  v-b-modal.activate-deactivate-public-key-modal>
+                            <a class="dropdown-item"
+                                data-toggle="modal"
+                                href="#edit-utility-modal">
+                                Edit
+                            </a>
+                            <a class="dropdown-item" 
+                                data-toggle="modal"
+                                href="#activate-deactivate-utility-modal">
                                 <span v-if="utility.activated">
                                     Deactivate
                                 </span>
@@ -28,7 +35,6 @@
 
                 <div class="grid">
                     <div class="grid-body">
-                        <p class="pb-2 small">{{ utility.created_at }}</p>
 
                         <small class="text-black font-weight-medium d-block pt-2">
                             Name
@@ -45,8 +51,34 @@
                         </p>
 
                         <small class="text-black font-weight-medium d-block pt-2">
+                            Contact Phone No
+                        </small>
+                        <p class="text-muted">
+                            {{ utility.contact_phone_no }}
+                        </p>
+
+                        <small class="text-black font-weight-medium d-block pt-2">
+                            Unit Charge
+                        </small>
+                        <p class="text-muted">
+                            {{ utility.unit_charge }}
+                        </p>
+
+                        <span v-for="configOption in configsOptions" v-if="configsOptions">
+                            <span v-if="configOption.value == utility.config_ref">
+                                <small class="text-black font-weight-medium d-block pt-2">
+                                    STS Configuration
+                                </small>
+                                <p class="text-muted">
+                                    {{  configOption.text }}
+                                </p>
+                            </span>
+                        </span>
+
+                        <small class="text-black font-weight-medium d-block pt-2">
                             Activated
                         </small>
+
                         <span class="text-gray">
                             <span
                                 v-if="utility.activated"
@@ -58,26 +90,44 @@
                             ></span>
                             {{ utility.activated }}
                         </span>
+
+                        <small class="text-black font-weight-medium d-block pt-2">
+                            Created At
+                        </small>
+                        <p class="text-muted">
+                            {{ utility.created_at }}
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <edit-utility-component
+        <activate-deactivate-utility-component
                 :utility="utility"
                 @activateDeactivateUtility="activateDeactivateUtility">
+        </activate-deactivate-utility-component>
+
+        <edit-utility-component
+                :utility="utility"
+                :configsOptions="configsOptions"
+                @updatedUtility="updatedUtility">
         </edit-utility-component>
 
     </div>
 </template>
 <script>
-import EditUtilityComponent from "./EditUtilityComponent.vue";
+import ActivateDeactivateUtilityComponent from "./ActivateDeactivateUtilityComponent.vue";
+import EditUtilityComponent from './EditUtilityComponent.vue';
 
 export default {
-    components: { EditUtilityComponent },
+    components: { 
+        ActivateDeactivateUtilityComponent,
+        EditUtilityComponent
+     },
     name: "UtilityComponent",
     props: [
-        'utility'
+        'utility',
+        'configsOptions'
     ],
      data() {
         return {
@@ -90,6 +140,13 @@ export default {
             this.utility.activated = !this.utility.activated
 
         },
+        updatedUtility: function(utility) {
+            this.utility.name = utility.name
+            this.utility.contact_phone_no = utility.contact_phone_no
+            this.utility.unit_charge = utility.unit_charge
+            this.utility.activated = utility.activated
+            this.utility.config_ref = utility.config_ref
+        }
     },
     mounted: function() {
         let self = this;

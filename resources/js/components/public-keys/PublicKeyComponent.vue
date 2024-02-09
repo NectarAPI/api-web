@@ -14,7 +14,9 @@
                             <i class="mdi mdi-dots-vertical"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item"  v-b-modal.activate-deactivate-public-key-modal>
+                            <a data-toggle="modal"
+                                class="dropdown-item" 
+                                href="#activate-deactivate-public-key-modal">
                                 <span v-if="publicKey.activated">
                                     Deactivate
                                 </span>
@@ -28,7 +30,6 @@
 
                 <div class="grid">
                     <div class="grid-body">
-                        <p class="pb-2 small">{{ publicKey.created_at }}</p>
 
                         <small class="text-black font-weight-medium d-block pt-2">
                             Name
@@ -66,6 +67,12 @@
                             ></span>
                             {{ publicKey.activated }}
                         </span>
+                        <small class="text-black font-weight-medium d-block pt-2">
+                            Created At
+                        </small>
+                        <p class="text-muted">
+                            {{ publicKey.created_at  }}
+                        </p>
                     </div>
                 </div>
             </div>

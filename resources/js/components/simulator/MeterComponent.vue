@@ -21,7 +21,11 @@
                     <label for="inputType1">STS Configuration</label>
                 </div>
                 <div class="col-md-9 showcase_content_area">
-                    <b-form-select :disabled="inputDisabled" v-model="sts_config" :options="sts_config_options" @change="setCurrentSTSConfig"></b-form-select>
+                    <select :disabled="inputDisabled" v-model="sts_config" @change="setCurrentSTSConfig">
+                        <option v-for="option in sts_config_options" :value="option.value">
+                            {{  option.text }}
+                        </option>
+                    </select>
                 </div>
             </div>
             <div class="form-group row showcase_row_area col-12">
@@ -29,7 +33,7 @@
                     <label for="drn">Enter Meter No</label>
                 </div>
                 <div class="col-md-9 showcase_content_area">
-                    <b-form-input :disabled="inputDisabled" id="drn" name="drn" v-model="drn"></b-form-input>
+                    <input :disabled="inputDisabled" id="drn" name="drn" v-model="drn"/>
                 </div>
             </div>
             <div class="form-group row showcase_row_area col-12">
@@ -37,7 +41,7 @@
                     <label for="token">Enter Token</label>
                 </div>
                 <div class="col-md-9 showcase_content_area">
-                    <b-form-input :disabled="inputDisabled" id="token" name="token" v-model="token"></b-form-input>
+                    <input :disabled="inputDisabled" id="token" name="token" v-model="token"/>
                 </div>
             </div>
             <div class="row showcase_row_area pt-4 pl-3 col-12 d-block text-center">
@@ -78,6 +82,19 @@ export default {
         }
     },
     methods:{
+        luhnCheck(num) {
+            const arr = (num + '')
+                        .split('')
+                        .reverse()
+                        .map(x => parseInt(x));
+            const lastDigit = arr.shift();
+            let sum = arr.reduce(
+                (acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val *= 2) > 9 ? val - 9 : val)),
+                0
+            );
+            sum += lastDigit;
+            return sum % 10 === 0;
+        },
         setCurrentSTSConfig: function() {
             this.sts_configs.forEach(config => {
                 if (config.config.ref == this.sts_config) {
@@ -96,7 +113,7 @@ export default {
 
             if (self.sts_config) {
                 if (self.token && self.token.match(/^[0-9]{20}$/)) {
-                    if(self.drn && self.drn.match(/^[0-9]{11}|[0-9]{13}$/)) {
+                    if(self.drn && self.drn.match(/^[0-9]{11}|[0-9]{13}$/) && self.luhnCheck(self.drn)) {
 
                         return axios 
                             .get('/decodeToken', {
@@ -150,5 +167,21 @@ export default {
 #decoded-token {
     font-family: 'Jura', sans-serif;
     font-size: 1em;
+}
+input, select {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+    width: 100%;
+    letter-spacing: 0.03rem;
+    padding: 0.3em 0.2em;
+}
+input[name=token_id] {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+    width: 100%;
+    letter-spacing: 0.03rem;
+    padding: 0.3em 0.2em;
+    border: 1px solid #ccc;
+    font-size: 18px;
 }
 </style>

@@ -1,6 +1,7 @@
 import axios from "axios";
+import { createStore } from 'vuex';
 
-export default {
+export const store = createStore({
     state: {
         STSConfigurations: [],
         notifications: []
@@ -75,4 +76,4 @@ export default {
 
         }
     }
-};
+});

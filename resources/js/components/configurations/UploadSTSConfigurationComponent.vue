@@ -4,8 +4,8 @@
             <p v-if="errors.length">
                 <ul class="list-group">
                     <li v-for="error in errors" 
-                                v-bind:key="error" 
-                                class="list-group-item list-group-item-danger">{{ error }}
+                        v-bind:key="error" 
+                        class="list-group-item list-group-item-danger">{{ error }}
                     </li>
                 </ul>
             </p>
@@ -16,16 +16,19 @@
                 <div class="col-12 pt-4">
                     <p class="pb-4">
                         Step 1: Upload an encrypted configuration file.
-                        <b-button size="sm" class="learn_more" v-b-modal.information-modal @click="displayLabel('encrypted-configuration')">Learn more</b-button>
+                        <button size="sm" class="learn_more btn btn-primary"
+                            data-toggle="modal" 
+                            data-target="#information-modal" 
+                            @click="displayLabel('encrypted-configuration')">Learn more
+                        </button>
                     </p>
                 </div>
                 <div class="col-md-10 showcase_content_area">
-                    <b-form-file
-                        v-model="encryptedSTSConfiguration"
+                    <input class="form-control" type="file"
+                        @change="handleEncryptedSTSConfiguration"
                         accept="text/plain"
                         placeholder="Choose an encrypted STS configuration file"
-                        drop-placeholder="Drop file here...">
-                    </b-form-file>
+                        drop-placeholder="Drop file here..."/>
                 </div>
             </div>
 
@@ -33,16 +36,18 @@
                 <div class="col-12 pt-4">
                     <p class="pb-4">
                         Step 2: Upload an encrypted message digest file.
-                        <b-button size="sm" class="learn_more" v-b-modal.information-modal @click="displayLabel('encrypted-message-digest')">Learn more</b-button>
+                        <button size="sm" class="learn_more btn btn-primary" 
+                            data-toggle="modal"
+                            data-target="#information-modal" 
+                            @click="displayLabel('encrypted-message-digest')">Learn more</button>
                     </p>
                 </div>
                 <div class="col-md-10 showcase_content_area">
-                    <b-form-file
-                        v-model="encryptedMessageDigest"
+                    <input class="form-control" type="file"
+                        @change="handleEncryptedMessageDigest"
                         accept="text/plain"
                         placeholder="Choose an encrypted message digest file"
-                        drop-placeholder="Drop file here...">
-                    </b-form-file>
+                        drop-placeholder="Drop file here..."/>
                 </div>
             </div>
 
@@ -50,19 +55,20 @@
                 <div class="col-12 pt-4">
                     <p class="pb-4">
                         Step 3: Upload an encrypted symmetric key
-                        <b-button size="sm" class="learn_more" v-b-modal.information-modal @click="displayLabel('encrypted-symmetric-key')">Learn more</b-button>
+                        <button size="sm" class="learn_more btn btn-primary" 
+                            data-toggle="modal"
+                            data-target="#information-modal" 
+                            @click="displayLabel('encrypted-symmetric-key')">Learn more</button>
                     </p>
                 </div>
                 <div class="col-md-10 showcase_content_area">
-                     <b-form-file
-                        v-model="encryptedSymmetricKey"
+                     <input class="form-control" type="file"
+                        @change="handleEncryptedSymmetricKey"
                         accept="text/plain"
                         placeholder="Choose an encrypted symmetric key"
-                        drop-placeholder="Drop file here...">
-                    </b-form-file>
+                        drop-placeholder="Drop file here..."/>
                 </div>
             </div>
-
         </div>
 
         <div class="row showcase_row_area pt-4 pl-3">
@@ -93,6 +99,15 @@ export default {
         }
     }, 
     methods: {
+        handleEncryptedSymmetricKey(event) {
+            this.encryptedSymmetricKey = event.target.files[0];
+        },
+        handleEncryptedMessageDigest(event) {
+            this.encryptedMessageDigest = event.target.files[0];
+        },
+        handleEncryptedSTSConfiguration(event) {
+            this.encryptedSTSConfiguration = event.target.files[0];
+        },
         displayLabel: function(label) {
             this.$emit('displayLabel', label)
         },
@@ -128,7 +143,7 @@ export default {
                                                 'key': key 
 
                                             }).then((res) => {
-                                                self.errors.push('Created config ' + res.config.name)
+                                                self.errors.push('Created config ' + res.config.config.name)
                                                 self.showSpinner = false
                                                 self.buttonSubmitDisabled = false
 
@@ -170,9 +185,12 @@ export default {
 </script>
 <style scoped>
 .learn_more {
-    height: 1.5em;
-    padding: 0.2em;
+    height: 2em;
+    padding: 0.5em;
     margin: 0;
-    color: #696ffb;
+    color: #fff;
+}
+input[type=file] {
+    padding: 0
 }
 </style>

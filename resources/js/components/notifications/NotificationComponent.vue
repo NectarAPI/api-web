@@ -3,7 +3,6 @@
               <div class="grid-body">
                 <div class="grid">
                   <div class="grid-body">
-                    <p class="pb-2 small">{{ notification.created_at }}</p>
 
                     <small class="text-black font-weight-medium d-block pt-2">{{ notification.subject }}</small>
                     <p class="text-muted text-justify" style="word-wrap: break-word;">
@@ -26,10 +25,16 @@
                             {{ affected }}
                       </label>
                     </span>
-                      
+
+                    <small class="text-black font-weight-medium d-block pt-2">
+                        Created At
+                    </small>
+                    <p class="text-muted">
+                        {{ notification.created_at }}
+                    </p>
+
                   </div>
                 </div>
-                
               </div>
             </div>
 </template>

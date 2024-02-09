@@ -32,9 +32,10 @@
                     <p class="card-title ml-n1">Notifications</p>
                   </div>
                   <div class="col-2">
-                    <b-button :disabled="inputDisabled" v-b-modal.clear-notifications-modal>
-                        Clear
-                    </b-button>
+                    <button class="btn btn-primary"
+                              :disabled="inputDisabled"
+                              data-toggle="modal"
+                              data-target="#clear-notifications-modal"> Clear</button>
                     <clear-notifications-component
                         :clearNotificationsStatus="clearNotificationsStatus"
                         :errors="clearNotificationsErrors"
@@ -96,6 +97,7 @@ export default {
         clearNotifications: function () {
           this.clearNotificationsErrors = []
           this.inputDisabled = true
+          this.errors = []
           let selectedNotificationsObjs = this.$refs.notificationsTable.selectedNotifications
 
           let selectedNotifications = []

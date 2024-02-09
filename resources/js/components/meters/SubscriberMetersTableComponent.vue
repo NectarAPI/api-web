@@ -3,29 +3,34 @@
         <table class="table table-hover table-sm">
             <thead>
                 <tr class="solid-header">
-                    <th>Name</th>
+                    <th>Ref</th>
                     <th>Meter No</th>
+                    <th>Activated</th>
                 </tr>
             </thead>
             <tbody>
                  <tr v-if="meters.length == 0" style="text-align: center">
-                    <td colspan="2">
+                    <td colspan="3">
                         No Meters
                     </td>
                 </tr>
                 <tr v-else class="data-row"
                     @click="displayMeterDetails(meter)"
                     v-for="meter in meters"
-                    v-bind:key="meter.ref"
-                >
+                    v-bind:key="meter.ref">
                     <td>
                         <span class="text-gray">
-                            {{ meter.name }}
+                            {{ meter.ref }}
                         </span>
                     </td>
                     <td>
                         <span class="text-gray">
-                            {{ meter.meter_no }}
+                            {{ meter.no }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="text-gray">
+                            {{ meter.activated }}
                         </span>
                     </td>
                 </tr>
@@ -35,7 +40,7 @@
 </template>
 <script>
 export default {
-    name: "MetersTableComponent",
+    name: "SubscriberMetersTableComponent",
     props: [
         'meters',
     ],

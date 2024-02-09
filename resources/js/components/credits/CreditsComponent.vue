@@ -18,18 +18,15 @@
                     <credits-table-component
                         @displayCreditsDetails="displayCreditsDetails($event)"
                         @displayConsumptionDetails="displayConsumptionDetails($event)"
-                        :currCredits="currCredits">
+                        :credits="credits"
+                        :creditsConsumption="creditsConsumption">
                     </credits-table-component>
                 </div>
             </div>
         </div>
         <div class="col-md-4 equel-grid">
             <credits-details-component
-                v-if="currCredits"
-                :credits="currCredits">
-            </credits-details-component>
-            <credits-details-component
-                v-if="currConsumption"
+                :credits="currCredits"
                 :consumption="currConsumption">
             </credits-details-component>
         </div>
@@ -40,6 +37,8 @@ export default {
     name: 'CreditsComponent',
     data() {
         return {
+            credits: [],
+            creditsConsumption: [],
             currCredits: null,
             currConsumption: null
         }
@@ -52,7 +51,35 @@ export default {
         displayConsumptionDetails: function(consumption) {
             this.currCredits = null
             this.currConsumption = consumption
+        },
+        fetchCredits: function() {
+            let self = this;
+
+            axios
+                .get("/getCredits")
+                .then(function(response, status, request) {
+                    if (response.data.status.code == 200) {
+                        let results = response.data.data.credits
+                        self.credits = results.purchase
+                        self.creditsConsumption = results.consumption
+                        
+                        if (self.credits.length > 0) {
+                            self.currCredits = self.credits[0];
+                        }
+                    } else {
+                        self.errors.push(response.data.status.message)
+                    }
+                    
+                })
+                .finally(() => {
+                    self.showSpinner = false;
+                });
         }
+    },
+    async mounted() {
+        let self = this;
+        self.showSpinner = true;
+        self.fetchCredits();
     }
 }
 </script>

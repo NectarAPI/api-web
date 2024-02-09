@@ -5,7 +5,6 @@
                 <h4>Manage Configurations</h4>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-8 equel-grid">
                 <div class="grid">
@@ -18,27 +17,22 @@
                             </div>
                         </div>
                     </div>
-
                     <sts-configurations-table-component
-                        :configurations="getSTSConfigurations"
+                        :configurations="sts_configs"
                         :showSpinner="showSpinner"
-                        @displaySTSConfigurationDetails="displaySTSConfigurationDetails($event)"
-                    >
+                        @displaySTSConfigurationDetails="displaySTSConfigurationDetails($event)">
                     </sts-configurations-table-component>
-
                 </div>
             </div>
-            
             <div class="col-md-4 equel-grid">
                 <div class="grid">
                     <sts-configuration-details-component
-                        :configuration="currConfiguration"
-                    ></sts-configuration-details-component>
+                        v-if="currConfiguration"
+                        :configuration="currConfiguration">
+                    </sts-configuration-details-component>
                 </div>
             </div>
-
         </div>
-
         <div class="row">
             <h5 class="pb-4 pt-2">Add Configurations</h5>
             <nav class="col-12">
@@ -50,9 +44,7 @@
                         href="#nav-option-1"
                         role="tab"
                         aria-controls="nav-option-1"
-                        aria-selected="true"
-                        >Option 1: Upload STS Config File (Recommended)</a
-                    >
+                        aria-selected="true">Option 1: Upload STS Config File (Recommended)</a>
                     <a
                         class="nav-item nav-link"
                         id="nav-home-tab"
@@ -60,9 +52,7 @@
                         href="#nav-option-2"
                         role="tab"
                         aria-controls="nav-option-2"
-                        aria-selected="false"
-                        >Option 2: Fill in STS configuration</a
-                    >
+                        aria-selected="false">Option 2: Fill in STS configuration</a>
                 </div>
             </nav>
 
@@ -71,41 +61,34 @@
                     class="tab-pane fade show active"
                     id="nav-option-1"
                     role="tabpanel"
-                    aria-labelledby="nav-profile-tab"
-                >
+                    aria-labelledby="nav-profile-tab">
                     <div class="col-lg-12">
-
                         <upload-sts-configuration-component 
                             @displayLabel="displayLabel">
                         </upload-sts-configuration-component>
-
                     </div>
                 </div>
-
                 <div
                     class="tab-pane fade"
                     id="nav-option-2"
                     role="tabpanel"
-                    aria-labelledby="nav-home-tab"
-                >
+                    aria-labelledby="nav-home-tab">
                     <div class="col-lg-12">
                         <div class="grid">
                             <div class="grid-body">
-                                
                                 <sts-configuration-form-component
                                     @displayLabel="displayLabel"
                                     :nectar-public-key="nectarPublicKey">
                                 </sts-configuration-form-component>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-            <information-component
-                :label="selectedLabel">
-            </information-component>
+        <information-component
+            :label="selectedLabel">
+        </information-component>
     </div>
 </template>
 <script>
@@ -121,7 +104,8 @@ export default {
       return {
         errors: [],
         selectedLabel: '',
-        currConfiguration: Object,
+        sts_configs: [],
+        currConfiguration: null,
         showSpinner: false,
       }
     },
@@ -132,6 +116,13 @@ export default {
         displaySTSConfigurationDetails: function(selectedConfiguration) {
             let self = this;
             self.currConfiguration = selectedConfiguration;
+        },
+        getSTSConfigurations() {
+            this.sts_configs =  this.$store.getters.getSTSConfigurations
+            if (this.sts_configs.length > 0) {
+                this.currConfiguration = this.sts_configs[0];
+            }
+            this.showSpinner = false
         }
     },
     async mounted() {
@@ -140,6 +131,8 @@ export default {
 
         try {
             await self.$store.dispatch('fetchConfigurations')
+            self.getSTSConfigurations()
+
         } catch(e) {
             self.errors.push(e)
         } finally {
@@ -147,14 +140,7 @@ export default {
         }
     },
     computed: {
-        getSTSConfigurations() {
-            let configurations =  this.$store.getters.getSTSConfigurations
-            if (configurations.length > 0) {
-                this.currConfiguration = configurations[0];
-            }
-            this.showSpinner = false
-            return configurations
-        }
+
     }
 }
 </script>

@@ -32,8 +32,6 @@ Register
         </div>
       </div>
     </div>
-
-    <script src="{{ asset('js/app.js') }}"></script>
    
     @include('auth.footer')
 

@@ -1,59 +1,65 @@
 <template>
-    <b-modal
-        id="upload-public-key-modal"
-        title="Upload new public key"
-        @show="resetNewPublicKeysModal"
-        @ok="onSubmitNewPublicKey">
-            <div class="col-md-12 text-center mb-2">
-                <p v-if="errors.length">
-                    <ul class="list-group">
-                        <li v-for="error in errors" 
-                            v-bind:key="error" 
-                            class="list-group-item list-group-item-danger">{{ error }}
-                        </li>
-                    </ul>
-                </p>
-            </div>
-            <b-form ref="form" id="newKeyForm" @submit="onSubmitNewPublicKey">
-                <label for="text-key-name">Name</label>
-                <b-form-input id="name" name="name" v-model="newKeyName"></b-form-input>
+    <div class="modal fade" 
+        tabindex="-1" 
+        id="upload-public-key-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload new public key</h5>
+                    <button type="button" @click="resetNewPublicKeysModal" 
+                            class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 text-center mb-2">
+                        <p v-if="errors.length">
+                            <ul class="list-group">
+                                <li v-for="error in errors" 
+                                    v-bind:key="error" 
+                                    class="list-group-item list-group-item-danger">{{ error }}
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                    <form ref="form" id="newKeyForm" class="modal-form">
+                        <label for="text-key-name">Name</label>
+                        <input id="name" name="name" v-model="newKeyName"/>
+                        <label for="text-key">Public Key</label>
+                        <textarea
+                            v-model="newKey" id="key"
+                            name="key" rows="10"
+                            max-rows="10" required
+                            aria-describedby="key-help-block">
+                        </textarea>
+                        <p id="key-help-block">
+                            Your public key must be a 4096 bit
+                            RSA/ECB/PKCS1Padding key. <a href="/docs">Learn more</a>
+                        </p>
 
-                <label for="text-key">Public Key</label>
-                <b-form-textarea
-                    v-model="newKey"
-                    id="key"
-                    name="key"
-                    rows="10"
-                    max-rows="10"
-                    required
-                    aria-describedby="key-help-block">
-                </b-form-textarea>
-                <b-form-text id="key-help-block">
-                    Your public key must be a 4096 bit
-                    RSA/ECB/PKCS1Padding key. <a href="/documentation">Learn more</a>
-                </b-form-text>
-
-                <b-form-checkbox
-                    class="mt-2"
-                    id="activated"
-                    name="activated"
-                    v-model="newKeyActivated">
-                    Activated
-                </b-form-checkbox>
-            </b-form>
-            <div slot="modal-footer">
-                <b-btn variant="secondary">Cancel</b-btn>
-                <b-btn :disabled="buttonSubmitDisabled" variant="primary" @click="onSubmitNewPublicKey">
-                    Save &nbsp;&nbsp;   
-                    <div v-if="saveSpinner" 
-                        id="save-spinner" 
-                            class="spinner-border text-secondary" 
-                            role="status">
-                            <span class="sr-only">Loading...</span>
-                    </div> 
-                </b-btn>
+                        <input type="checkbox"
+                            class="mt-2"
+                            id="activated"
+                            name="activated"
+                            v-model="newKeyActivated"/>
+                        <span>Activated</span>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" 
+                        @click="resetNewPublicKeysModal" data-dismiss="modal">Cancel</button>
+                    <button type="button" :disabled="buttonSubmitDisabled" 
+                        @click="onSubmitNewPublicKey" class="btn btn-primary">
+                        Save &nbsp;&nbsp;   
+                        <div v-if="saveSpinner" 
+                            id="save-spinner" 
+                                class="spinner-border text-secondary" 
+                                role="status">
+                                <span class="sr-only">Loading...</span>
+                        </div> 
+                    </button>
+                </div>
             </div>
-        </b-modal>
+        </div>
+    </div>
 </template>
 <script>
 export default {
@@ -82,12 +88,10 @@ export default {
             
             if (!this.newKeyName) {
                 this.errors.push('Key name is required')
-
             }
             
             if (!this.newKey) {
                 this.errors.push('Key is required')
-
             } 
             
             if (!this.errors || !this.errors.length) {
@@ -111,19 +115,16 @@ export default {
                         } else if (Array.isArray(responseMessage) || typeof responseMessage == 'object') {
                             for (const [key, value] of Object.entries(responseMessage)) {
                                 self.errors.push(`${value}`)
-
                             }
 
                         } else {
                             self.errors.push(responseMessage)
-
                         }
 
                     } else {
                         
                         self.errors.push(responseMessage)
                         self.$emit('fetchPublicKeys')
-
                     }
 
                 }, function() {
@@ -135,7 +136,6 @@ export default {
 
                 })
             }
-            
             event.preventDefault()
         },
      },
@@ -148,3 +148,65 @@ export default {
     }
 }
 </script>
+<style scoped>
+.modal-header .btn-close {
+    position: absolute;
+    right: 22px;
+    top: 12px;
+    width: 25px;
+    height: 25px;
+    opacity: 0.3;
+    border: 0;
+    background-color: #fff;
+}
+.modal-header .btn-close:hover {
+  opacity: 1;
+}
+.modal-header .btn-close:before, .modal-header .btn-close:after {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  content: ' ';
+  height: 25px;
+  width: 2px;
+  background-color: #333;
+}
+.modal-header .btn-close:before {
+  transform: rotate(45deg);
+}
+.modal-header .btn-close:after {
+  transform: rotate(-45deg);
+}
+
+.modal-form label, .modal-form textarea, .modal-form > input:not(input[type=checkbox]) {
+    letter-spacing: 0.03rem;
+    display: block;
+    width: 100%;
+}
+
+.modal-form > input:not(input[type=checkbox]), .modal-form textarea {
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+}
+
+.modal-form label {
+    margin-top: 0.5em;
+    margin-bottom: 0.1em;
+}
+
+.modal-form > input[type=checkbox] {
+    margin-right: 0.5em;
+    border: 1px solid #ccc;
+}
+
+.modal-form select {
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 0.1em;
+}
+
+.modal-form select option {
+    padding: 0.3em 0.3em;
+}
+</style>

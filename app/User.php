@@ -180,4 +180,12 @@ class User extends Authenticatable
         }
     }
 
+    public function fetchUtilities(string $userRef) {
+        try {
+            return $this->service->findUtilitiesByUserRef($userRef);
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
 }

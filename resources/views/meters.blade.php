@@ -27,12 +27,10 @@ Meters
           </div>
         </div>
         <div id="app">
-          <meters-component></meters-component>
+          <subscriber-meters-component></subscriber-meters-component>
         </div>
       </div>
     </div>
-
-    <script src="{{ asset('js/app.js') }}"></script>
 
     @include('footer')
     

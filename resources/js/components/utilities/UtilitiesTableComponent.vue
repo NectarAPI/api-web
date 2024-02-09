@@ -17,8 +17,7 @@
                 <tr v-else class="data-row"
                     @click="displayUtilityDetails(utility)"
                     v-for="utility in utilities"
-                    v-bind:key="utility.ref"
-                >
+                    v-bind:key="utility.ref">
                     <td>
                         <span class="text-gray">
                             {{ utility.name }}
@@ -55,7 +54,7 @@ export default {
         return {};
     },
     methods: {
-        displayUtilitiesDetails: function(utility) {
+        displayUtilityDetails: function(utility) {
             this.$emit('displayUtilityDetails', utility)
         }
     },
@@ -71,7 +70,7 @@ tr.data-row {
     cursor: pointer;
 }
 .table-responsive {
-    height: 60em;
+    max-height: 60em;
     overflow-y: scroll;
 }
 

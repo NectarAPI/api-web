@@ -13,7 +13,9 @@
                         <i class="mdi mdi-dots-vertical"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" v-b-modal.activate-deactivate-credential-modal>
+                            <a data-toggle="modal" 
+                                href="#activate-deactivate-credential-modal" 
+                                class="dropdown-item">
                                 <span v-if="credential.activated">
                                     Deactivate
                                 </span>
@@ -27,7 +29,6 @@
 
             <div class="grid">
                 <div class="grid-body">
-                    <p class="pb-2 small">{{ credential.created_at }}</p>
 
                     <small class="text-black font-weight-medium d-block pt-2">
                         Key
@@ -79,7 +80,7 @@
                         Created At
                     </small>
                     <p class="text-muted">
-                        {{ credential.createdAt }}
+                        {{ credential.created_at }}
                     </p>
                 </div>
             </div>

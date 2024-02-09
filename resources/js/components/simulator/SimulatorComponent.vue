@@ -11,9 +11,7 @@
                         href="#nav-option-1"
                         role="tab"
                         aria-controls="nav-option-1"
-                        aria-selected="true"
-                        >Token Generator</a
-                    >
+                        aria-selected="true">Token Generator</a>
                     <a
                         class="nav-item nav-link"
                         id="nav-home-tab"
@@ -21,9 +19,7 @@
                         href="#nav-option-2"
                         role="tab"
                         aria-controls="nav-option-2"
-                        aria-selected="false"
-                        >Meter Simulator</a
-                    >
+                        aria-selected="false">Meter Simulator</a>
                 </div>
             </nav>
 
@@ -32,8 +28,7 @@
                     class="tab-pane fade show active"
                     id="nav-option-1"
                     role="tabpanel"
-                    aria-labelledby="nav-profile-tab"
-                >
+                    aria-labelledby="nav-profile-tab">
                     <div class="col-lg-12">
                         <generator-component
                             :sts_configs="sts_configs"
@@ -46,8 +41,7 @@
                     class="tab-pane fade"
                     id="nav-option-2"
                     role="tabpanel"
-                    aria-labelledby="nav-home-tab"
-                >
+                    aria-labelledby="nav-home-tab">
                     <div class="col-lg-12">
                         <div class="grid">
                             <div class="grid-body">

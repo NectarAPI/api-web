@@ -37,6 +37,7 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
 Route::get('/utilities', 'PagesController@utilities')->name('utilities');
 Route::get('/meters', 'PagesController@meters')->name('meters');
+Route::get('/subscribers', 'PagesController@subscribers')->name('subscribers');
 Route::get('/requests', 'PagesController@requests')->name('requests');
 Route::get('/credentials', 'PagesController@credentials')->name('credentials');
 Route::get('/public-keys', 'PagesController@publicKeys')->name('public-keys');
@@ -68,6 +69,24 @@ Route::post('/pkeys/{key_ref}', 'PublicKeysController@activateDeactivateKey')->n
 Route::get('/configs', 'STSConfigurationsController@getConfigs')->name('configs.get');
 Route::post('/configs', 'STSConfigurationsController@addConfig')->name('configs.add');
 Route::post('/configs/{config_ref}', 'STSConfigurationsController@setConfigStatus')->name('configs.activate');
+
+Route::get('/utility', 'UserController@getUtilities')->name('utility.get');
+Route::post('/utility', 'UtilityController@addUtility')->name('utility.post');
+Route::post('/utility/{utility_ref}/activateDeactivate', 'UtilityController@activateDeactivateUtility')->name('utility.activateDeactivate');
+Route::post('/utility/{utility_ref}', 'UtilityController@updateUtility')->name('utility.update');
+
+Route::get('/subscriberMeters', 'MetersController@getSubscriberMeters')->name('subscribers-meters.get');
+Route::get('/subscriberMeters/utilities', 'MetersController@getUtilities')->name('subscribers-meters.getutilities');
+Route::get('/subscriberMeters/meterTypes', 'MetersController@getMeterTypes')->name('subscribers-meters.getmetertypes');
+Route::get('/subscriberMeters/subscribers', 'MetersController@getSubscribers')->name('subscribers-meters.getsubscribers');
+Route::post('/subscriberMeters/createMeter', 'MetersController@createMeter')->name('subscribers-meters.createmeter');
+Route::post('/subscriberMeters/{meter_ref}/activateDeactivate', 'MetersController@activateDeactivateMeter')->name('subscriber-meters.activateDeactivate');
+Route::post('/subscriberMeters/updateMeter', 'MetersController@updateMeter')->name('subscriber-meters.updateMeter');
+
+Route::get('/subscriber', 'SubscribersController@getSubscribers')->name('subscribers.getsubscribers');
+Route::post('/subscriber', 'SubscribersController@createSubscriber')->name('subscriber->createSubscriber');
+Route::post('/subscriber/{subscriber_ref}/activateDeactivate', 'SubscribersController@activateDeactivateSubscriber')->name('subscriber.activateDeactivate');
+Route::post('/subscriber/updateSubscriber', 'SubscribersController@updateSubscriber')->name('subscriber.updateSubscriber');
 
 Route::get('/creds', 'CredentialsController@getCredentials')->name('creds.get');
 Route::post('/creds', 'CredentialsController@addCredentials')->name('creds.add');

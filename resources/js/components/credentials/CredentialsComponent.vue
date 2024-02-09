@@ -18,8 +18,7 @@
                     id="load-details-spinner"
                     class="spinner-border text-primary float-right"
                     role="status"
-                    style="height:20px; width: 20px"
-                >
+                    style="height:20px; width: 20px">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
@@ -33,13 +32,12 @@
                                 <p class="card-title ml-n1">Credentials</p>
                             </div>
                             <div class="col-2">
-                                <b-button v-b-modal.upload-credential-modal
-                                    >Create</b-button
-                                >
+                                <button class="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target="#upload-credential-modal"> Create</button>
 
                                 <upload-credential-component
-                                    @createdCredential="createdCredential"
-                                >
+                                    @createdCredential="createdCredential">
                                 </upload-credential-component>
                             </div>
                         </div>
@@ -47,10 +45,7 @@
 
                     <credentials-table-component
                         :credentials="credentials"
-                        @displayCredentialsDetails="
-                            displayCredentialsDetails($event)
-                        "
-                    >
+                        @displayCredentialsDetails=" displayCredentialsDetails($event)">
                     </credentials-table-component>
                 </div>
             </div>

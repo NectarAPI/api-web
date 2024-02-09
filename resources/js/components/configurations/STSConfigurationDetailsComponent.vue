@@ -14,7 +14,9 @@
                             <i class="mdi mdi-dots-vertical"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item"  v-b-modal.activate-deactivate-configuration-modal>
+                            <a data-toggle="modal" 
+                                class="dropdown-item"  
+                                href="#activate-deactivate-configuration-modal">
                                 <span v-if="configuration.config.activated">
                                     Deactivate
                                 </span>
@@ -47,6 +49,21 @@
                 <small class="text-black font-weight-medium d-block pt-2">
                     Activated
                 </small>
+                <span class="text-gray">
+                    <span
+                        v-if="configuration.config.activated"
+                        class="status-indicator rounded-indicator small bg-primary">
+                    </span>
+                    <span
+                        v-else-if="!configuration.config.activated"
+                        class="status-indicator rounded-indicator small bg-secondary">
+                    </span>
+                        {{ configuration.config.activated}}
+                </span>
+
+                <small class="text-black font-weight-medium d-block pt-2">
+                    Activated
+                </small>
                 <p class="text-muted">
                     {{ configuration.config.activated }}
                 </p>
@@ -56,13 +73,6 @@
                 </small>
                 <p class="text-muted">
                     {{ configuration.config.config_type }}
-                </p>
-
-                <small class="text-black font-weight-medium d-block pt-2">
-                    Created At
-                </small>
-                <p class="text-muted">
-                    {{ configuration.config.created_at }}
                 </p>
 
                 <div v-if="configuration.config.config_type == 'NATIVE'">
@@ -101,11 +111,9 @@
                     <p class="text-muted">
                         {{ configuration.issuer_identification_no }}
                     </p>
-
                 </div>
 
                 <div v-else-if="configuration.config.config_type == 'PRISM_THRIFT'">
-                                
                     <small class="text-black font-weight-medium d-block pt-2">
                         Host
                     </small>
@@ -182,6 +190,13 @@
                 </small>
                 <p class="text-muted">
                     {{ configuration.token_carrier_type }}
+                </p>
+
+                <small class="text-black font-weight-medium d-block pt-2">
+                    Created At
+                </small>
+                <p class="text-muted">
+                    {{ configuration.config.created_at }}
                 </p>
             </div>  
         </div>

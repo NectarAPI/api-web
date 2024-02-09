@@ -39,7 +39,7 @@ class CredentialsController extends Controller
 
         try {
             $credentials = new Credentials(new CredentialsService());
-            $credentialsDetails = $credentials->fetchCredentials($userRef);
+            $credentialsDetails = $credentials->fetchCredentials($userRef); 
             return response()->json(['status' => [
                                                     'code' => 200, 
                                                     'message' => 'obtained credentials data'

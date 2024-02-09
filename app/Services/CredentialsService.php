@@ -24,7 +24,7 @@ class CredentialsService {
     public function find(array $criteria) {
         try {
             $userRef = $criteria['user-ref'];
-            return $this->findByUserRef($userRef);   
+            return $this->findByUserRef($userRef);    
 
         } catch(\Exception $e) {
             throw $e;

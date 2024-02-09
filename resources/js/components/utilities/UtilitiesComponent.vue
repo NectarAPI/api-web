@@ -18,8 +18,7 @@
                     id="load-details-spinner"
                     class="spinner-border text-primary float-right"
                     role="status"
-                    style="height:20px; width: 20px"
-                >
+                    style="height:20px; width: 20px">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
@@ -33,51 +32,77 @@
                                 <p class="card-title ml-n1">Utilities</p>
                             </div>
                             <div class="col-2">
-                                <b-button v-b-modal.upload-utility-modal
-                                    >Create</b-button
-                                >
-
-                                <upload-utility-component
-                                    @createdUtility="createdUtility"
-                                >
-                                </upload-utility-component>
+                                <button class="btn btn-primary" 
+                                    data-toggle="modal"
+                                    data-target="#create-utility-modal">Create</button>
+                                <create-utility-component
+                                    :configsOptions="configsOptions"
+                                    @createdUtility="createdUtility">
+                                </create-utility-component>
                             </div>
                         </div>
                     </div>
 
                     <utilities-table-component
                         :utilities="utilities"
-                        @displayUtilityDetails="
-                            displayUtilitysDetails($event)
-                        "
-                    >
+                        @displayUtilityDetails="displayUtilityDetails($event)">
                     </utilities-table-component>
                 </div>
             </div>
             <div class="col-md-4 equel-grid">
                 <utility-component
-                    :utility="currUtility"></utility-component>
+                    :configsOptions="configsOptions"
+                    :utility="currUtility">
+                </utility-component>
             </div>
         </div>
     </div>
 </template>
 <script>
-import UploadUtilityComponent from "./UploadUtilityComponent.vue";
+import CreateUtilityComponent from "./CreateUtilityComponent.vue";
 import UtilitiesTableComponent from "./UtilitiesTableComponent.vue";
 
 export default {
-    components: { UploadUtilityComponent, UtilitiesTableComponent },
+    components: { 
+        CreateUtilityComponent, 
+        UtilitiesTableComponent 
+    },
     name: "UtilitiesComponent",
     data() {
         return {
             errors: [],
             utilities: Array,
             currUtility: Object,
+            configsOptions: [],
             showSpinner: false,
             editKey: ""
         };
     },
     methods: {
+        fetchSTSConfigurations: function() {
+            let self = this
+            return axios
+                .get("/configs")
+                .then(response => {
+                    if (response.data.status.code == 200) {
+                        let configs = response.data.data.sts_configurations
+                        for (let config of configs) {
+                            let configObj = {
+                                value: config.config.ref,
+                                text: config.config.name
+                            }
+                            self.configsOptions.push(configObj)
+                        }
+
+                    } else {
+                        throw response.data.status.message
+                    }
+                })
+                .catch(err => {
+                    throw err
+                });
+
+        },
         createdUtility: function(utility) {
             this.utilities.push(utility);
         },
@@ -89,11 +114,11 @@ export default {
             let self = this;
 
             axios
-                .get("/utilities")
+                .get("/utility")
                 .then(function(response, status, request) {
                     if (response.data.status.code == 200) {
                         self.utilities = response.data.data.utilities;
-                        
+
                         if (self.utilities.length > 0) {
                             self.currUtility = self.utilities[0];
                         }
@@ -111,6 +136,8 @@ export default {
         let self = this;
         self.showSpinner = true;
         self.fetchUtilities();
+        self.fetchSTSConfigurations();
+
     }
 };
 </script>
